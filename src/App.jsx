@@ -4,6 +4,8 @@ import Footer from './Components/Footer/Footer';
 import Home from './Pages/Home/Home';
 import Contact from './Pages/Contact/Contact';
 import Model from './Pages/Model/Model';
+import Signup from './Pages/Credentials/Signup';
+import Login from './Pages/Credentials/Login';
 
 function App() {
   const currentPath = window.location.pathname;
@@ -17,6 +19,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/model" element={<Model />} /> {/* Model Page Content */}
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
 
         {currentPath !== '/model' && <Footer />} {/* Show Footer for all routes except /model */}

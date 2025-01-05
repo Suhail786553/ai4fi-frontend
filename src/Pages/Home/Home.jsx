@@ -2,9 +2,11 @@
 import { motion } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 import './Home.css';
-import topimg from './top image.png';
+import top1 from './formal (1).jpg';
+import top2 from './casual (1).jpg';
 import trdan from './trdan.jpeg'
 import ai from './ai.jpeg';
+import video from './ai4fivideo.mp4'
 
 const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -55,7 +57,19 @@ const HeroSection = () => {
       ref2.current?.classList.add('animate-fade-in', 'animate-fade-in-delay');
     }
   }, [isInView1, isInView2]);
-
+  const images = [
+    "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg",
+    "/images/model-gallery/getimg_ai_img-1q3dXIl8hj7rpd0p323vu.jpeg",
+    "/images/model-gallery/getimg_ai_img-2dLJgir45g4JULV48nRy9.jpeg",
+    "/images/model-gallery/getimg_ai_img-2LuGKyxjYnuXThjWTabZ5.jpeg",
+    "/images/model-gallery/getimg_ai_img-4BOumNv2sxEm2z8ePMFNb.jpeg",
+    "/images/model-gallery/getimg_ai_img-4u7qKNo0KPwUVN2HCxtUV.jpeg", // Replace with actual image URL
+    "/images/model-gallery/getimg_ai_img-5hP1KqLe4bqKuufBhZfEv.jpeg", // Replace with actual image URL
+    "/images/model-gallery/getimg_ai_img-5V5fKiMdAjG2zwwmUFXPO.jpeg", // Replace with actual image URL
+    "/images/model-gallery/getimg_ai_img-7BxvLDHU6Gw1fjusT2qYh.jpeg", // Replace with actual image URL
+    "/images/model-gallery/getimg_ai_img-7sUPVbA6z33Pq3eRfTSSe.jpeg", // Replace with actual image URL
+  ];
+  
   const faqs = [
     { question: "Can I get more credits?", answer: "Yes, you can purchase additional credits anytime." },
     { question: "Can I change my plan later?", answer: "Absolutely! You can upgrade or downgrade your plan anytime." },
@@ -94,70 +108,76 @@ const HeroSection = () => {
         />
 
         {/* Left Content */}
-        <div className="lg:w-1/2 text-center lg:text-left space-y-6 relative z-10">
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-4xl lg:text-5xl font-bold text-gray-900 leading-tight"
-          >
-            Revolutionize Your Fashion Business
-            with AI Powered Visual Try-On
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="text-black-600 text-lg leading-relaxed"
-          >
-            Say goodbye to costly photoshoots. Create
-            stunning, customizable <br></br>AI models and showcase your
-            garments
-          </motion.p>
-          <a href="/model"><motion.button
-            whileHover={{ scale: 1.05 }}
-            className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-6 rounded-md shadow-lg"
-          >
-            Get Started for Free
-          </motion.button></a>
-          {/* <p className="text-gray-500 text-sm">No credit card required.</p> */}
+        <div className="lg:w-1/2 text-center lg:text-left space-y-8 relative z-10">
+  <motion.h1
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8 }}
+    className="text-2xl lg:text-4xl font-bold text-gray-900 leading-snug"
+  >
+    Say goodbye to costly photoshoots. <br />
+    Create stunning, customizable <br />
+    AI models and showcase your garments.
+  </motion.h1>
 
-          {/* User Ratings */}
-          <div className="flex items-center justify-center lg:justify-start gap-3 mt-6">
-            <div className="flex -space-x-2">
-              {["45", "47", "48", "49"].map((id, index) => (
-                <motion.img
-                  whileHover={{ scale: 1.2 }}
-                  key={index}
-                  src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"
-                    }/${id}.jpg`}
-                  alt="user"
-                  className="w-10 h-10 rounded-full border-2 border-white shadow-md"
-                />
-              ))}
-            </div>
-            <div className="flex items-center gap-1">
-              <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
-              <p className="text-gray-600 font-medium">
-                Loved by <span className="font-bold">153,000+</span> users
-              </p>
-            </div>
-          </div>
-        </div>
+  <div className="mt-4 lg:mt-6">
+    <a href="/model">
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
+      >
+        Get Started for Free
+      </motion.button>
+    </a>
+  </div>
+
+  {/* User Ratings */}
+  <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-4 mt-6">
+    <div className="flex -space-x-2">
+      {["45", "47", "48", "49"].map((id, index) => (
+        <motion.img
+          whileHover={{ scale: 1.2 }}
+          key={index}
+          src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
+          alt="user"
+          className="w-10 h-10 rounded-full border-2 border-white shadow-md"
+        />
+      ))}
+    </div>
+    <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-1">
+      <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
+      <p className="text-gray-600 font-medium text-sm">
+        Loved by <span className="font-bold">153,000+</span> users
+      </p>
+    </div>
+  </div>
+</div>
+
 
         {/* Right Content */}
-        <motion.div
-          initial={{ opacity: 0, x: 100 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8 }}
-          className="lg:w-1/2 mt-8 lg:mt-0 flex justify-center relative z-10"
-        >
-          <img
-            src={topimg}
-            alt="AI Outfit"
-            className="w-full max-w-sm lg:max-w-md rounded-lg shadow-2xl hover:scale-105 transition-transform duration-500"
-          />
-        </motion.div>
+        <motion.div className="grid grid-cols-2 gap-6">
+      {/* Before Image */}
+      <div className="relative group">
+        {/* <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+          Traditional
+        </span> */}
+        <img
+          src={top1}
+          className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+        />
+      </div>
+      {/* After Image */}
+      <div className="relative group">
+        {/* <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+          AI-Generated
+        </span> */}
+        <img
+          src={top2}
+          alt="AI-Generated Photoshoot"
+          className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+        />
+      </div>
+    </motion.div>
       </section>
       {/* section1 */}
       <section
@@ -172,10 +192,10 @@ const HeroSection = () => {
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
     {/* Left Section: Content */}
     <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-      <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+      <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
         The Challenges of Traditional Fashion Photography
       </h1>
-      <p className="text-lg text-gray-700 animate-fade-in-delay">
+      <p className="text-xl text-gray-600 animate-fade-in-delay">
         Expensive model hiring and photoshoots. Time-consuming processes for
         selecting models, locations, and photographers. Limited flexibility for
         customization and quick updates
@@ -183,15 +203,15 @@ const HeroSection = () => {
       <ul className="space-y-4 text-gray-700">
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Expensive costs for hiring models, photographers, and renting locations.</p>
+          <p className="text-lg">Expensive costs for hiring models, photographers, and renting locations.</p>
         </li>
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Time-consuming processes for organizing shoots and selecting the right team.</p>
+          <p className="text-lg">Time-consuming processes for organizing shoots and selecting the right team.</p>
         </li>
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Limited flexibility for making quick updates or tailoring visuals to new ideas.</p>
+          <p className="text-lg">Limited flexibility for making quick updates or tailoring visuals to new ideas.</p>
         </li>
       </ul>
     </div>
@@ -234,55 +254,43 @@ const HeroSection = () => {
 
   {/* Container */}
   <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-    {/* Left Section: Images */}
-    <div className="grid grid-cols-2 gap-6">
-      {/* Before Image */}
-      <div className="relative group">
-        <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg">
-          Traditional
-        </span>
-        <img
-          src="https://img.freepik.com/premium-photo/gorgeous-young-woman-wearing-traditional-clothing-created-with-generative-ai_762026-35299.jpg?w=2000"
-          alt="Traditional Photoshoot"
-          className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full"
-          style={{ height: "50vh" }}
-        />
-      </div>
-      {/* After Image */}
-      <div className="relative group">
-        <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
-          AI-Generated
-        </span>
-        <img
-          src="https://i.pinimg.com/originals/84/ec/8e/84ec8eaef3f8a2f47329dd0684374ac3.jpg"
-          alt="AI-Generated Photoshoot"
-          className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full"
-          style={{ height: "50vh" }}
-        />
-      </div>
+    {/* Left Section: Video */}
+    <div className="relative group">
+      {/* <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+        AI-Generated
+      </span> */}
+      <video
+        src={video} // Replace with your video URL
+        alt="AI-Generated Photoshoot Video"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
+        style={{ height: "50vh", width: "100%", objectFit: "cover" }}
+        autoPlay
+        muted
+        loop
+      />
     </div>
 
     {/* Right Section: Content */}
     <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-      <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+      <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
         AI Visual Try-On: Your Game-Changing Fashion Solution
       </h1>
       <ul className="space-y-4 text-gray-700">
         <li className="flex items-start">
           <span className="text-purple-700 text-xl font-bold mr-3">•</span>
-          <p> Instantly create realistic fashion models of any nationality and background.</p>
+          <p className="text-lg"> Instantly create realistic fashion models of any nationality and background.</p>
         </li>
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Seamlessly apply your garments to AI-generated models for a perfect fit.</p>
+          <p className="text-lg">Seamlessly apply your garments to AI-generated models for a perfect fit.</p>
         </li>
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Customize models to fit your brand’s unique aesthetic.</p>
+          <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
         </li>
         <li className="flex items-start">
           <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-          <p>Deliver high-quality, eCommerce-ready photos in minutes.</p>
+          <p className="text-lg">Deliver high-quality, eCommerce-ready photos in minutes.</p>
         </li>
       </ul>
       <div className="flex justify-center lg:justify-start items-center w-full mt-6">
@@ -296,73 +304,75 @@ const HeroSection = () => {
 
 
 
+
       {/* section 3 */}
       <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-16 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
+  {/* Background Effects */}
+  <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
+  <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
 
-        {/* Why Choose Us Section */}
-        <div className="container mx-auto px-6 lg:px-16 relative z-10">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900">
-            Why Choose <span className="text-purple-600">Us?</span>
-          </h2>
+  {/* Why Choose Us Section */}
+  <div className="container mx-auto px-6 lg:px-16 relative z-10">
+    <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900">
+      Why Choose <span className="text-purple-600">Us?</span>
+    </h2>
 
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Realistic Model Generation",
-                desc: "Create lifelike models that resonate with your audience.",
-                icon: "🖼️",
-              },
-              {
-                title: "Easy Customization",
-                desc: "Adjust every detail, from skin tone to poses and backgrounds.",
-                icon: "🎨",
-              },
-              {
-                title: "Cost Efficiency",
-                desc: "Save up to 80% on traditional photoshoot expenses.",
-                icon: "💰",
-              },
-              {
-                title: "Quick Turnaround",
-                desc: "Get professional images in hours, not weeks.",
-                icon: "⏱️",
-              },
-              {
-                title: "Ecommerce Optimization",
-                desc: "Tailored outputs perfect for online platforms.",
-                icon: "🛍️",
-              },
-              {
-                title: "Trusted Results",
-                desc: "Deliver high-quality outputs trusted by industry professionals.",
-                icon: "🌟",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="group bg-white rounded-xl shadow-lg p-6 transform hover:shadow-2xl transition-all duration-300"
-              >
-                {/* Icon */}
-                <div className="text-purple-600 text-4xl mb-4">{item.icon}</div>
+    {/* Features Grid */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
+      {[
+        {
+          title: "Realistic Model Generation",
+          desc: "Create lifelike models that resonate with your audience.",
+          icon: "🖼️",
+        },
+        {
+          title: "Easy Customization",
+          desc: "Adjust every detail, from skin tone to poses and backgrounds.",
+          icon: "🎨",
+        },
+        {
+          title: "Cost Efficiency",
+          desc: "Save up to 80% on traditional photoshoot expenses.",
+          icon: "💰",
+        },
+        {
+          title: "Quick Turnaround",
+          desc: "Get professional images in hours, not weeks.",
+          icon: "⏱️",
+        },
+        {
+          title: "Ecommerce Optimization",
+          desc: "Tailored outputs perfect for online platforms.",
+          icon: "🛍️",
+        },
+        {
+          title: "Trusted Results",
+          desc: "Deliver high-quality outputs trusted by industry professionals.",
+          icon: "🌟",
+        },
+      ].map((item, index) => (
+        <motion.div
+          key={index}
+          whileHover={{ rotate: 5, scale: 1.05 }}
+          transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
+          className="group bg-white rounded-xl shadow-lg p-6 transform hover:shadow-2xl transition-all duration-300"
+        >
+          {/* Icon */}
+          <div className="text-purple-600 text-4xl mb-4">{item.icon}</div>
 
-                {/* Title */}
-                <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
-                  {item.title}
-                </h3>
+          {/* Title */}
+          <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
+            {item.title}
+          </h3>
 
-                {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+          {/* Description */}
+          <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
+        </motion.div>
+      ))}
+    </div>
+  </div>
+</section>
+
       {/* section4 */}
       <section ref={ref1} className="bg-gradient-to-b from-white to-gray-50 py-16 relative overflow-hidden">
         {/* Background Accents */}
@@ -429,53 +439,56 @@ const HeroSection = () => {
       </section>
       {/* features */}
       <section className="py-16 bg-gray-900 relative overflow-hidden">
-        <div className="container mx-auto px-6 lg:px-16">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white">
-            Features of <span className="text-purple-400">AI4FI</span>
-          </h2>
+  <div className="container mx-auto px-6 lg:px-16">
+    <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white">
+      Features of <span className="text-purple-400">AI4FI</span>
+    </h2>
 
-          {/* Auto-Scrolling Row */}
-          <div className="relative overflow-hidden">
-            <div className="flex gap-6 animate-scroll">
-              {[
-                "https://wallpapercave.com/wp/wp4244900.jpg",
-                "https://freepngimg.com/thumb/girl/23358-6-woman-model-photos.png",
-                "https://i.dailymail.co.uk/1s/2019/10/14/15/19548030-7559529-image-a-80_1571064618303.jpg",
-                "https://jooinn.com/images/model-photoshoot-15.jpg",
-                "https://www.hdwallpapers.in/download/closeup_photo_of_beautiful_face_of_girl_model_hd_girls-HD.jpg",
-                "https://c.stocksy.com/a/wyk500/z9/1372242.jpg",
-                "https://get.wallhere.com/photo/women-model-FTV-Girls-Magazine-1271195.jpg",
-                "https://wallpapersmug.com/download/1440x2880/aaa678/beautiful-girl-model-juicy-lips-brunette.jpg",
-                "https://cdn.pixabay.com/photo/2023/02/01/13/52/ai-generated-7760505_1280.jpg",
-                "https://img.freepik.com/free-photo/young-woman-with-long-straight-hair-studio-portrait-attractive-brunette-girl-fashion-model-wears-black-shirt-anf-jeans-sexy-female-model_186202-7462.jpg",
-              ].map((imageUrl, index) => (
-                <div
-                  key={index}
-                  className="min-w-[240px] h-[320px] bg-cover bg-center rounded-lg shadow-lg"
-                  style={{
-                    backgroundImage: `url('${imageUrl}')`,
-                  }}
-                ></div>
-              ))}
-            </div>
+    {/* Auto-Scrolling Row */}
+    <div className="scroll-container overflow-hidden relative">
+      <div className="scroll-track flex items-center">
+        {images.concat(images).map((imagePath, index) => (
+          <div
+            key={index}
+            className="flex-shrink-0"
+            style={{ width: '240px', margin: '0 8px' }}
+          >
+            <img
+              src={imagePath}
+              alt={`Model Gallery ${index + 1}`}
+              className="w-full h-auto rounded-md"
+            />
           </div>
+        ))}
+      </div>
+    </div>
 
-          {/* Script for Auto Scroll */}
-          <style>{`
+    {/* CSS for Auto Scroll */}
+    <style>{`
+      .scroll-container {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+        height: 320px; /* Adjust based on your image height */
+      }
+      .scroll-track {
+        display: flex;
+        width: calc(200px * ${images.length} * 2); /* Account for duplicate images */
+        animation: scroll 30s linear infinite;
+      }
       @keyframes scroll {
         0% {
           transform: translateX(0);
         }
         100% {
-          transform: translateX(calc(-240px * 5)); /* Scroll 5 items */
+          transform: translateX(calc(-200px * ${images.length})); /* Scroll one full set of images */
         }
       }
-      .animate-scroll {
-        animation: scroll 20s linear infinite;
-      }
     `}</style>
-        </div>
-      </section>
+  </div>
+</section>
+
+
       {/* section 5 */}
       <section className="bg-gradient-to-b from-gray-50 to-white py-16 relative overflow-hidden">
         {/* Background Accents */}
