@@ -37,7 +37,7 @@ const Navbar = () => {
               <a href="/products" className="hover:text-purple-600 transition">Products</a>
             </li>
             <li className={currentPath === "/modelshub" ? "text-purple-600 font-semibold" : "text-gray-800"}>
-              <a href="/modelshub" className="hover:text-purple-600 transition">Models Hub</a>
+              <a href="/modelgallery" className="hover:text-purple-600 transition">Model Gallery</a>
             </li>
             <li className={currentPath === "/usecases" ? "text-purple-600 font-semibold" : "text-gray-800"}>
               <a href="/usecases" className="hover:text-purple-600 transition">Use Cases</a>
@@ -81,7 +81,7 @@ const Navbar = () => {
           <ul className="flex flex-col items-center space-y-6 py-6">
             <li><a href="/" className="text-gray-800 hover:text-purple-600">Home</a></li>
             <li><a href="/products" className="text-gray-800 hover:text-purple-600">Products</a></li>
-            <li><a href="/modelshub" className="text-gray-800 hover:text-purple-600">Models Hub</a></li>
+            <li><a href="/modelgallery" className="text-gray-800 hover:text-purple-600">Model Gallery</a></li>
             <li><a href="/usecases" className="text-gray-800 hover:text-purple-600">Use Cases</a></li>
             <li><a href="/about" className="text-gray-800 hover:text-purple-600">About</a></li>
             <li><a href="/contact" className="text-gray-800 hover:text-purple-600">Contact Us</a></li>

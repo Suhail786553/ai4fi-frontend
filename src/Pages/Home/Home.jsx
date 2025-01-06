@@ -57,6 +57,16 @@ const HeroSection = () => {
       ref2.current?.classList.add('animate-fade-in', 'animate-fade-in-delay');
     }
   }, [isInView1, isInView2]);
+  useEffect(() => {
+    const videoElement = document.querySelector("video");
+    if (videoElement) {
+      videoElement.muted = true; // Ensure the video is muted
+      videoElement.play().catch((error) => {
+        console.error("Autoplay failed:", error);
+      });
+    }
+  }, []);
+  
   const images = [
     "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg",
     "/images/model-gallery/getimg_ai_img-1q3dXIl8hj7rpd0p323vu.jpeg",
@@ -95,90 +105,85 @@ const HeroSection = () => {
     <>
       {/* Hero Section */}
       <section
-        onMouseMove={handleMouseMove}
-        className=" relative overflow-hidden flex flex-col lg:flex-row items-center justify-between p-8 lg:p-20 bg-gradient-to-br from-white to-gray-100"
-      >
-        {/* Background Animation */}
-        <motion.div
-          className="absolute inset-0 pointer-events-none"
-          animate={{
-            background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
-          }}
-          transition={{ ease: "easeOut", duration: 0.3 }}
-        />
+  onMouseMove={handleMouseMove}
+  className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 bg-gradient-to-br from-white to-gray-100"
+>
+  {/* Background Animation */}
+  <motion.div
+    className="absolute inset-0 pointer-events-none"
+    animate={{
+      background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
+    }}
+    transition={{ ease: "easeOut", duration: 0.3 }}
+  />
 
-        {/* Left Content */}
-        <div className="lg:w-1/2 text-center lg:text-left space-y-8 relative z-10">
-          <motion.h1
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="text-2xl lg:text-4xl font-bold text-gray-900 leading-snug"
-          >
-            Say goodbye to costly photoshoots. <br />
-            Create stunning, customizable <br />
-            AI models and showcase your garments.
-          </motion.h1>
+  {/* Left Content */}
+  <div className="md:w-1/2 space-y-6 md:space-y-8 relative z-10 text-center md:text-left">
+    <motion.h1
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+      className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug"
+    >
+      Say goodbye to costly photoshoots. <br />
+      Create stunning, customizable <br />
+      AI models and showcase your garments.
+    </motion.h1>
 
-          <div className="mt-4 lg:mt-6">
-            <a href="/model">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
-              >
-                Get Started for Free
-              </motion.button>
-            </a>
-          </div>
+    <div className="mt-4 md:mt-6">
+      <a href="/model">
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
+        >
+          Get Started for Free
+        </motion.button>
+      </a>
+    </div>
 
-          {/* User Ratings */}
-          <div className="flex flex-col lg:flex-row items-center justify-center lg:justify-start gap-4 mt-6">
-            <div className="flex -space-x-2">
-              {["45", "47", "48", "49"].map((id, index) => (
-                <motion.img
-                  whileHover={{ scale: 1.2 }}
-                  key={index}
-                  src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
-                  alt="user"
-                  className="w-10 h-10 rounded-full border-2 border-white shadow-md"
-                />
-              ))}
-            </div>
-            <div className="flex flex-col lg:flex-row items-center lg:items-start text-center lg:text-left gap-1">
-              <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
-              <p className="text-gray-600 font-medium text-sm">
-                Loved by <span className="font-bold">153,000+</span> users
-              </p>
-            </div>
-          </div>
-        </div>
+    {/* User Ratings */}
+    <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6">
+      <div className="flex -space-x-2">
+        {["45", "47", "48", "49"].map((id, index) => (
+          <motion.img
+            whileHover={{ scale: 1.2 }}
+            key={index}
+            src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
+            alt="user"
+            className="w-10 h-10 rounded-full border-2 border-white shadow-md"
+          />
+        ))}
+      </div>
+      <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1">
+        <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
+        <p className="text-gray-600 font-medium text-sm">
+          Loved by <span className="font-bold">153,000+</span> users
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* Right Content */}
+  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-0 md:w-1/2">
+    {/* Before Image */}
+    <div className="relative group">
+      <img
+        src={top1}
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+      />
+    </div>
+    {/* After Image */}
+    <div className="relative group">
+      <img
+        src={top2}
+        alt="AI-Generated Photoshoot"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+      />
+    </div>
+  </motion.div>
+</section>
 
 
-        {/* Right Content */}
-        <motion.div className="grid grid-cols-2 gap-6">
-          {/* Before Image */}
-          <div className="relative group">
-            {/* <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg">
-          Traditional
-        </span> */}
-            <img
-              src={top1}
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
-            />
-          </div>
-          {/* After Image */}
-          <div className="relative group">
-            {/* <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
-          AI-Generated
-        </span> */}
-            <img
-              src={top2}
-              alt="AI-Generated Photoshoot"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
-            />
-          </div>
-        </motion.div>
-      </section>
       {/* section1 */}
       <section
         ref={ref2}
@@ -254,32 +259,20 @@ const HeroSection = () => {
 
         {/* Container */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          {/* Left Section: Video */}
-          {/* <div className="relative group">
-
-            <video
-              src={video} // Replace with your video URL
-              alt="AI-Generated Photoshoot Video"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
-              style={{ height: "50vh", width: "100%", objectFit: "cover" }}
-              autoPlay
-              muted
-              loop
-            />
-          </div> */}
           <div className="relative group">
-  <video
-    src={video}
-    alt="AI-Generated Photoshoot Video"
-    className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
-    style={{ height: "50vh", width: "100%", objectFit: "cover" }}
-    autoPlay
-    muted
-    loop
-    playsInline
-    poster="your-fallback-image.jpg"
-  />
-</div>
+          <video
+  src={video}
+  alt="AI-Generated Photoshoot Video"
+  className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
+  style={{ height: "50vh", width: "100%", objectFit: "cover" }}
+  autoPlay
+  muted
+  loop
+  playsInline
+  poster="your-fallback-image.jpg"
+/>
+
+          </div>
 
 
           {/* Right Section: Content */}
@@ -509,7 +502,7 @@ const HeroSection = () => {
 
         <div className="container mx-auto px-6 lg:px-16 relative z-10">
           {/* Heading */}
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in">
+          <h2 className="text-3xl lg:text-4xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in">
             Trusted by <span className="text-purple-600">Fashion Innovators Worldwide</span>
           </h2>
 

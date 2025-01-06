@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { motion } from "framer-motion"; 
-import { MdOutlineEmail } from "react-icons/md"; 
+import { motion } from "framer-motion";
+import { MdOutlineEmail } from "react-icons/md";
 // import { FaGoogle } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -15,7 +15,7 @@ const SignUpForm = () => {
   });
   const [isOtpSent, setIsOtpSent] = useState(false); // To track OTP sent status
   const [isOtpVerified, setIsOtpVerified] = useState(false); // To track OTP verification 
-   const [loading, setLoading] = useState(false);//status
+  const [loading, setLoading] = useState(false);//status
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -43,10 +43,10 @@ const SignUpForm = () => {
 
     try {
       const baseURL = window.location.hostname === "localhost"
-    ? "http://localhost:5000/api/auth/signup" // Local development URL
-    : "https://apricityts-backend.onrender.com/api/auth/signup"; // Hosted backend URL
+        ? "http://localhost:5000/api/auth/signup" // Local development URL
+        : "https://apricityts-backend.onrender.com/api/auth/signup"; // Hosted backend URL
 
-      const response = await axios.post(baseURL,{ name, email, password });
+      const response = await axios.post(baseURL, { name, email, password });
       const { token, user } = response.data;
 
       localStorage.setItem("token", token);
@@ -55,7 +55,7 @@ const SignUpForm = () => {
       alert("Signup successful");
       navigate("/dashboard");
     } catch (error) {
-      
+
       alert(error.response?.data?.message || "Signup failed!");
     }
   };
@@ -74,11 +74,11 @@ const SignUpForm = () => {
     const { email } = formData;
     try {
       const baseURL = window.location.hostname === "localhost"
-      ? "http://localhost:5000/api/auth/sendOtp"
-      : "https://apricityts-backend.onrender.com/api/auth/sendOtp";
+        ? "http://localhost:5000/api/auth/sendOtp"
+        : "https://apricityts-backend.onrender.com/api/auth/sendOtp";
 
-    // Make the POST request
-    const response = await axios.post(baseURL, { email });
+      // Make the POST request
+      const response = await axios.post(baseURL, { email });
 
       if (response.data.success) {
         setIsOtpSent(true);
@@ -86,7 +86,7 @@ const SignUpForm = () => {
       } else {
         alert("Failed to send OTP.");
       }
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (error) {
       alert("Error sending OTP.");
     }
@@ -95,14 +95,14 @@ const SignUpForm = () => {
   const handleVerifyOtp = async () => {
     const { email, otp } = formData;
     console.log("Email:", email, "OTP:", otp);  // Debugging log to ensure correct data
-  
+
     try {
-      const baseURL=window.location.hostname==="localhost"
-      ?"http://localhost:5000/api/auth/verifyOtp"
-      :"https://apricityts-backend.onrender.com/api/auth/verifyOtp"
-      const response = await axios.post(baseURL,{ email, otp });
+      const baseURL = window.location.hostname === "localhost"
+        ? "http://localhost:5000/api/auth/verifyOtp"
+        : "https://apricityts-backend.onrender.com/api/auth/verifyOtp"
+      const response = await axios.post(baseURL, { email, otp });
       console.log("Response:", response);  // Check the full response from the backend
-  
+
       if (response.data.message === 'OTP verified successfully.') {
         setIsOtpVerified(true);
         alert("OTP verified successfully!");
@@ -114,9 +114,9 @@ const SignUpForm = () => {
       alert("Error verifying OTP. Please try again.");
     }
   };
-  
-  
-  
+
+
+
 
   return (
     <div className="flex flex-col h-auto justify-center items-center bg-white pb-16">
@@ -153,103 +153,102 @@ const SignUpForm = () => {
             Create your account
           </h4>
           <form onSubmit={handleSubmit}>
-            <div className="space-y-4">
-              <div>
-                <p className="mb-2">Name</p>
-                <input
-                  type="text"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your name"
-                  className="w-full p-3 border border-gray-300 rounded-md text-black"
-                  required
-                />
-              </div>
-              <div>
-                <p className="mb-2">Email</p>
-                <input
-                  type="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  placeholder="Enter your email"
-                  className="w-full p-3 border border-gray-300 rounded-md text-black"
-                  required
-                />
-              </div>
+  <div className="space-y-4">
+    <div>
+      <p className="mb-2">Name</p>
+      <input
+        type="text"
+        name="name"
+        value={formData.name}
+        onChange={handleChange}
+        placeholder="Enter your name"
+        className="w-full p-3 border border-gray-300 rounded-md text-black"
+        required
+      />
+    </div>
 
-              {/* OTP Input Section */}
-              {isOtpSent && !isOtpVerified && (
-                <div>
-                  <p className="mb-2">OTP</p>
-                  <input
-                    type="text"
-                    name="otp"
-                    value={formData.otp}
-                    onChange={handleChange}
-                    placeholder="Enter OTP"
-                    className="w-full p-3 border border-gray-300 rounded-md text-black"
-                    required
-                  />
-                  <button
-                    type="button"
-                    onClick={handleVerifyOtp}
-                    className="w-full p-3 bg-[#904af2] text-white rounded-md mt-4"
-                  >
-                    Verify OTP
-                  </button>
-                </div>
-              )}
+    {/* Email Input Section */}
+    {!isOtpSent && (
+      <div>
+        <p className="mb-2">Email</p>
+        <input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+          className="w-full p-3 border border-gray-300 rounded-md text-black"
+          required
+        />
+        <button
+          type="button"
+          disabled={loading}
+          onClick={handleSendOtp}
+          className={`w-full p-3 text-white rounded-md mt-4 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#904af2]"}`}
+          style={{ borderRadius: "40px", fontSize: 19 }}
+        >
+          {loading ? "Sending OTP..." : "Send OTP"}
+        </button>
+      </div>
+    )}
 
-              {!isOtpSent && (
-                <button
-                  type="button"
-                  disabled={loading}
-                  onClick={handleSendOtp}
-                  className={`w-full p-3 text-white rounded-md mt-4 ${
-                  loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#904af2]"
-                  }`}
-                  style={{ borderRadius: "40px", fontSize: 19 }}
-                >
-                  {loading ? "Send OTP..." : "Send OTP"}
-                  
-                </button>
-              )}
+    {/* OTP Input Section */}
+    {isOtpSent && !isOtpVerified && (
+      <div>
+        <p className="mb-2">OTP</p>
+        <input
+          type="text"
+          name="otp"
+          value={formData.otp}
+          onChange={handleChange}
+          placeholder="Enter OTP"
+          className="w-full p-3 border border-gray-300 rounded-md text-black"
+          required
+        />
+        <button
+          type="button"
+          onClick={handleVerifyOtp}
+          className="w-full p-3 bg-[#904af2] text-white rounded-md mt-4"
+        >
+          Verify OTP
+        </button>
+      </div>
+    )}
 
-              <div>
-                <p className="mb-2">Password</p>
-                <input
-                  type="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="w-full p-3 border border-gray-300 rounded-md text-black"
-                  required
-                />
-              </div>
-              <div>
-                <p className="mb-2">Confirm Password</p>
-                <input
-                  type="password"
-                  name="confirmPassword"
-                  value={formData.confirmPassword}
-                  onChange={handleChange}
-                  placeholder="Confirm your password"
-                  className="w-full p-3 border border-gray-300 rounded-md text-black"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
-                style={{ borderRadius: "40px", fontSize: 19 }}
-              >
-                Sign Up
-              </button>
-            </div>
-          </form>
+    <div>
+      <p className="mb-2">Password</p>
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        placeholder="Enter your password"
+        className="w-full p-3 border border-gray-300 rounded-md text-black"
+        required
+      />
+    </div>
+    <div>
+      <p className="mb-2">Confirm Password</p>
+      <input
+        type="password"
+        name="confirmPassword"
+        value={formData.confirmPassword}
+        onChange={handleChange}
+        placeholder="Confirm your password"
+        className="w-full p-3 border border-gray-300 rounded-md text-black"
+        required
+      />
+    </div>
+    <button
+      type="submit"
+      className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
+      style={{ borderRadius: "40px", fontSize: 19 }}
+    >
+      Sign Up
+    </button>
+  </div>
+</form>
+
         </motion.div>
       </div>
     </div>

@@ -6,6 +6,7 @@ import Contact from './Pages/Contact/Contact';
 import Model from './Pages/Model/Model';
 import Signup from './Pages/Credentials/Signup';
 import Login from './Pages/Credentials/Login';
+import ModelGallery from './Pages/ModelGallery/ModelGallery';
 
 function App() {
   const currentPath = window.location.pathname;
@@ -21,9 +22,10 @@ function App() {
           <Route path="/model" element={<Model />} /> {/* Model Page Content */}
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/modelgallery" element={<ModelGallery />} />
         </Routes>
 
-        {currentPath !== '/model' && <Footer />} {/* Show Footer for all routes except /model */}
+        {currentPath !== '/model' && currentPath !== '/modelgallery'&& <Footer />} {/* Show Footer for all routes except /model */}
       </div>
     </Router>
   );
