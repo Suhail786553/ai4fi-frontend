@@ -123,7 +123,7 @@ const HeroSection = () => {
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8 }}
-      className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 leading-snug"
+      className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug"
     >
       Say goodbye to costly photoshoots. <br />
       Create stunning, customizable <br />
@@ -169,7 +169,7 @@ const HeroSection = () => {
     <div className="relative group">
       <img
         src={top1}
-        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
       />
     </div>
     {/* After Image */}
@@ -177,7 +177,7 @@ const HeroSection = () => {
       <img
         src={top2}
         alt="AI-Generated Photoshoot"
-        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
       />
     </div>
   </motion.div>
@@ -696,15 +696,15 @@ const HeroSection = () => {
               Take the next step and elevate your business with AI-powered fashion solutions. Whether you want to explore our platform, book a personalized demo, or get in touch with us, we’re here to help you transform your fashion experience.
             </p>
             <div className="flex flex-col lg:flex-row justify-center lg:justify-start lg:space-x-4 space-y-4 lg:space-y-0 animate-fade-in">
-              <button className="bg-purple-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-purple-700 w-full sm:w-auto">
+              <a href="/signup"><button className="bg-purple-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-purple-700 w-full sm:w-auto">
                 Sign Up Now
-              </button>
-              <button className="bg-teal-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-teal-700 w-full sm:w-auto">
+              </button></a>
+              {/* <button className="bg-teal-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-teal-700 w-full sm:w-auto">
                 Book a Demo
-              </button>
-              <button className="bg-blue-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-blue-700 w-full sm:w-auto">
+              </button> */}
+              <a href="/contact"><button className="bg-blue-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-blue-700 w-full sm:w-auto">
                 Contact Us
-              </button>
+              </button></a>
             </div>
 
           </div>
