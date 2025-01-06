@@ -98,7 +98,7 @@ const AboutUs = () => {
             data-aos-duration="1000"
           >
             <img
-              src="https://thecircularcapital.com/wp-content/uploads/2023/03/Bot-2.png"
+              src="https://uploads-ssl.webflow.com/6082f2094ccb2d6ff32eb5d8/6435384cbe80c37bc1786fc9_Blog%2022.jpg"
               alt="About AI4FI"
               className="rounded-lg shadow-lg object-cover w-full h-[40vh] transform transition-transform duration-500 hover:scale-105"
             />
