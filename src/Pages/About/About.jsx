@@ -76,19 +76,14 @@ const AboutUs = () => {
               </span>
               <div className="absolute left-0 bottom-[-6px] h-1 w-16 bg-purple-500 rounded-md animate-pulse"></div>
             </h2>
-            <p className="text-gray-700 leading-relaxed mb-4">
-              At AI4FI, we are shaping the future of fashion with innovative, AI-powered
-              solutions. Our mission is to help garment brands revolutionize the way they
-              create, showcase, and market their collections.
+            <p className="text-lg text-gray-700 leading-relaxed mb-4">
+            we are shaping the future of fashion with innovative, AI-powered solutions. Our mission is to help garment brands revolutionize the way they create, showcase, and market their collections.
+
+
             </p>
-            <p className="text-gray-700 leading-relaxed mb-6">
-              Whether you’re looking to generate lifelike virtual models, create stunning
-              marketing visuals in minutes, or provide immersive virtual try-on experiences,
-              AI4FI offers you an efficient, cost-effective, and sustainable solution.
+            <p className=" text-lg text-gray-700 leading-relaxed mb-6">
+            At the heart of AI4FI is our advanced artificial intelligence platform that enables garment brands to generate lifelike virtual models and deliver immersive virtual try-on experiences. Whether you need professional-grade marketing images in minutes or aim to personalize your online storefront with diverse and customizable virtual models, AI4FI makes it all possible.
             </p>
-            <button className="px-6 py-3 bg-purple-600 text-white font-semibold rounded-lg shadow-md hover:bg-purple-700 transition duration-300">
-              Learn More
-            </button>
           </div>
 
           {/* Image Section */}

@@ -248,7 +248,15 @@ const SignUpForm = () => {
     </button>
   </div>
 </form>
-
+<p className="mt-6 text-center text-sm text-gray-600">
+            Already have an account?{" "}
+            <a
+              href="/login"
+              className="text-[#904af2] hover:text-[#7a3ccd] transition font-semibold"
+            >
+              Sigin
+            </a>
+          </p>
         </motion.div>
       </div>
     </div>

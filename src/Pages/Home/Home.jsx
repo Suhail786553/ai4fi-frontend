@@ -12,6 +12,7 @@ const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [isMonthly, setIsMonthly] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
+  const [activeTab, setActiveTab] = useState("pixelPerfect");
   const ref1 = useRef(null);
   const ref2 = useRef(null);
 
@@ -66,7 +67,30 @@ const HeroSection = () => {
       });
     }
   }, []);
-  
+
+  const imageSets = {
+    pixelPerfect: [
+      "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg", // Replace with your image paths
+      "/images/model-gallery/getimg_ai_img-CPju632voVEmTDM37Iesi.jpeg",
+      "/images/model-gallery/getimg_ai_img-4BOumNv2sxEm2z8ePMFNb.jpeg",
+    ],
+    backgroundPreservation: [
+      "/images/model-gallery/getimg_ai_img-Ur59Eheh1KYDPD7Qnywwo.jpeg",
+      "/images/model-gallery/getimg_ai_img-4u7qKNo0KPwUVN2HCxtUV.jpeg",
+      "/images/model-gallery/img-u2D6ZV51wIFe7hljWA5qN.jpeg",
+    ],
+    versatilePoses: [
+      "/images/model-gallery/getimg_ai_img-5hP1KqLe4bqKuufBhZfEv.jpeg",
+      "/images/model-gallery/getimg_ai_img-2LuGKyxjYnuXThjWTabZ5.jpeg",
+      "/images/model-gallery/getimg_ai_img-5V5fKiMdAjG2zwwmUFXPO.jpeg"
+    ],
+    inputFlexibility: [
+      "/images/model-gallery/getimg_ai_img-7BxvLDHU6Gw1fjusT2qYh.jpeg",
+      "/images/model-gallery/getimg_ai_img-CPju632voVEmTDM37Iesi.jpeg",
+      "/images/model-gallery/getimg_ai_img-Ec8Wd4kmnZZSnxOYEtrxO.jpeg"
+    ],
+  };
+
   const images = [
     "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg",
     "/images/model-gallery/getimg_ai_img-1q3dXIl8hj7rpd0p323vu.jpeg",
@@ -105,83 +129,83 @@ const HeroSection = () => {
     <>
       {/* Hero Section */}
       <section
-  onMouseMove={handleMouseMove}
-  className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 bg-gradient-to-br from-white to-gray-100"
->
-  {/* Background Animation */}
-  <motion.div
-    className="absolute inset-0 pointer-events-none"
-    animate={{
-      background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
-    }}
-    transition={{ ease: "easeOut", duration: 0.3 }}
-  />
+        onMouseMove={handleMouseMove}
+        className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 bg-gradient-to-br from-white to-gray-100"
+      >
+        {/* Background Animation */}
+        <motion.div
+          className="absolute inset-0 pointer-events-none"
+          animate={{
+            background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
+          }}
+          transition={{ ease: "easeOut", duration: 0.3 }}
+        />
 
-  {/* Left Content */}
-  <div className="md:w-1/2 space-y-6 md:space-y-8 relative z-10 text-center md:text-left">
-    <motion.h1
-      initial={{ opacity: 0, y: 50 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug"
-    >
-      Say goodbye to costly photoshoots. <br />
-      Create stunning, customizable <br />
-      AI models and showcase your garments.
-    </motion.h1>
+        {/* Left Content */}
+        <div className="md:w-1/2 space-y-6 md:space-y-8 relative z-10 text-center md:text-left">
+          <motion.h1
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug"
+          >
+            Say goodbye to costly photoshoots. <br />
+            Create stunning, customizable <br />
+            AI models and showcase your garments.
+          </motion.h1>
 
-    <div className="mt-4 md:mt-6">
-      <a href="/model">
-        <motion.button
-          whileHover={{ scale: 1.05 }}
-          className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
-        >
-          Get Started for Free
-        </motion.button>
-      </a>
-    </div>
+          <div className="mt-4 md:mt-6">
+            <a href="/model">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
+              >
+                Get Started for Free
+              </motion.button>
+            </a>
+          </div>
 
-    {/* User Ratings */}
-    <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6">
-      <div className="flex -space-x-2">
-        {["45", "47", "48", "49"].map((id, index) => (
-          <motion.img
-            whileHover={{ scale: 1.2 }}
-            key={index}
-            src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
-            alt="user"
-            className="w-10 h-10 rounded-full border-2 border-white shadow-md"
-          />
-        ))}
-      </div>
-      <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1">
-        <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
-        <p className="text-gray-600 font-medium text-sm">
-          Loved by <span className="font-bold">153,000+</span> users
-        </p>
-      </div>
-    </div>
-  </div>
+          {/* User Ratings */}
+          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6">
+            <div className="flex -space-x-2">
+              {["45", "47", "48", "49"].map((id, index) => (
+                <motion.img
+                  whileHover={{ scale: 1.2 }}
+                  key={index}
+                  src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
+                  alt="user"
+                  className="w-10 h-10 rounded-full border-2 border-white shadow-md"
+                />
+              ))}
+            </div>
+            <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1">
+              <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
+              <p className="text-gray-600 font-medium text-sm">
+                Loved by <span className="font-bold">153,000+</span> users
+              </p>
+            </div>
+          </div>
+        </div>
 
-  {/* Right Content */}
-  <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-0 md:w-1/2">
-    {/* Before Image */}
-    <div className="relative group">
-      <img
-        src={top1}
-        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
-      />
-    </div>
-    {/* After Image */}
-    <div className="relative group">
-      <img
-        src={top2}
-        alt="AI-Generated Photoshoot"
-        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
-      />
-    </div>
-  </motion.div>
-</section>
+        {/* Right Content */}
+        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-0 md:w-1/2">
+          {/* Before Image */}
+          <div className="relative group">
+            <img
+              src={top1}
+              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
+            />
+          </div>
+          {/* After Image */}
+          <div className="relative group">
+            <img
+              src={top2}
+              alt="AI-Generated Photoshoot"
+              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
+            />
+          </div>
+        </motion.div>
+      </section>
 
 
       {/* section1 */}
@@ -260,17 +284,17 @@ const HeroSection = () => {
         {/* Container */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           <div className="relative group">
-          <video
-  src={video}
-  alt="AI-Generated Photoshoot Video"
-  className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
-  style={{ height: "50vh", width: "100%", objectFit: "cover" }}
-  autoPlay
-  muted
-  loop
-  playsInline
-  poster="your-fallback-image.jpg"
-/>
+            <video
+              src={video}
+              alt="AI-Generated Photoshoot Video"
+              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
+              style={{ height: "50vh", width: "100%", objectFit: "cover" }}
+              autoPlay
+              muted
+              loop
+              playsInline
+              poster="your-fallback-image.jpg"
+            />
 
           </div>
 
@@ -307,10 +331,61 @@ const HeroSection = () => {
         </div>
       </section>
 
+{/* section3 */}
+<section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
+  {/* Buttons Section */}
+  <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
+    <div className="flex justify-center gap-4 flex-wrap">
+      {Object.keys(imageSets).map((tab) => (
+        <button
+          key={tab}
+          onClick={() => setActiveTab(tab)}
+          className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${
+            activeTab === tab
+              ? "bg-purple-600 text-white transform scale-105"
+              : "bg-gray-200 hover:bg-gray-300"
+          }`}
+        >
+          {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
+        </button>
+      ))}
+    </div>
+  </div>
+
+  {/* Images Section */}
+  <div
+    className="border border-gray-300 rounded-lg p-4 sm:p-6 mt-8 w-full md:w-3/4 lg:w-2/3"
+    style={{ maxWidth: "800px" }}
+  >
+    {/* Heading Above Images */}
+    <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center">
+      Keeping perfect resemblance to the reference garment is our top priority
+      and research focus
+    </h2>
+
+    {/* Images in Responsive Rows */}
+    <div
+      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+    >
+      {imageSets[activeTab].map((image, index) => (
+        <div
+          key={index}
+          className="flex items-center justify-center bg-gray-100 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
+          style={{ width: "100%", height: "240px" }}
+        >
+          <img
+            src={image}
+            alt={`Image ${index + 1}`}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
 
 
-
-      {/* section 3 */}
+      {/* section 4 */}
       <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-16 relative overflow-hidden">
         {/* Background Effects */}
         <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>

@@ -8,6 +8,8 @@ import Signup from './Pages/Credentials/Signup';
 import Login from './Pages/Credentials/Login';
 import ModelGallery from './Pages/ModelGallery/ModelGallery';
 import About from './Pages/About/About';
+import Dashboard from './Pages/Dashboard/Dashboard';
+import SettingsPage from './Pages/Dashboard/SettingPage';
 
 function App() {
   const currentPath = window.location.pathname;
@@ -15,7 +17,7 @@ function App() {
   return (
     <Router>
       <div>
-        {currentPath !== '/model' && <Navbar />} {/* Show Navbar for all routes except /model */}
+        {currentPath !== '/model' && currentPath !== '/dashboard' && <Navbar />} {/* Show Navbar for all routes except /model */}
         
         <Routes>
           <Route path="/" element={<Home />} />
@@ -25,9 +27,11 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/modelgallery" element={<ModelGallery />} />
           <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/settings" element={<SettingsPage />} />
         </Routes>
 
-        {currentPath !== '/model' && currentPath !== '/modelgallery'&& <Footer />} {/* Show Footer for all routes except /model */}
+        {currentPath !== '/model' && currentPath !== '/modelgallery'&& currentPath !== '/dashboard'&&<Footer />} {/* Show Footer for all routes except /model */}
       </div>
     </Router>
   );
