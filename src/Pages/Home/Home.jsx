@@ -15,58 +15,40 @@ const HeroSection = () => {
   const [activeTab, setActiveTab] = useState("pixelPerfect");
   const ref1 = useRef(null);
   const ref2 = useRef(null);
+  const videoRef = useRef(null);
+  const sectionRef = useRef(null);
 
-  // State to track if sections are in view
-  const [isInView1, setIsInView1] = useState(false);
-  const [isInView2, setIsInView2] = useState(false);
-
-  // Set up the Intersection Observer API
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
+    const video = videoRef.current;
+    const section = sectionRef.current;
+
+    if (!video || !section) return;
+
+    const handleIntersection = (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // When the section comes into view, set state to true
-          if (entry.target === ref1.current) {
-            setIsInView1(true);
-          } else if (entry.target === ref2.current) {
-            setIsInView2(true);
-          }
+          // Play video with sound when the section is in view
+          video.muted = false;
+          video.play().catch((err) => console.error("Error playing video:", err));
+        } else {
+          // Pause video when the section is out of view
+          video.pause();
         }
       });
-    }, {
-      threshold: 0.5, // Trigger when 50% of the section is in the viewport
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      root: null, // Observe the viewport
+      threshold: 0.5, // Trigger when 50% of the section is visible
     });
 
-    // Observe both sections
-    if (ref1.current) observer.observe(ref1.current);
-    if (ref2.current) observer.observe(ref2.current);
+    observer.observe(section);
 
-    // Cleanup observer
     return () => {
-      if (ref1.current) observer.unobserve(ref1.current);
-      if (ref2.current) observer.unobserve(ref2.current);
+      observer.disconnect(); // Clean up observer on unmount
     };
   }, []);
 
-  useEffect(() => {
-    // When ref1 comes into view, add animation classes
-    if (isInView1) {
-      ref1.current?.classList.add('animate-fade-in', 'animate-fade-in-delay');
-    }
-    // When ref2 comes into view, add animation classes
-    if (isInView2) {
-      ref2.current?.classList.add('animate-fade-in', 'animate-fade-in-delay');
-    }
-  }, [isInView1, isInView2]);
-  useEffect(() => {
-    const videoElement = document.querySelector("video");
-    if (videoElement) {
-      videoElement.muted = true; // Ensure the video is muted
-      videoElement.play().catch((error) => {
-        console.error("Autoplay failed:", error);
-      });
-    }
-  }, []);
 
   const imageSets = {
     pixelPerfect: [
@@ -274,62 +256,67 @@ const HeroSection = () => {
 
       {/* section2 */}
       <section
-        ref={ref2}
-        className="relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden"
-      >
-        {/* Background Gradient Accent */}
-        <div className="absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+      ref={sectionRef}
+      className="relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden"
+    >
+      {/* Background Gradient Accent */}
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
 
-        {/* Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="relative group">
-            <video
-              src={video}
-              alt="AI-Generated Photoshoot Video"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto"
-              style={{ height: "50vh", width: "100%", objectFit: "cover" }}
-              autoPlay
-              muted
-              loop
-              playsInline
-              poster="your-fallback-image.jpg"
-            />
+      {/* Container */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className="relative group">
+          {/* Video */}
+          <video
+            ref={videoRef}
+            src={video}
+            className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto cursor-pointer"
+            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
+            playsInline
+            loop
+            autoPlay
+            muted
+            poster="your-fallback-image.jpg"
+          />
+        </div>
 
-          </div>
-
-
-          {/* Right Section: Content */}
-          <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
-              AI Visual Try-On: Your Game-Changing Fashion Solution
-            </h1>
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-purple-700 text-xl font-bold mr-3">•</span>
-                <p className="text-lg"> Instantly create realistic fashion models of any nationality and background.</p>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Seamlessly apply your garments to AI-generated models for a perfect fit.</p>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
-              </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Deliver high-quality, eCommerce-ready photos in minutes.</p>
-              </li>
-            </ul>
-            <div className="flex justify-center lg:justify-start items-center w-full mt-6">
-              <button className="bg-purple-600 text-white w-full sm:w-3/4 md:w-2/4 py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-purple-700">
-                Explore Our Technology
-              </button>
-            </div>
+        {/* Right Section: Content */}
+        <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
+          <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+            AI Visual Try-On: Your Game-Changing Fashion Solution
+          </h1>
+          <ul className="space-y-4 text-gray-700">
+            <li className="flex items-start">
+              <span className="text-purple-700 text-xl font-bold mr-3">•</span>
+              <p className="text-lg">
+                Instantly create realistic fashion models of any nationality and background.
+              </p>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+              <p className="text-lg">
+                Seamlessly apply your garments to AI-generated models for a perfect fit.
+              </p>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+              <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
+            </li>
+            <li className="flex items-start">
+              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+              <p className="text-lg">
+                Deliver high-quality, eCommerce-ready photos in minutes.
+              </p>
+            </li>
+          </ul>
+          <div className="flex justify-center lg:justify-start items-center w-full mt-6">
+            <button className="bg-purple-600 text-white w-full sm:w-3/4 md:w-2/4 py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-purple-700">
+              Explore Our Technology
+            </button>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
 {/* section3 */}
 <section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
