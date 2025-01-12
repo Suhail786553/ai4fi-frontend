@@ -21,9 +21,12 @@ const ContactForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const baseURL = window.location.hostname === "localhost"
+        ? "http://localhost:5000/api/about"
+        : "https://ai4fi-backend.onrender.com/api/about";
     console.log("Form Data Submitted:", formData);
     try {
-      const response = await fetch("http://localhost:5000/api/about", {
+      const response = await fetch(baseURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
