@@ -25,7 +25,7 @@ const LoginPage = () => {
       // Use Firebase to authenticate the user
       const baseURL = window.location.hostname === "localhost"
     ? "http://localhost:5000/api/auth/login" // Local development URL
-    : "https://apricityts-backend.onrender.com/api/auth/login"; // Hosted backend URL
+    : "https://ai4fi-backend.onrender.com/api/auth/login"; // Hosted backend URL
 
       await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
      

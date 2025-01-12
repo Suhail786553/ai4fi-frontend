@@ -44,7 +44,7 @@ const SignUpForm = () => {
     try {
       const baseURL = window.location.hostname === "localhost"
         ? "http://localhost:5000/api/auth/signup" // Local development URL
-        : "https://apricityts-backend.onrender.com/api/auth/signup"; // Hosted backend URL
+        : "https://ai4fi-backend.onrender.com/api/auth/signup"; // Hosted backend URL
 
       const response = await axios.post(baseURL, { name, email, password });
       const { token, user } = response.data;
@@ -75,7 +75,7 @@ const SignUpForm = () => {
     try {
       const baseURL = window.location.hostname === "localhost"
         ? "http://localhost:5000/api/auth/sendOtp"
-        : "https://apricityts-backend.onrender.com/api/auth/sendOtp";
+        : "https://ai4fi-backend.onrender.com/api/auth/sendOtp";
 
       // Make the POST request
       const response = await axios.post(baseURL, { email });
@@ -99,7 +99,7 @@ const SignUpForm = () => {
     try {
       const baseURL = window.location.hostname === "localhost"
         ? "http://localhost:5000/api/auth/verifyOtp"
-        : "https://apricityts-backend.onrender.com/api/auth/verifyOtp"
+        : "https://ai4fi-backend.onrender.com/api/auth/verifyOtp"
       const response = await axios.post(baseURL, { email, otp });
       console.log("Response:", response);  // Check the full response from the backend
 
