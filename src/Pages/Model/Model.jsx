@@ -2,6 +2,8 @@ import { useState } from "react";
 import { FaMale, FaFemale } from "react-icons/fa";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Select from "react-select";
+import "modern-normalize";
+// import './Model.css'
 
 const ModelGeneratorUI = () => {
   const [age, setAge] = useState(25);
@@ -18,7 +20,7 @@ const ModelGeneratorUI = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const [dnaNumber, setDnaNumber] = useState(0); // Initial DNA Number
- 
+
 
   const postOptions = [
     { value: "Post 1", label: "Post 1" },
@@ -275,12 +277,6 @@ const ModelGeneratorUI = () => {
                 <div className="mt-4 space-y-2">
                   <label className="block font-serif font-medium">Model DNA Number</label>
                   <div className="flex items-center space-x-2">
-                    {/* <button
-          onClick={() => setDnaNumber((prev) => Math.max(prev - 1, 0))} // Decrement button
-          className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
-        >
-          -
-        </button> */}
                     <input
                       type="number"
                       value={dnaNumber}
@@ -288,12 +284,6 @@ const ModelGeneratorUI = () => {
                       className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
                       min="0"
                     />
-                    {/* <button
-          onClick={() => setDnaNumber((prev) => prev + 1)} // Increment button
-          className="px-3 py-2 bg-gray-700 text-white rounded hover:bg-gray-600"
-        >
-          +
-        </button> */}
                   </div>
                 </div>
               )}
@@ -317,59 +307,59 @@ const ModelGeneratorUI = () => {
             </div>
             {/* select post */}
             <div className="space-y-2">
-  <label className="block font-serif text-white">Select Post(s)</label>
-  <Select
-    options={postOptions}
-    isMulti
-    value={selectedPosts}
-    onChange={(selected) => setSelectedPosts(selected)}
-    className="w-full rounded text-white"
-    styles={{
-      control: (base) => ({
-        ...base,
-        backgroundColor: "black", // Matches the slider background
-        border: "none", // Removed border
-        borderRadius: "0.375rem", // Rounded edges
-        color: "white", // Text color
-        padding: "0.375rem", // Align with slider spacing
-        boxShadow: "none", // Remove focus shadow
-      }),
-      menu: (base) => ({
-        ...base,
-        backgroundColor: "black", // Dropdown background
-        borderRadius: "0.375rem", // Match rounded edges
-      }),
-      option: (base, { isFocused }) => ({
-        ...base,
-        backgroundColor: isFocused ? "grey" : "black", // Grey hover effect
-        color: "white", // White text color
-        cursor: "pointer", // Pointer on hover
-      }),
-      multiValue: (base) => ({
-        ...base,
-        backgroundColor: "black", // Background for selected options
-        borderRadius: "0.375rem", // Match rounded edges
-      }),
-      multiValueLabel: (base) => ({
-        ...base,
-        color: "white", // Text color inside tags
-      }),
-      multiValueRemove: (base) => ({
-        ...base,
-        color: "white", // Text color for remove button
-        ":hover": {
-          backgroundColor: "grey", // Grey background on hover
-          color: "black", // Black text on hover
-        },
-      }),
-      placeholder: (base) => ({
-        ...base,
-        color: "white", // White placeholder color
-      }),
-    }}
-    placeholder="Choose Post(s) ✨"
-  />
-</div>
+              <label className="block font-serif text-white">Select Post(s)</label>
+              <Select
+                options={postOptions}
+                isMulti
+                value={selectedPosts}
+                onChange={(selected) => setSelectedPosts(selected)}
+                className="w-full rounded text-white"
+                styles={{
+                  control: (base) => ({
+                    ...base,
+                    backgroundColor: "black", // Matches the slider background
+                    border: "none", // Removed border
+                    borderRadius: "0.375rem", // Rounded edges
+                    color: "white", // Text color
+                    padding: "0.375rem", // Align with slider spacing
+                    boxShadow: "none", // Remove focus shadow
+                  }),
+                  menu: (base) => ({
+                    ...base,
+                    backgroundColor: "black", // Dropdown background
+                    borderRadius: "0.375rem", // Match rounded edges
+                  }),
+                  option: (base, { isFocused }) => ({
+                    ...base,
+                    backgroundColor: isFocused ? "grey" : "black", // Grey hover effect
+                    color: "white", // White text color
+                    cursor: "pointer", // Pointer on hover
+                  }),
+                  multiValue: (base) => ({
+                    ...base,
+                    backgroundColor: "black", // Background for selected options
+                    borderRadius: "0.375rem", // Match rounded edges
+                  }),
+                  multiValueLabel: (base) => ({
+                    ...base,
+                    color: "white", // Text color inside tags
+                  }),
+                  multiValueRemove: (base) => ({
+                    ...base,
+                    color: "white", // Text color for remove button
+                    ":hover": {
+                      backgroundColor: "grey", // Grey background on hover
+                      color: "black", // Black text on hover
+                    },
+                  }),
+                  placeholder: (base) => ({
+                    ...base,
+                    color: "white", // White placeholder color
+                  }),
+                }}
+                placeholder="Choose Post(s) ✨"
+              />
+            </div>
 
             {/* Generate Button */}
             <button

@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-white shadow-lg rounded-lg sticky top-4 mx-auto w-[90%] lg:w-[80%] h-16 z-50">
+    <nav className="bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 shadow-lg rounded-lg sticky top-4 mx-auto w-[90%] lg:w-[80%] h-16 z-50 text-white">
       <div className="flex items-center justify-between px-4 lg:px-8 h-full">
         {/* Logo and Links */}
         <div className="flex items-center space-x-6">
@@ -34,60 +34,25 @@ const Navbar = () => {
             className="hidden md:flex space-x-4"
             style={{ fontFamily: "Sans-Serif Noto-sans", fontSize: "15px" }}
           >
-            <li
-              className={
-                currentPath === "/"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/">Home</a>
-            </li>
-            <li
-              className={
-                currentPath === "/products"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/products">Products</a>
-            </li>
-            <li
-              className={
-                currentPath === "/modelgallery"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/modelgallery">Model Gallery</a>
-            </li>
-            <li
-              className={
-                currentPath === "/usecases"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/usecases">Use Cases</a>
-            </li>
-            <li
-              className={
-                currentPath === "/about"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/about">About</a>
-            </li>
-            <li
-              className={
-                currentPath === "/contact"
-                  ? "text-purple-600 font-semibold"
-                  : "text-gray-800 hover:text-purple-600"
-              }
-            >
-              <a href="/contact">Contact Us</a>
-            </li>
+            {[
+              { label: "Home", path: "/" },
+              { label: "Products", path: "/products" },
+              { label: "Model Gallery", path: "/modelgallery" },
+              { label: "Use Cases", path: "/usecases" },
+              { label: "About", path: "/about" },
+              { label: "Contact Us", path: "/contact" },
+            ].map((link, index) => (
+              <li
+                key={index}
+                className={`${
+                  currentPath === link.path
+                    ? "font-semibold underline"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <a href={link.path}>{link.label}</a>
+              </li>
+            ))}
           </ul>
         </div>
 
@@ -95,13 +60,13 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-4">
           <a
             href="/signup"
-            className="px-3 py-1 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition"
+            className="px-3 py-1 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
           >
             Sign Up
           </a>
           <a
             href="/login"
-            className="px-3 py-1 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition"
+            className="px-3 py-1 bg-white text-indigo-700 rounded-lg hover:bg-gray-200 transition"
           >
             Log In
           </a>
@@ -109,7 +74,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-gray-800 focus:outline-none">
+          <button onClick={toggleMenu} className="text-white focus:outline-none">
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
         </div>
@@ -117,53 +82,34 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white shadow-lg rounded-lg mt-2">
+        <div className="md:hidden bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 to-purple-800 shadow-lg rounded-lg mt-2">
           <ul className="flex flex-col items-center space-y-4 py-4">
-            <li>
-              <a href="/" className="text-gray-800 hover:text-purple-600">
-                Home
-              </a>
-            </li>
-            <li>
-              <a
-                href="/products"
-                className="text-gray-800 hover:text-purple-600"
-              >
-                Products
-              </a>
-            </li>
-            <li>
-              <a
-                href="/modelgallery"
-                className="text-gray-800 hover:text-purple-600"
-              >
-                Model Gallery
-              </a>
-            </li>
-            <li>
-              <a href="/usecases" className="text-gray-800 hover:text-purple-600">
-                Use Cases
-              </a>
-            </li>
-            <li>
-              <a href="/about" className="text-gray-800 hover:text-purple-600">
-                About
-              </a>
-            </li>
-            <li>
-              <a href="/contact" className="text-gray-800 hover:text-purple-600">
-                Contact Us
-              </a>
-            </li>
+            {[
+              { label: "Home", path: "/" },
+              { label: "Products", path: "/products" },
+              { label: "Model Gallery", path: "/modelgallery" },
+              { label: "Use Cases", path: "/usecases" },
+              { label: "About", path: "/about" },
+              { label: "Contact Us", path: "/contact" },
+            ].map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.path}
+                  className="hover:opacity-80"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
             <a
               href="/login"
-              className="px-4 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition"
+              className="px-4 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
             >
-              Login 
+              Log In
             </a>
             <a
               href="/signup"
-              className="px-4 py-2 border border-purple-600 text-purple-600 rounded-lg hover:bg-purple-600 hover:text-white transition"
+              className="px-4 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
             >
               Sign Up
             </a>
