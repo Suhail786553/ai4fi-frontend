@@ -57,8 +57,10 @@ const ModelGeneratorUI = () => {
       };
   
       console.log("Payload:", payload); // Debugging step
-  
-      const response = await fetch("http://localhost:5000/proxy/generate-model", {
+      const baseURL = window.location.hostname === "localhost"
+      ? "http://localhost:5000/proxy/generate-model" // Local development URL
+      : "https://ai4fi-backend.onrender.com/proxy/generate-model"; // Hosted backend URL
+      const response = await fetch(baseURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
