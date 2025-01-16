@@ -413,92 +413,6 @@ const ModelGeneratorUI = () => {
   </button>
 
   {/* Display the generated image if available */}
- 
-  <div className="flex justify-center items-center h-screen bg-gray-900">
-      {generatedImage && (
-        <div className="relative group w-80 h-80 md:w-96 md:h-96">
-          {/* Image */}
-          <img
-            src={generatedImage}
-            alt="Generated Model"
-            className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
-          />
-
-          {/* Hover Options */}
-          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-            <div className="flex space-x-6">
-              {/* Download Button */}
-              <a
-                href={generatedImage}
-                download
-                className="text-white hover:text-gray-400 flex flex-col items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                  />
-                </svg>
-                <span className="text-sm">Download</span>
-              </a>
-
-              {/* Delete Button */}
-              <button
-                onClick={() => setGeneratedImage(null)}
-                className="text-white hover:text-gray-400 flex flex-col items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-                <span className="text-sm">Delete</span>
-              </button>
-
-              {/* Share Button */}
-              <button
-                onClick={() => console.log('Share functionality')}
-                className="text-white hover:text-gray-400 flex flex-col items-center"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth={1.5}
-                  stroke="currentColor"
-                  className="w-6 h-6"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14.25 15.682l5.444-3.262M14.25 8.318l5.444 3.262m-9.638 6.08A6.004 6.004 0 1114.25 3a6.004 6.004 0 010 12.053z"
-                  />
-                </svg>
-                <span className="text-sm">Share</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
-
 </div>
 
           </div>
@@ -506,44 +420,143 @@ const ModelGeneratorUI = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 relative flex flex-col items-center justify-start px-6 py-10">
-        {/* Sidebar Toggle Button */}
-        <button
-          className="absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden"
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+      <main className="relative flex flex-col items-center justify-center px-14 py-10 min-h-screen">
+  {/* Sidebar Toggle Button */}
+  <button
+    className="absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden"
+    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+  >
+    {isSidebarOpen ? (
+      <AiOutlineArrowLeft size={20} />
+    ) : (
+      <AiOutlineArrowRight size={20} />
+    )}
+  </button>
+
+  {/* Content */}
+  <div className="text-center w-full py-8">
+    <h1 className="text-4xl py-2 font-bold text-white mb-4 font-serif">
+      AI4FI - Fashion Model Generation ✨
+    </h1>
+    <p className="text-3xl font-bold text-gray-200 mb-4">
+      Create Photorealistic Fashion Model Images with Custom Attributes 🔮
+    </p>
+    <hr className="border-gray-600 my-4" />
+    <p className="text-xl text-gray-400">
+      Powered by ApricityTS💡AI-Driven Fashion Modeling ✨
+    </p>
+  </div>
+
+  {/* Image Gallery */}
+  <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
+      {[generatedImage, generatedImage, generatedImage, generatedImage].map((image, index) => (
+        <div
+          key={index}
+          className="relative group w-full h-78 lg:h-96 flex-shrink-0"
+          id={`image-${index}`}
         >
-          {isSidebarOpen ? (
-            <AiOutlineArrowLeft size={20} />
+          {/* Image or Placeholder */}
+          {image ? (
+            <img
+              src={image}
+              alt={`Generated Model ${index + 1}`}
+              className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
+            />
           ) : (
-            <AiOutlineArrowRight size={20} />
+            <div/>
           )}
-        </button>
 
-        {/* Content */}
-        <div className="text-center w-full py-12">
-          <h1 className="text-4xl py-2 font-bold text-white mb-4 font-serif">
-            AI4FI - Fashion Model Generation ✨
+          {/* Hover Options */}
+          {image && (
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+              <div className="flex space-x-6">
+                {/* Download Button */}
+                <a
+                  href={image}
+                  download
+                  className="text-white hover:text-gray-400 flex flex-col items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                    />
+                  </svg>
+                  <span className="text-sm">Download</span>
+                </a>
 
-          </h1>
-          <p className="text-3xl font-bold text-gray-200 mb-4">
-            Create Photorealistic Fashion Model Images with Custom Attributes 🔮
-          </p>
-          <hr className="border-gray-600 my-4" />
-          <p className="text-xl text-gray-400">
-            Powered by ApricityTS💡AI-Driven Fashion Modeling  ✨
-          </p>
+                {/* Delete Button */}
+                <button
+                  onClick={(e) => {
+                    const card = e.currentTarget.closest(`#image-${index}`);
+                    if (card) card.remove();
+                  }}
+                  className="text-white hover:text-gray-400 flex flex-col items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M6 18L18 6M6 6l12 12"
+                    />
+                  </svg>
+                  <span className="text-sm">Delete</span>
+                </button>
+
+                {/* Share Button */}
+                <button
+                  onClick={() =>
+                    navigator.share({
+                      title: "Generated Image",
+                      text: "Check out this image!",
+                      url: image,
+                    })
+                  }
+                  className="text-white hover:text-gray-400 flex flex-col items-center"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                    stroke="currentColor"
+                    className="w-6 h-6"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14.25 15.682l5.444-3.262M14.25 8.318l5.444 3.262m-9.638 6.08A6.004 6.004 0 1114.25 3a6.004 6.004 0 010 12.053z"
+                    />
+                  </svg>
+                  <span className="text-sm">Share</span>
+                </button>
+              </div>
+            </div>
+          )}
         </div>
-        {/* Display the generated image */}
-  {generatedImage && (
-    <div className="mt-6">
-      <img
-        src={generatedImage}
-        alt="Generated Model"
-        className="w-3/4 mx-auto rounded shadow-lg"
-      />
+      ))}
     </div>
-  )}
-      </main>
+  </div>
+</main>
+
+
+
     </div>
   );
 };
