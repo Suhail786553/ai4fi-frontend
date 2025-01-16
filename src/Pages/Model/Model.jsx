@@ -420,7 +420,7 @@ const ModelGeneratorUI = () => {
       </aside>
 
       {/* Main Content */}
-      <main className="relative flex flex-col items-center justify-center px-14 py-10 min-h-screen">
+      <main className="relative flex flex-col items-center justify-center lg:px-24 py-10 min-h-screen">
   {/* Sidebar Toggle Button */}
   <button
     className="absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden"
