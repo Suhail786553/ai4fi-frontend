@@ -611,6 +611,33 @@ const ModelGeneratorUI = () => {
                       </svg>
                       <span className="text-sm">Delete</span>
                     </button>
+                    {/* share button */}
+                    <button
+                          onClick={() =>
+                            navigator.share({
+                              title: "Generated Image",
+                              text: "Check out this image!",
+                              url: image,
+                            }).catch((err) => console.error("Share failed:", err))
+                          }
+                          className="text-white hover:text-gray-400 flex flex-col items-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M14.25 15.682l5.444-3.262M14.25 8.318l5.444 3.262m-9.638 6.08A6.004 6.004 0 1114.25 3a6.004 6.004 0 010 12.053z"
+                            />
+                          </svg>
+                          <span className="text-sm">Share</span>
+                        </button>
                   </div>
                 </div>
               )}
