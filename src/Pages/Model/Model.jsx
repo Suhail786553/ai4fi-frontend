@@ -6,13 +6,12 @@ import "modern-normalize";
 
 const ModelGeneratorUI = () => {
   const [age, setAge] = useState(25);
-  const [numImages] = useState(1);
+  // const [numImages] = useState(1);
   const [gender, setGender] = useState("Male");
   const [hairColor, setHairColor] = useState("Black");
   const [hairType, setHairType] = useState("Straight");
   const [eyeColor, setEyeColor] = useState("Black");
   const [skinColor, setSkinColor] = useState("Very Light (Fair) Skin");
-  // const [shotType, setShotType] = useState("Full Body");
   const [dress, setDress] = useState("");
   const [background, setBackground] = useState("Soft Beige Gradient");
   const [pose, setPose] = useState("Classic Standing Pose");
@@ -20,12 +19,13 @@ const ModelGeneratorUI = () => {
   const [selectedPosts, setSelectedPosts] = useState([]);
   const [autoSeed] = useState(true);
   const [country, setCountry] = useState("India");
-  const [generatedImage,setGeneratedImage] = useState(null);
+  // const [generatedImage, setGeneratedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [model, setModel] = useState(1); // Number of images, default 1
   const [shotType, setShotType] = useState("Full Body"); // Default is "Full Body"
   const [dnaNumber, setDnaNumber] = useState("");
+  const [generatedImages, setGeneratedImages] = useState([]);
   // const [modelCount, setModelCount] = useState(1); // To track the number of models for "Custom Seed"
 
 
@@ -39,45 +39,63 @@ const ModelGeneratorUI = () => {
   const generateImage = async () => {
     setLoading(true);
     try {
-      const payload = {
-        gender,
-        country,
-        age: Number(age), // Ensure numerical values are sent as numbers
-        hair_color: hairColor,
-        hair_type: hairType,
-        eye_color: eyeColor,
-        skin_color: skinColor,
-        shot_type: shotType,
-        dress: dress || "", // Fallback to empty string if not set
-        background,
-        pose,
-        seed: autoSeed ? null : seed, // Send null if autoSeed is true
-        auto_seed: autoSeed,
-        num_images: Number(numImages), // Ensure numerical values are numbers
-      };
+      const images = []; // Initialize an array to store generated image URLs
   
-      console.log("Payload:", payload); // Debugging step
-      const baseURL = window.location.hostname === "localhost"
-      ? "http://localhost:5000/proxy/generate-model" // Local development URL
-      : "https://ai4fi-backend.onrender.com/proxy/generate-model"; // Hosted backend URL
-      const response = await fetch(baseURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      for (let i = 0; i < model; i++) {
+        const payload = {
+          gender,
+          country,
+          age: Number(age), // Ensure numerical values are sent as numbers
+          hair_color: hairColor,
+          hair_type: hairType,
+          eye_color: eyeColor,
+          skin_color: skinColor,
+          shot_type: shotType,
+          dress: dress || "", // Fallback to empty string if not set
+          background,
+          pose,
+          seed: autoSeed ? null : seed, // Send null if autoSeed is true
+          auto_seed: autoSeed,
+          num_images: 1, // Always request one image per call
+        };
   
-      if (!response.ok) {
-        throw new Error(`Failed to generate the model. Status: ${response.status}`);
+        console.log(`Payload for model ${i + 1}:`, payload); // Debugging step
+  
+        const baseURL =
+          window.location.hostname === "localhost"
+            ? "http://localhost:5000/proxy/generate-model" // Local development URL
+            : "https://ai4fi-backend.onrender.com/proxy/generate-model"; // Hosted backend URL
+  
+        const response = await fetch(baseURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+  
+        if (!response.ok) {
+          throw new Error(
+            `Failed to generate the model for iteration ${i + 1}. Status: ${response.status}`
+          );
+        }
+  
+        const data = await response.json();
+        console.log(`Response Data for model ${i + 1}:`, data); // Debugging step
+  
+        // Add the generated image URL to the images array
+        if (data.image_urls && data.image_urls[0]) {
+          images.push(data.image_urls[0]);
+        }
       }
   
-      const data = await response.json();
-      console.log("Response Data:", data); // Debugging step
-      setGeneratedImage(data.image_urls[0]); // Adjust according to actual API response structure
+      // Set the generated images
+      setGeneratedImages(images);
     } catch (error) {
       console.error("Error during generation:", error);
-      alert("Error generating the model. Please check the console for details.");
+      alert(
+        `Error generating the models. Please check the console for details: ${error.message}`
+      );
     } finally {
       setLoading(false);
     }
@@ -93,7 +111,7 @@ const ModelGeneratorUI = () => {
         <div className="h-screen overflow-y-auto">
           <div className="p-5 space-y-6">
             <h2 className="text-3xl font-bold text-white-600 font-sans">Model Inputs🛠️</h2>
-            
+
             {/* Gender */}
             <div className="space-y-2">
               <label className="block font-serif">Gender👩‍🦰</label>
@@ -296,55 +314,55 @@ const ModelGeneratorUI = () => {
 
             {/* Auto Seed */}
             <div className="space-y-4">
-  <label className="block font-serif font-medium">Choose Seed Type ✨</label>
-  <div className="flex flex-col space-y-2">
-    {/* Full Body Button */}
-    <button
-      className={`p-3 rounded flex items-center ${shotType === "Full Body" ? "border-white-500" : "border-gray-700"}`}
-      onClick={() => setShotType("Full Body")}
-    >
-      <span
-        className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Full Body" ? "border-white bg-white" : "border-gray-500"}`}
-      ></span>
-      Auto Generate
-    </button>
+              <label className="block font-serif font-medium">Choose Seed Type ✨</label>
+              <div className="flex flex-col space-y-2">
+                {/* Full Body Button */}
+                <button
+                  className={`p-3 rounded flex items-center ${shotType === "Full Body" ? "border-white-500" : "border-gray-700"}`}
+                  onClick={() => setShotType("Full Body")}
+                >
+                  <span
+                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Full Body" ? "border-white bg-white" : "border-gray-500"}`}
+                  ></span>
+                  Auto Generate
+                </button>
 
-    {/* Half Body Button */}
-    <button
-      className={`p-3 rounded flex items-center ${shotType === "Half Body" ? "border-white-500" : "border-gray-700"}`}
-      onClick={() => setShotType("Half Body")}
-    >
-      <span
-        className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Half Body" ? "border-white bg-white" : "border-gray-500"}`}
-      ></span>
-      Custom Seed
-    </button>
-  </div>
+                {/* Half Body Button */}
+                <button
+                  className={`p-3 rounded flex items-center ${shotType === "Half Body" ? "border-white-500" : "border-gray-700"}`}
+                  onClick={() => setShotType("Half Body")}
+                >
+                  <span
+                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Half Body" ? "border-white bg-white" : "border-gray-500"}`}
+                  ></span>
+                  Custom Seed
+                </button>
+              </div>
 
-  {/* Model DNA Number Section - Only appears if 'Custom Seed' is selected */}
-  {shotType === "Half Body" && (
-    <div className="mt-4 space-y-2">
-      <label className="block font-serif font-medium">Model DNA Number</label>
-      <input
-        type="number"
-        value={dnaNumber}
-        onChange={(e) => setDnaNumber(Number(e.target.value))}
-        className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-        min="0"
-      />
-    </div>
-  )}
+              {/* Model DNA Number Section - Only appears if 'Custom Seed' is selected */}
+              {shotType === "Half Body" && (
+                <div className="mt-4 space-y-2">
+                  <label className="block font-serif font-medium">Model DNA Number</label>
+                  <input
+                    type="number"
+                    value={dnaNumber}
+                    onChange={(e) => setDnaNumber(Number(e.target.value))}
+                    className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                    min="0"
+                  />
+                </div>
+              )}
 
-  {/* Display the Model DNA Number if Half Body is selected */}
-  {shotType === "Half Body" && (
-    <div className="mt-4 space-y-2">
-      <label className="block font-serif font-medium">Model DNA Number</label>
-      <div className="flex items-center space-x-2">
-        <span className="text-white">{dnaNumber}</span>
-      </div>
-    </div>
-  )}
-</div>
+              {/* Display the Model DNA Number if Half Body is selected */}
+              {shotType === "Half Body" && (
+                <div className="mt-4 space-y-2">
+                  <label className="block font-serif font-medium">Model DNA Number</label>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-white">{dnaNumber}</span>
+                  </div>
+                </div>
+              )}
+            </div>
 
 
 
@@ -356,7 +374,7 @@ const ModelGeneratorUI = () => {
                 min="1"
                 max="4"
                 value={model}
-                onChange={(e) => setModel(e.target.value)}
+                onChange={(e) => setModel(Number(e.target.value))}
                 className="w-full accent-white"
               />
               <span className="text-white-400">{model}</span>
@@ -364,56 +382,56 @@ const ModelGeneratorUI = () => {
 
             {/* Select Post */}
             <div className="space-y-2">
-  <label className="block font-serif">Select Post 🔥</label>
-  <Select
-    isMulti
-    value={selectedPosts}
-    onChange={setSelectedPosts}
-    options={postOptions}
-    className="text-black"
-    styles={{
-      control: (provided) => ({
-        ...provided,
-        backgroundColor: 'black',
-        color: 'white',
-      }),
-      option: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected ? 'gray' : 'black', // Change background when selected
-        color: 'white',
-        ':hover': {
-          backgroundColor: 'gray', // Change hover color
-        },
-      }),
-      multiValue: (provided) => ({
-        ...provided,
-        backgroundColor: 'gray', // Background for selected items
-        color: 'white',
-      }),
-      multiValueLabel: (provided) => ({
-        ...provided,
-        color: 'white', // Text color for selected items
-      }),
-      multiValueRemove: (provided) => ({
-        ...provided,
-        color: 'white', // Remove icon color
-      }),
-    }}
-  />
-</div>
+              <label className="block font-serif">Select Post 🔥</label>
+              <Select
+                isMulti
+                value={selectedPosts}
+                onChange={setSelectedPosts}
+                options={postOptions}
+                className="text-black"
+                styles={{
+                  control: (provided) => ({
+                    ...provided,
+                    backgroundColor: 'black',
+                    color: 'white',
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected ? 'gray' : 'black', // Change background when selected
+                    color: 'white',
+                    ':hover': {
+                      backgroundColor: 'gray', // Change hover color
+                    },
+                  }),
+                  multiValue: (provided) => ({
+                    ...provided,
+                    backgroundColor: 'gray', // Background for selected items
+                    color: 'white',
+                  }),
+                  multiValueLabel: (provided) => ({
+                    ...provided,
+                    color: 'white', // Text color for selected items
+                  }),
+                  multiValueRemove: (provided) => ({
+                    ...provided,
+                    color: 'white', // Remove icon color
+                  }),
+                }}
+              />
+            </div>
 
 
             {/* Generate Button */}
             <div>
-  <button
-    onClick={generateImage}
-    className="bg-black border-2 hover:bg-black text-white w-full py-3 rounded shadow-lg transition duration-300 font-sans"
-  >
-    {loading ? "Generating...✨" : "Generate Image ✨"}
-  </button>
+              <button
+                onClick={generateImage}
+                className="bg-black border-2 hover:bg-black text-white w-full py-3 rounded shadow-lg transition duration-300 font-sans"
+              >
+                {loading ? "Generating...✨" : "Generate Image ✨"}
+              </button>
 
-  {/* Display the generated image if available */}
-</div>
+              {/* Display the generated image if available */}
+            </div>
 
           </div>
         </div>
@@ -421,36 +439,37 @@ const ModelGeneratorUI = () => {
 
       {/* Main Content */}
       <main className="relative flex flex-col items-center justify-center lg:px-24 py-10 min-h-screen">
-  {/* Sidebar Toggle Button */}
-  <button
-    className="absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden"
-    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-  >
-    {isSidebarOpen ? (
-      <AiOutlineArrowLeft size={20} />
-    ) : (
-      <AiOutlineArrowRight size={20} />
-    )}
-  </button>
+        {/* Sidebar Toggle Button */}
+        <button
+          className="absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? (
+            <AiOutlineArrowLeft size={20} />
+          ) : (
+            <AiOutlineArrowRight size={20} />
+          )}
+        </button>
 
-  {/* Content */}
-  <div className="text-center w-full py-8">
-    <h1 className="text-4xl py-2 font-bold text-white mb-4 font-serif">
-      AI4FI - Fashion Model Generation ✨
-    </h1>
-    <p className="text-3xl font-bold text-gray-200 mb-4">
-      Create Photorealistic Fashion Model Images with Custom Attributes 🔮
-    </p>
-    <hr className="border-gray-600 my-4" />
-    <p className="text-xl text-gray-400">
-      Powered by ApricityTS💡AI-Driven Fashion Modeling ✨
-    </p>
-  </div>
+        {/* Content */}
+        <div className="text-center w-full py-8">
+          <h1 className="text-4xl py-2 font-bold text-white mb-4 font-serif">
+            AI4FI - Fashion Model Generation ✨
+          </h1>
+          <p className="text-3xl font-bold text-gray-200 mb-4">
+            Create Photorealistic Fashion Model Images with Custom Attributes 🔮
+          </p>
+          <hr className="border-gray-600 my-4" />
+          <p className="text-xl text-gray-400">
+            Powered by ApricityTS💡AI-Driven Fashion Modeling ✨
+          </p>
+        </div>
 
-  {/* Image Gallery */}
+        {/* Image Gallery */}
+        {Array.isArray(generatedImages) && (
   <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
-      {[generatedImage, generatedImage, generatedImage, generatedImage].map((image, index) => (
+      {generatedImages.map((image, index) => (
         <div
           key={index}
           className="relative group w-full h-78 lg:h-96 flex-shrink-0"
@@ -464,7 +483,7 @@ const ModelGeneratorUI = () => {
               className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
             />
           ) : (
-            <div/>
+            <div />
           )}
 
           {/* Hover Options */}
@@ -474,7 +493,7 @@ const ModelGeneratorUI = () => {
                 {/* Download Button */}
                 <a
                   href={image}
-                  download
+                  download={`Generated_Model_${index + 1}.jpg`}
                   className="text-white hover:text-gray-400 flex flex-col items-center"
                 >
                   <svg
@@ -496,9 +515,10 @@ const ModelGeneratorUI = () => {
 
                 {/* Delete Button */}
                 <button
-                  onClick={(e) => {
-                    const card = e.currentTarget.closest(`#image-${index}`);
-                    if (card) card.remove();
+                  onClick={() => {
+                    const updatedImages = [...generatedImages];
+                    updatedImages.splice(index, 1); // Remove the image from the array
+                    setGeneratedImages(updatedImages); // Update state
                   }}
                   className="text-white hover:text-gray-400 flex flex-col items-center"
                 >
@@ -526,7 +546,7 @@ const ModelGeneratorUI = () => {
                       title: "Generated Image",
                       text: "Check out this image!",
                       url: image,
-                    })
+                    }).catch((err) => console.error("Share failed:", err))
                   }
                   className="text-white hover:text-gray-400 flex flex-col items-center"
                 >
@@ -553,7 +573,10 @@ const ModelGeneratorUI = () => {
       ))}
     </div>
   </div>
-</main>
+)}
+
+
+      </main>
 
 
 
