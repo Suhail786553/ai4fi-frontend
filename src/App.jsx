@@ -10,6 +10,7 @@ import ModelGallery from './Pages/ModelGallery/ModelGallery';
 import About from './Pages/About/About';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import SettingsPage from './Pages/Dashboard/SettingPage';
+import VirtualTryon from './Pages/Model/VirtualTryon';
 
 function App() {
   const currentPath = window.location.pathname;
@@ -17,7 +18,7 @@ function App() {
   return (
     <Router>
       <div>
-        {currentPath !== '/model' && currentPath !== '/dashboard' && <Navbar />} {/* Show Navbar for all routes except /model */}
+        {currentPath !== '/model' && currentPath !== '/dashboard' && currentPath !== '/virtualtryon' &&<Navbar />} {/* Show Navbar for all routes except /model */}
         
         <Routes>
           <Route path="/" element={<Home />} />
@@ -29,9 +30,10 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/virtualtryon" element={<VirtualTryon />} />
         </Routes>
 
-        {currentPath !== '/model' && currentPath !== '/modelgallery'&& currentPath !== '/dashboard'&&<Footer />} {/* Show Footer for all routes except /model */}
+        {currentPath !== '/model' && currentPath !== '/modelgallery'&& currentPath !== '/dashboard'&& currentPath !== '/virtualtryon'&& <Footer />} {/* Show Footer for all routes except /model */}
       </div>
     </Router>
   );

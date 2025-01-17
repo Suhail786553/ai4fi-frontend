@@ -13,9 +13,9 @@ const ModelGeneratorUI = () => {
   const [eyeColor, setEyeColor] = useState("Black");
   const [skinColor, setSkinColor] = useState("Very Light (Fair) Skin");
   const [dress, setDress] = useState("");
-  const [background, setBackground] = useState("Soft Beige Gradient");
+  const [background, setBackground] = useState("Auto");
   const [pose, setPose] = useState("Classic Standing Pose");
-  const [seed, setSeed] = useState(0);
+  const [seed] = useState(0);
   const [selectedPosts, setSelectedPosts] = useState([]);
   const [autoSeed] = useState(true);
   const [country, setCountry] = useState("India");
@@ -24,47 +24,67 @@ const ModelGeneratorUI = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [model, setModel] = useState(1); // Number of images, default 1
   const [shotType, setShotType] = useState("Full Body"); // Default is "Full Body"
+  const [seedType, setSeedType] = useState("Auto Generate");
   const [dnaNumber, setDnaNumber] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
+  const[loadingCountdowns,setLoadingCountdowns]=useState([]);
   // const [modelCount, setModelCount] = useState(1); // To track the number of models for "Custom Seed"
 
 
-  const postOptions = [
-    { value: "Post 1", label: "Post 1" },
-    { value: "Post 2", label: "Post 2" },
-    { value: "Post 3", label: "Post 3" },
-    { value: "Post 4", label: "Post 4" },
+  const poses = [
+    { value: "Classic Standing Pose", label: "Classic Standing Pose" },
+    { value: "Hands on Hips", label: "Hands on Hips" },
+    { value: "Walking Pose", label: "Walking Pose" },
+    { value: "Crossed Arms", label: "Crossed Arms" },
+    { value: "Side Profile", label: "Side Profile" },
+    { value: "Over the Shoulder", label: "Over the Shoulder" },
+    { value: "Lean Against Wall", label: "Lean Against Wall" },
+    { value: "Hands in Pockets", label: "Hands in Pockets" },
   ];
+  
 
   const generateImage = async () => {
     setLoading(true);
+    const countdownDuration = 10; // Countdown duration in seconds
+    const placeholders = Array(model).fill(null); // Placeholder array for images
+    const countdowns = Array(model).fill(countdownDuration); // Countdown for each placeholder
+  
+    setGeneratedImages(placeholders); // Initialize placeholders
+    setLoadingCountdowns(countdowns); // Initialize countdowns
+  
+    const updateCountdown = setInterval(() => {
+      setLoadingCountdowns((prevCountdowns) =>
+        prevCountdowns.map((countdown) => (countdown > 0 ? countdown - 1 : 0))
+      );
+    }, 1000);
+  
     try {
-      const images = []; // Initialize an array to store generated image URLs
+      const images = []; // Array to store generated image URLs
   
       for (let i = 0; i < model; i++) {
         const payload = {
           gender,
           country,
-          age: Number(age), // Ensure numerical values are sent as numbers
+          age: Number(age),
           hair_color: hairColor,
           hair_type: hairType,
           eye_color: eyeColor,
           skin_color: skinColor,
           shot_type: shotType,
-          dress: dress || "", // Fallback to empty string if not set
+          dress: dress || "",
           background,
           pose,
-          seed: autoSeed ? null : seed, // Send null if autoSeed is true
+          seed: autoSeed ? null : seed,
           auto_seed: autoSeed,
-          num_images: 1, // Always request one image per call
+          num_images: 1,
         };
   
-        console.log(`Payload for model ${i + 1}:`, payload); // Debugging step
+        console.log(`Payload for model ${i + 1}:`, payload);
   
         const baseURL =
           window.location.hostname === "localhost"
-            ? "http://localhost:5000/proxy/generate-model" // Local development URL
-            : "https://ai4fi-backend.onrender.com/proxy/generate-model"; // Hosted backend URL
+            ? "http://localhost:5000/proxy/generate-model"
+            : "https://ai4fi-backend.onrender.com/proxy/generate-model";
   
         const response = await fetch(baseURL, {
           method: "POST",
@@ -81,26 +101,30 @@ const ModelGeneratorUI = () => {
         }
   
         const data = await response.json();
-        console.log(`Response Data for model ${i + 1}:`, data); // Debugging step
+        console.log(`Response Data for model ${i + 1}:`, data);
   
-        // Add the generated image URL to the images array
+        // Update generated image array
         if (data.image_urls && data.image_urls[0]) {
-          images.push(data.image_urls[0]);
+          images[i] = data.image_urls[0];
         }
+  
+        // Replace placeholder for the current image
+        setGeneratedImages((prevImages) => {
+          const updatedImages = [...prevImages];
+          updatedImages[i] = data.image_urls[0];
+          return updatedImages;
+        });
       }
   
-      // Set the generated images
-      setGeneratedImages(images);
+      clearInterval(updateCountdown); // Stop countdowns after completion
     } catch (error) {
       console.error("Error during generation:", error);
-      alert(
-        `Error generating the models. Please check the console for details: ${error.message}`
-      );
+      alert(`Error generating the models: ${error.message}`);
     } finally {
       setLoading(false);
+      clearInterval(updateCountdown); // Ensure countdowns stop
     }
   };
-  
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
@@ -154,14 +178,23 @@ const ModelGeneratorUI = () => {
 
             {/* Additional inputs for country, hair type, etc. */}
             <div className="space-y-2">
-              <label className="block font-serif">Country 🌍</label>
-              <input
-                type="text"
+              <label className="block font-serif">Country🌍</label>
+              <select
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
-                placeholder="e.g., India"
-                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-purple-500"
-              />
+                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+              >
+                <option value="India">India</option>
+                <option value="USA">USA</option>
+                <option value="UK">UK</option>
+                <option value="France">France</option>
+                <option value="Germany">Germany</option>
+                <option value="Australia">Australia</option>
+                <option value="Canada">Canada</option>
+                <option value="Africa">Africa</option>
+                <option value="Russia">Russia</option>
+
+              </select>
             </div>
 
             {/* Add remaining inputs for hair type, pose, etc. */}
@@ -189,6 +222,7 @@ const ModelGeneratorUI = () => {
                 <option>Black</option>
                 <option>Brown</option>
                 <option>Blonde</option>
+                <option>Red</option>
               </select>
             </div>
 
@@ -217,6 +251,7 @@ const ModelGeneratorUI = () => {
                 <option>Black</option>
                 <option>Brown</option>
                 <option>Blue</option>
+                <option>Green</option>
               </select>
             </div>
 
@@ -228,10 +263,12 @@ const ModelGeneratorUI = () => {
                 onChange={(e) => setSkinColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
               >
-                <option>Very Light (Fair) Skin</option>
-                <option>Light Skin</option>
-                <option>Medium Skin</option>
-                <option>Dark Skin</option>
+                <option value="Very Light (Fair) Skin">Very Light (Fair) Skin</option>
+                <option value="Light (Medium Fair) Skin">Light (Medium Fair) Skin</option>
+                <option value="Medium (Olive or Tan) Skin">Medium (Olive or Tan) Skin</option>
+                <option value="Dark Brown (Brown) Skin">Dark Brown (Brown) Skin</option>
+                <option value="Deep Dark (Black) Skin">Deep Dark (Black) Skin</option>
+
               </select>
             </div>
 
@@ -295,14 +332,42 @@ const ModelGeneratorUI = () => {
                 onChange={(e) => setBackground(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
               >
-                <option>Soft Beige Gradient</option>
-                <option>Nature Scene</option>
-                <option>Solid Blue</option>
+                <option value="Auto">Auto</option>
+                <option value="Plain White Studio">Plain White Studio</option>
+                <option value="Soft Beige Gradient">Soft Beige Gradient</option>
+                <option value="Textured Concrete Wall">Textured Concrete Wall</option>
+                <option value="Exposed Brick Wall">Exposed Brick Wall</option>
+                <option value="Wooden Floor with Neutral Wall">Wooden Floor with Neutral Wall</option>
+                <option value="Large Window with Natural Light">Large Window with Natural Light</option>
+                <option value="Minimalist Interior Design">Minimalist Interior Design</option>
+                <option value="Garden Patio">Garden Patio</option>
+                <option value="City Rooftop Skyline">City Rooftop Skyline</option>
+                <option value="Luxury Dressing Room">Luxury Dressing Room</option>
+                <option value="Vintage Library">Vintage Library</option>
+                <option value="Boutique Storefront">Boutique Storefront</option>
+                <option value="Cafe Interior">Cafe Interior</option>
+                <option value="Beachfront Deck">Beachfront Deck</option>
+                <option value="Floral Meadow">Floral Meadow</option>
+                <option value="Open Field with Tall Grass">Open Field with Tall Grass</option>
+                <option value="Industrial Warehouse">Industrial Warehouse</option>
+                <option value="Urban Street Scene">Urban Street Scene</option>
+                <option value="Luxury Hotel Suite">Luxury Hotel Suite</option>
+                <option value="Paved Courtyard">Paved Courtyard</option>
+                <option value="Artistic Studio with Props">Artistic Studio with Props</option>
+                <option value="Pastel Color Backdrops">Pastel Color Backdrops</option>
+                <option value="Neon Cityscape at Night">Neon Cityscape at Night</option>
+                <option value="Desert Landscape">Desert Landscape</option>
+                <option value="Tropical Forest">Tropical Forest</option>
+                <option value="Modern Loft Interior">Modern Loft Interior</option>
+                <option value="Renaissance Art Museum">Renaissance Art Museum</option>
+                <option value="Snow-Covered Mountains">Snow-Covered Mountains</option>
+                <option value="Glass Atrium with Plants">Glass Atrium with Plants</option>
+                <option value="Contemporary Office Space">Contemporary Office Space</option>
               </select>
             </div>
 
             {/* Seed */}
-            <div className="space-y-2">
+            {/* <div className="space-y-2">
               <label className="block font-serif">Model Seed 🔮</label>
               <input
                 type="number"
@@ -310,7 +375,7 @@ const ModelGeneratorUI = () => {
                 onChange={(e) => setSeed(Number(e.target.value))}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
               />
-            </div>
+            </div> */}
 
             {/* Auto Seed */}
             <div className="space-y-4">
@@ -318,31 +383,32 @@ const ModelGeneratorUI = () => {
               <div className="flex flex-col space-y-2">
                 {/* Full Body Button */}
                 <button
-                  className={`p-3 rounded flex items-center ${shotType === "Full Body" ? "border-white-500" : "border-gray-700"}`}
-                  onClick={() => setShotType("Full Body")}
+                  className={`p-3 rounded flex items-center ${seedType === "Auto Generate" ? "border-white-500" : "border-gray-700"}`}
+                  onClick={() => setSeedType("Auto Generate")}
                 >
                   <span
-                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Full Body" ? "border-white bg-white" : "border-gray-500"}`}
+                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${seedType === "Auto Generate" ? "border-white bg-white" : "border-gray-500"}`}
                   ></span>
                   Auto Generate
                 </button>
 
                 {/* Half Body Button */}
                 <button
-                  className={`p-3 rounded flex items-center ${shotType === "Half Body" ? "border-white-500" : "border-gray-700"}`}
-                  onClick={() => setShotType("Half Body")}
+                  className={`p-3 rounded flex items-center ${shotType === "Custom Seed" ? "border-white-500" : "border-gray-700"}`}
+                  onClick={() => setSeedType("Custom Seed")}
                 >
                   <span
-                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${shotType === "Half Body" ? "border-white bg-white" : "border-gray-500"}`}
+                    className={`w-5 h-5 flex-shrink-0 mr-3 rounded-full border-2 ${seedType === "Custom Seed" ? "border-white bg-white" : "border-gray-500"}`}
                   ></span>
                   Custom Seed
                 </button>
               </div>
 
               {/* Model DNA Number Section - Only appears if 'Custom Seed' is selected */}
-              {shotType === "Half Body" && (
+
+              {seedType === "Custom Seed" && (
                 <div className="mt-4 space-y-2">
-                  <label className="block font-serif font-medium">Model DNA Number</label>
+                  <label className="block font-serif font-medium">Model DNA Number (Seed)</label>
                   <input
                     type="number"
                     value={dnaNumber}
@@ -354,9 +420,9 @@ const ModelGeneratorUI = () => {
               )}
 
               {/* Display the Model DNA Number if Half Body is selected */}
-              {shotType === "Half Body" && (
+              {seedType === "Custom Seed" && (
                 <div className="mt-4 space-y-2">
-                  <label className="block font-serif font-medium">Model DNA Number</label>
+                  <label className="block font-serif font-medium">Model DNA Number (Seed)</label>
                   <div className="flex items-center space-x-2">
                     <span className="text-white">{dnaNumber}</span>
                   </div>
@@ -382,12 +448,12 @@ const ModelGeneratorUI = () => {
 
             {/* Select Post */}
             <div className="space-y-2">
-              <label className="block font-serif">Select Post 🔥</label>
+              <label className="block font-serif">Select Pose(s) For Each Model 🔥</label>
               <Select
                 isMulti
                 value={selectedPosts}
                 onChange={setSelectedPosts}
-                options={postOptions}
+                options={poses}
                 className="text-black"
                 styles={{
                   control: (provided) => ({
@@ -467,113 +533,101 @@ const ModelGeneratorUI = () => {
 
         {/* Image Gallery */}
         {Array.isArray(generatedImages) && (
-  <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
-      {generatedImages.map((image, index) => (
-        <div
-          key={index}
-          className="relative group w-full h-78 lg:h-96 flex-shrink-0"
-          id={`image-${index}`}
-        >
-          {/* Image or Placeholder */}
-          {image ? (
-            <img
-              src={image}
-              alt={`Generated Model ${index + 1}`}
-              className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
-            />
-          ) : (
-            <div />
-          )}
+      <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
+          {generatedImages.map((image, index) => (
+            <div
+              key={index}
+              className="relative group w-full h-78 lg:h-96 flex-shrink-0"
+              id={`image-${index}`}
+            >
+              {/* Black Placeholder with Countdown */}
+              {!image && (
+                <div className="w-full h-full bg-black rounded-lg flex items-center justify-center">
+                  <p className="text-white text-lg font-bold">
+                    {loadingCountdowns[index]}s
+                  </p>
+                </div>
+              )}
 
-          {/* Hover Options */}
-          {image && (
-            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-              <div className="flex space-x-6">
-                {/* Download Button */}
-                <a
-                  href={image}
-                  download={`Generated_Model_${index + 1}.jpg`}
-                  className="text-white hover:text-gray-400 flex flex-col items-center"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                    />
-                  </svg>
-                  <span className="text-sm">Download</span>
-                </a>
+              {/* Render Actual Image */}
+              {image && (
+                <img
+                  src={image}
+                  alt={`Generated Model ${index + 1}`}
+                  className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
+                />
+              )}
 
-                {/* Delete Button */}
-                <button
-                  onClick={() => {
-                    const updatedImages = [...generatedImages];
-                    updatedImages.splice(index, 1); // Remove the image from the array
-                    setGeneratedImages(updatedImages); // Update state
-                  }}
-                  className="text-white hover:text-gray-400 flex flex-col items-center"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
-                  <span className="text-sm">Delete</span>
-                </button>
+              {/* Hover Options */}
+              {image && (
+                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                  <div className="flex space-x-6">
+                    {/* Download Button */}
+                    <a
+                      href={image}
+                      download={`Generated_Model_${index + 1}.jpg`}
+                      className="text-white hover:text-gray-400 flex flex-col items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                        />
+                      </svg>
+                      <span className="text-sm">Download</span>
+                    </a>
 
-                {/* Share Button */}
-                <button
-                  onClick={() =>
-                    navigator.share({
-                      title: "Generated Image",
-                      text: "Check out this image!",
-                      url: image,
-                    }).catch((err) => console.error("Share failed:", err))
-                  }
-                  className="text-white hover:text-gray-400 flex flex-col items-center"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-6 h-6"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M14.25 15.682l5.444-3.262M14.25 8.318l5.444 3.262m-9.638 6.08A6.004 6.004 0 1114.25 3a6.004 6.004 0 010 12.053z"
-                    />
-                  </svg>
-                  <span className="text-sm">Share</span>
-                </button>
-              </div>
+                    {/* Delete Button */}
+                    <button
+                      onClick={() => {
+                        const updatedImages = [...generatedImages];
+                        updatedImages.splice(index, 1); // Remove the image from the array
+                        setGeneratedImages(updatedImages); // Update state
+                      }}
+                      className="text-white hover:text-gray-400 flex flex-col items-center"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        strokeWidth={1.5}
+                        stroke="currentColor"
+                        className="w-6 h-6"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          d="M6 18L18 6M6 6l12 12"
+                        />
+                      </svg>
+                      <span className="text-sm">Delete</span>
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-          )}
+          ))}
         </div>
-      ))}
-    </div>
-  </div>
-)}
+      </div>
+    )}
+        {/* <div>
+              <a href="/virtualtryon"><button
+                className="bg-black border-2 hover:bg-black text-white w-full py-3 rounded shadow-lg transition duration-300 font-sans"
+              >
+                {loading ? "Virtual Try On" : "Virtual Try On ✨"}
+              </button></a>
+
+              {/* Display the generated image if available */}
+        {/* </div> */}
 
 
       </main>
