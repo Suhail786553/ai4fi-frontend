@@ -129,9 +129,18 @@ const ModelGeneratorUI = () => {
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
       {/* Sidebar */}
-      <aside
+      {/* <aside
         className={`${isSidebarOpen ? "w-full md:w-1/5" : "w-0"} bg-gray-900 transition-all duration-300 overflow-hidden`}
-      >
+      > */}
+     <aside
+  className={`${
+    isSidebarOpen ? "w-full md:w-1/5" : "w-0"
+  } bg-gray-900 transition-all duration-300 overflow-hidden md:sticky md:top-0 h-auto md:h-screen`}
+  style={{
+    minWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
+    maxWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
+  }}
+>
         <div className="h-screen overflow-y-auto">
           <div className="p-5 space-y-6">
             <h2 className="text-3xl font-bold text-white-600 font-sans">Model Inputs🛠️</h2>
@@ -520,8 +529,8 @@ const ModelGeneratorUI = () => {
   <div className="absolute top-4 right-4">
     <a href="/">
       <button
-        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
-      >
+         className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
+         >
         Back to Home 🏠
       </button>
     </a>
