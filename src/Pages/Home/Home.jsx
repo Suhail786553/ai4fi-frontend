@@ -256,120 +256,119 @@ const HeroSection = () => {
 
       {/* section2 */}
       <section
-      ref={sectionRef}
-      className="relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden"
-    >
-      {/* Background Gradient Accent */}
-      <div className="absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
-      <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+        ref={sectionRef}
+        className="relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden"
+      >
+        {/* Background Gradient Accent */}
+        <div className="absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
 
-      {/* Container */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-        <div className="relative group">
-          {/* Video */}
-          <video
-            ref={videoRef}
-            src={video}
-            className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto cursor-pointer"
-            style={{ height: "50vh", width: "100%", objectFit: "cover" }}
-            playsInline
-            loop
-            autoPlay
-            muted
-            poster="your-fallback-image.jpg"
-          />
-        </div>
+        {/* Container */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+          <div className="relative group">
+            {/* Video */}
+            <video
+              ref={videoRef}
+              src={video}
+              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto cursor-pointer"
+              style={{ height: "50vh", width: "100%", objectFit: "cover" }}
+              playsInline
+              loop
+              autoPlay
+              muted
+              poster="your-fallback-image.jpg"
+            />
+          </div>
 
-        {/* Right Section: Content */}
-        <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-          <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
-            AI Visual Try-On: Your Game-Changing Fashion Solution
-          </h1>
-          <ul className="space-y-4 text-gray-700">
-            <li className="flex items-start">
-              <span className="text-purple-700 text-xl font-bold mr-3">•</span>
-              <p className="text-lg">
-                Instantly create realistic fashion models of any nationality and background.
-              </p>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-              <p className="text-lg">
-                Seamlessly apply your garments to AI-generated models for a perfect fit.
-              </p>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-              <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
-            </li>
-            <li className="flex items-start">
-              <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-              <p className="text-lg">
-                Deliver high-quality, eCommerce-ready photos in minutes.
-              </p>
-            </li>
-          </ul>
-          <div className="flex justify-center lg:justify-start items-center w-full mt-6">
-            <button className="bg-purple-600 text-white w-full sm:w-3/4 md:w-2/4 py-4 px-6 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-purple-700">
-              Explore Our Technology
-            </button>
+          {/* Right Section: Content */}
+          <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
+            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+              AI Visual Try-On: Your Game-Changing Fashion Solution
+            </h1>
+            <ul className="space-y-4 text-gray-700">
+              <li className="flex items-start">
+                <span className="text-purple-700 text-xl font-bold mr-3">•</span>
+                <p className="text-lg">
+                  Instantly create realistic fashion models of any nationality and background.
+                </p>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+                <p className="text-lg">
+                  Seamlessly apply your garments to AI-generated models for a perfect fit.
+                </p>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+                <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
+              </li>
+              <li className="flex items-start">
+                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
+                <p className="text-lg">
+                  Deliver high-quality, eCommerce-ready photos in minutes.
+                </p>
+              </li>
+            </ul>
+            <div className="flex justify-center lg:justify-start items-center w-full mt-6">
+              <button className="bg-purple-600 text-white w-full sm:w-3/4 md:w-2/4 py-3 px-6 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-purple-700">
+                Explore Our Technology
+              </button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-{/* section3 */}
-<section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
-  {/* Buttons Section */}
-  <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
-    <div className="flex justify-center gap-4 flex-wrap">
-      {Object.keys(imageSets).map((tab) => (
-        <button
-          key={tab}
-          onClick={() => setActiveTab(tab)}
-          className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${
-            activeTab === tab
-              ? "bg-purple-600 text-white transform scale-105"
-              : "bg-gray-200 hover:bg-gray-300"
-          }`}
-        >
-          {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
-        </button>
-      ))}
-    </div>
-  </div>
-
-  {/* Images Section */}
-  <div
-    className="border border-gray-300 rounded-lg p-4 sm:p-6 mt-8 w-full md:w-3/4 lg:w-2/3"
-    style={{ maxWidth: "800px" }}
-  >
-    {/* Heading Above Images */}
-    <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center">
-      Keeping perfect resemblance to the reference garment is our top priority
-      and research focus
-    </h2>
-
-    {/* Images in Responsive Rows */}
-    <div
-      className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-    >
-      {imageSets[activeTab].map((image, index) => (
-        <div
-          key={index}
-          className="flex items-center justify-center bg-gray-100 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
-          style={{ width: "100%", height: "240px" }}
-        >
-          <img
-            src={image}
-            alt={`Image ${index + 1}`}
-            className="w-full h-full object-cover"
-          />
+      {/* section3 */}
+      <section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
+        {/* Buttons Section */}
+        <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
+          <div className="flex justify-center gap-4 flex-wrap">
+            {Object.keys(imageSets).map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${activeTab === tab
+                  ? "bg-purple-600 text-white transform scale-105"
+                  : "bg-gray-200 hover:bg-gray-300"
+                  }`}
+              >
+                {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
+              </button>
+            ))}
+          </div>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+
+        {/* Images Section */}
+        <div
+          className="border border-gray-300 rounded-lg p-4 sm:p-6 mt-8 w-full md:w-3/4 lg:w-2/3"
+          style={{ maxWidth: "800px" }}
+        >
+          {/* Heading Above Images */}
+          <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center">
+            Keeping perfect resemblance to the reference garment is our top priority
+            and research focus
+          </h2>
+
+          {/* Images in Responsive Rows */}
+          <div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
+          >
+            {imageSets[activeTab].map((image, index) => (
+              <div
+                key={index}
+                className="flex items-center justify-center bg-gray-100 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
+                style={{ width: "100%", height: "240px" }}
+              >
+                <img
+                  src={image}
+                  alt={`Image ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
 
       {/* section 4 */}

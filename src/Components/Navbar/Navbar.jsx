@@ -60,13 +60,13 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-4">
           <a
             href="/signup"
-            className="px-3 py-1 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
+            className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
           >
             Sign Up
           </a>
           <a
             href="/login"
-            className="px-3 py-1 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition"
+            className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition"
           >
             Log In
           </a>

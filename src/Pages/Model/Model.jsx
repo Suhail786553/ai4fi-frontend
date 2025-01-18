@@ -28,6 +28,9 @@ const ModelGeneratorUI = () => {
   const [dnaNumber, setDnaNumber] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
   const[loadingCountdowns,setLoadingCountdowns]=useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false); // Tracks if modal is open
+const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoom
+
   // const [modelCount, setModelCount] = useState(1); // To track the number of models for "Custom Seed"
 
 
@@ -45,18 +48,12 @@ const ModelGeneratorUI = () => {
 
   const generateImage = async () => {
     setLoading(true);
-    const countdownDuration = 10; // Countdown duration in seconds
+  
     const placeholders = Array(model).fill(null); // Placeholder array for images
-    const countdowns = Array(model).fill(countdownDuration); // Countdown for each placeholder
+    const countdowns = Array(model).fill(null); // Initialize countdowns
   
     setGeneratedImages(placeholders); // Initialize placeholders
     setLoadingCountdowns(countdowns); // Initialize countdowns
-  
-    const updateCountdown = setInterval(() => {
-      setLoadingCountdowns((prevCountdowns) =>
-        prevCountdowns.map((countdown) => (countdown > 0 ? countdown - 1 : 0))
-      );
-    }, 1000);
   
     try {
       const images = []; // Array to store generated image URLs
@@ -86,6 +83,20 @@ const ModelGeneratorUI = () => {
             ? "http://localhost:5000/proxy/generate-model"
             : "https://ai4fi-backend.onrender.com/proxy/generate-model";
   
+        const startTime = performance.now(); // Record start time
+  
+        // Start dynamic countdown
+        const countdownInterval = setInterval(() => {
+          const currentTime = performance.now();
+          const elapsedTime = Math.floor((currentTime - startTime) / 1000); // Time elapsed in seconds
+          setLoadingCountdowns((prevCountdowns) => {
+            const updatedCountdowns = [...prevCountdowns];
+            updatedCountdowns[i] = elapsedTime; // Show real-time elapsed seconds
+            return updatedCountdowns;
+          });
+        }, 1000);
+  
+        // Perform the fetch request
         const response = await fetch(baseURL, {
           method: "POST",
           headers: {
@@ -93,6 +104,7 @@ const ModelGeneratorUI = () => {
           },
           body: JSON.stringify(payload),
         });
+        const endTime = performance.now(); // Record end time
   
         if (!response.ok) {
           throw new Error(
@@ -102,6 +114,8 @@ const ModelGeneratorUI = () => {
   
         const data = await response.json();
         console.log(`Response Data for model ${i + 1}:`, data);
+  
+        const totalTime = Math.ceil((endTime - startTime) / 1000); // Total time taken
   
         // Update generated image array
         if (data.image_urls && data.image_urls[0]) {
@@ -114,18 +128,23 @@ const ModelGeneratorUI = () => {
           updatedImages[i] = data.image_urls[0];
           return updatedImages;
         });
-      }
   
-      clearInterval(updateCountdown); // Stop countdowns after completion
+        // Stop the countdown and set the final total time
+        clearInterval(countdownInterval);
+        setLoadingCountdowns((prevCountdowns) => {
+          const updatedCountdowns = [...prevCountdowns];
+          updatedCountdowns[i] = totalTime; // Set final time after completion
+          return updatedCountdowns;
+        });
+      }
     } catch (error) {
       console.error("Error during generation:", error);
       alert(`Error generating the models: ${error.message}`);
     } finally {
       setLoading(false);
-      clearInterval(updateCountdown); // Ensure countdowns stop
     }
   };
-
+  
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
       {/* Sidebar */}
@@ -581,7 +600,7 @@ const ModelGeneratorUI = () => {
               {/* Hover Options */}
               {image && (
                 <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-                  <div className="flex space-x-6">
+                  <div className="flex space-x-4">
                     {/* Download Button */}
                     <a
                       href={image}
@@ -657,6 +676,65 @@ const ModelGeneratorUI = () => {
                           </svg>
                           <span className="text-sm">Share</span>
                         </button>
+                        {/* zoom button */}
+                        <button
+  onClick={() => {
+    setZoomedImage(image); // Set the image to zoom
+    setIsModalOpen(true); // Open the modal
+  }}
+  className="text-white hover:text-gray-400 flex flex-col items-center"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-6 h-6"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M15 12h3m-3 0a3 3 0 01-3-3m3 3a3 3 0 013 3m-3-3V9m0 3V6m-3 6H9m0 0a3 3 0 013 3m0-3a3 3 0 00-3-3m0 3H6"
+    />
+  </svg>
+  <span className="text-sm">Zoom</span>
+</button>
+{isModalOpen && (
+  <div
+    className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+    onClick={() => setIsModalOpen(false)} // Close modal on background click
+  >
+    <div className="relative">
+      <img
+        src={zoomedImage}
+        alt="Zoomed"
+        className="max-w-full max-h-screen"
+      />
+      <button
+        onClick={() => setIsModalOpen(false)}
+        className="absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth={1.5}
+          stroke="currentColor"
+          className="w-6 h-6"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+)}
+
+
                   </div>
                 </div>
               )}
