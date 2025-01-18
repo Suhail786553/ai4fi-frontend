@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 const TryOnRoom = () => {
@@ -49,19 +49,18 @@ const TryOnRoom = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-6">
+    <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <h1 className="text-center text-3xl font-bold text-gray-800 mb-8">
+      <header className="bg-indigo-600 text-white py-4 text-center text-xl font-bold">
         AI4FI TryOn Room
-      </h1>
+      </header>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Sidebar */}
-        <div className="bg-white shadow-md rounded-lg p-6 flex flex-col items-start">
-          {/* Browse Models */}
-          <div className="mb-6 w-full">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+      <div className="flex">
+        {/* Sidebar */}
+        <aside className="w-64 bg-black text-white p-4 flex flex-col">
+          {/* Upload Model Images */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold mb-2">
               Upload Model Images
             </label>
             <input
@@ -69,104 +68,97 @@ const TryOnRoom = () => {
               accept="image/*"
               multiple
               onChange={handleBrowseModelImages}
-              className="w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-600 hover:file:bg-indigo-200"
+              className="w-full text-sm bg-gray-800 text-gray-200 py-2 px-4 rounded"
             />
           </div>
-          {/* Browse Garment */}
-          <div className="mb-6 w-full">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+          {/* Upload Garment Image */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold mb-2">
               Upload Garment Image
             </label>
             <input
               type="file"
               accept="image/*"
               onChange={handleBrowseGarmentImage}
-              className="w-full text-sm text-gray-500 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-indigo-100 file:text-indigo-600 hover:file:bg-indigo-200"
+              className="w-full text-sm bg-gray-800 text-gray-200 py-2 px-4 rounded"
             />
           </div>
           {/* TryOn Type */}
-          <div className="mb-6 w-full">
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <div className="mb-6">
+            <label className="block text-sm font-semibold mb-2">
               TryOn Type
             </label>
             <select
               value={tryOnType}
               onChange={(e) => setTryOnType(e.target.value)}
-              className="block w-full border-gray-300 rounded-lg shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              className="w-full bg-gray-800 text-gray-200 py-2 px-4 rounded"
             >
               <option value="default">Default</option>
               <option value="advanced">Advanced</option>
             </select>
           </div>
-          {/* Generate TryOn */}
+          {/* Generate TryOn Button */}
           <button
             onClick={handleGenerateTryOn}
-            className="w-full bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700"
+            className="w-full bg-indigo-600 py-2 px-4 rounded text-center text-white hover:bg-indigo-700"
           >
             Generate TryOn
           </button>
-        </div>
+        </aside>
 
-        {/* Center Garment and Results */}
-        <div className="col-span-2 flex flex-col items-center space-y-6">
+        {/* Main Content */}
+        <main className="flex-1 grid grid-cols-3 gap-4 p-6">
+          {/* Model Images */}
+          <div className="space-y-4">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="bg-blue-100 h-28 flex items-center justify-center rounded-lg shadow">
+                {modelImages[index] ? (
+                  <img
+                    src={URL.createObjectURL(modelImages[index])}
+                    alt={`Model ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <span className="text-sm text-gray-500">
+                    Model Image {index + 1}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+
           {/* Garment Image */}
-          <div className="text-center">
-            <h2 className="text-lg font-semibold text-gray-700 mb-4">
-              Garment Image
-            </h2>
+          <div className="flex flex-col items-center justify-center bg-green-100 rounded-lg shadow">
             {garmentImage ? (
               <img
                 src={URL.createObjectURL(garmentImage)}
                 alt="Garment"
-                className="w-52 h-52 object-cover rounded-lg shadow-md"
+                className="w-40 h-40 object-cover rounded-lg"
               />
             ) : (
-              <div className="w-52 h-52 bg-gray-200 rounded-lg flex items-center justify-center text-gray-500">
-                No Garment Selected
-              </div>
+              <span className="text-sm text-gray-500">No Garment Selected</span>
             )}
           </div>
-          {/* Results */}
-          <div className="grid grid-cols-2 gap-4">
-            {tryOnResults.length > 0 ? (
-              tryOnResults.map((result, index) => (
-                <img
-                  key={index}
-                  src={result}
-                  alt={`Result ${index + 1}`}
-                  className="w-32 h-32 object-cover rounded-lg shadow-md"
-                />
-              ))
-            ) : (
-              <div className="col-span-2 text-center text-gray-500">
-                No Results Generated
-              </div>
-            )}
-          </div>
-        </div>
 
-        {/* Right Sidebar for Model Images */}
-        <div className="bg-white shadow-md rounded-lg p-6">
-          <h2 className="text-lg font-semibold text-gray-700 mb-4">
-            Uploaded Model Images
-          </h2>
-          <div className="grid grid-cols-2 gap-4">
-            {modelImages.length > 0 ? (
-              modelImages.map((image, index) => (
-                <img
-                  key={index}
-                  src={URL.createObjectURL(image)}
-                  alt={`Model ${index + 1}`}
-                  className="w-24 h-24 object-cover rounded-lg shadow-md"
-                />
-              ))
-            ) : (
-              <div className="col-span-2 text-center text-gray-500">
-                No Models Uploaded
+          {/* TryOn Results */}
+          <div className="space-y-4">
+            {[...Array(4)].map((_, index) => (
+              <div key={index} className="bg-blue-100 h-28 flex items-center justify-center rounded-lg shadow">
+                {tryOnResults[index] ? (
+                  <img
+                    src={tryOnResults[index]}
+                    alt={`Result ${index + 1}`}
+                    className="w-full h-full object-cover rounded-lg"
+                  />
+                ) : (
+                  <span className="text-sm text-gray-500">
+                    Result {index + 1}
+                  </span>
+                )}
               </div>
-            )}
+            ))}
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

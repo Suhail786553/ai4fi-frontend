@@ -13,7 +13,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 shadow-lg rounded-lg sticky top-4 mx-auto w-[90%] lg:w-[80%] h-16 z-50 text-white">
+    <nav className="bg-white shadow-lg rounded-lg sticky top-4 mx-auto w-[90%] lg:w-[80%] h-16 z-50">
       <div className="flex items-center justify-between px-4 lg:px-8 h-full">
         {/* Logo and Links */}
         <div className="flex items-center space-x-6">
@@ -31,7 +31,7 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <ul
-            className="hidden md:flex space-x-4"
+            className="hidden md:flex space-x-4 text-purple-700"
             style={{ fontFamily: "Sans-Serif Noto-sans", fontSize: "15px" }}
           >
             {[
@@ -46,7 +46,7 @@ const Navbar = () => {
                 key={index}
                 className={`${
                   currentPath === link.path
-                    ? "font-semibold underline"
+                    ? "font-semibold underline text-purple-900"
                     : "hover:opacity-80"
                 }`}
               >
@@ -60,13 +60,13 @@ const Navbar = () => {
         <div className="hidden md:flex space-x-4">
           <a
             href="/signup"
-            className="px-3 py-1 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
+            className="px-3 py-1 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
           >
             Sign Up
           </a>
           <a
             href="/login"
-            className="px-3 py-1 bg-white text-indigo-700 rounded-lg hover:bg-gray-200 transition"
+            className="px-3 py-1 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition"
           >
             Log In
           </a>
@@ -74,7 +74,7 @@ const Navbar = () => {
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden">
-          <button onClick={toggleMenu} className="text-white focus:outline-none">
+          <button onClick={toggleMenu} className="text-purple-700 focus:outline-none">
             {isOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
         </div>
@@ -82,8 +82,8 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-gradient-to-r from-purple-400 via-indigo-400 to-purple-400 to-purple-800 shadow-lg rounded-lg mt-2">
-          <ul className="flex flex-col items-center space-y-4 py-4">
+        <div className="md:hidden bg-white shadow-lg rounded-lg mt-2">
+          <ul className="flex flex-col items-center space-y-4 py-4 text-purple-700">
             {[
               { label: "Home", path: "/" },
               { label: "Products", path: "/products" },
@@ -92,24 +92,26 @@ const Navbar = () => {
               { label: "About", path: "/about" },
               { label: "Contact Us", path: "/contact" },
             ].map((link, index) => (
-              <li key={index}>
-                <a
-                  href={link.path}
-                  className="hover:opacity-80"
-                >
-                  {link.label}
-                </a>
+              <li
+                key={index}
+                className={`${
+                  currentPath === link.path
+                    ? "font-semibold underline text-purple-900"
+                    : "hover:opacity-80"
+                }`}
+              >
+                <a href={link.path}>{link.label}</a>
               </li>
             ))}
             <a
               href="/login"
-              className="px-4 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
+              className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
             >
               Log In
             </a>
             <a
               href="/signup"
-              className="px-4 py-2 border border-white text-white rounded-lg hover:bg-white hover:text-indigo-700 transition"
+              className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
             >
               Sign Up
             </a>

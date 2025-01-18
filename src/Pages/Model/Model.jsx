@@ -516,6 +516,16 @@ const ModelGeneratorUI = () => {
             <AiOutlineArrowRight size={20} />
           )}
         </button>
+        {/* Back to Home Button */}
+  <div className="absolute top-4 right-4">
+    <a href="/">
+      <button
+        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
+      >
+        Back to Home 🏠
+      </button>
+    </a>
+  </div>
 
         {/* Content */}
         <div className="text-center w-full py-8">
@@ -646,16 +656,17 @@ const ModelGeneratorUI = () => {
         </div>
       </div>
     )}
-        {/* <div>
-              <a href="/virtualtryon"><button
-                className="bg-black border-2 hover:bg-black text-white w-full py-3 rounded shadow-lg transition duration-300 font-sans"
-              >
-                {loading ? "Virtual Try On" : "Virtual Try On ✨"}
-              </button></a>
-
-              {/* Display the generated image if available */}
-        {/* </div> */}
-
+        {generatedImages && generatedImages.length > 0 && (
+  <div className="flex justify-center mt-8 animate-bounce">
+    <a href="/virtualtryon">
+      <button
+        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
+      >
+        Virtual Try On ✨
+      </button>
+    </a>
+  </div>
+)}
 
       </main>
 
