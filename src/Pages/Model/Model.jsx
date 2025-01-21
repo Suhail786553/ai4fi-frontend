@@ -194,6 +194,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -234,6 +235,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option value="India">India</option>
                 <option value="USA">USA</option>
@@ -269,6 +271,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={hairColor}
                 onChange={(e) => setHairColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option>Black</option>
                 <option>Brown</option>
@@ -284,6 +287,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={hairType}
                 onChange={(e) => setHairType(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option>Straight</option>
                 <option>Curly</option>
@@ -298,6 +302,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={eyeColor}
                 onChange={(e) => setEyeColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option>Black</option>
                 <option>Brown</option>
@@ -313,6 +318,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={skinColor}
                 onChange={(e) => setSkinColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option value="Very Light (Fair) Skin">Very Light (Fair) Skin</option>
                 <option value="Light (Medium Fair) Skin">Light (Medium Fair) Skin</option>
@@ -353,6 +359,7 @@ const ModelGeneratorUI = (image, index) => {
                 onChange={(e) => setDress(e.target.value)}
                 placeholder="e.g., Tyron-style dress"
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-purple-500"
+                style={{ height: "46px" }} 
               />
             </div>
 
@@ -363,6 +370,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={pose}
                 onChange={(e) => setPose(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option>Classic Standing Pose</option>
                 <option>Hands on Hips</option>
@@ -382,6 +390,7 @@ const ModelGeneratorUI = (image, index) => {
                 value={background}
                 onChange={(e) => setBackground(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "46px" }} 
               >
                 <option value="Auto">Auto</option>
                 <option value="Plain White Studio">Plain White Studio</option>
@@ -503,49 +512,62 @@ const ModelGeneratorUI = (image, index) => {
                 value={model}
                 onChange={(e) => setModel(Number(e.target.value))}
                 className="w-full accent-white"
+                style={{ height: "46px" }} 
               />
               <span className="text-white-400">{model}</span>
             </div>
 
             {/* Select Post */}
             <div className="space-y-2">
-              <label className="block font-serif">Select Pose(s) For Each Model 🔥</label>
-              <Select
-                isMulti
-                value={selectedPosts}
-                onChange={setSelectedPosts}
-                options={poses}
-                className="text-black"
-                styles={{
-                  control: (provided) => ({
-                    ...provided,
-                    backgroundColor: 'black',
-                    color: 'white',
-                  }),
-                  option: (provided, state) => ({
-                    ...provided,
-                    backgroundColor: state.isSelected ? 'gray' : 'black', // Change background when selected
-                    color: 'white',
-                    ':hover': {
-                      backgroundColor: 'gray', // Change hover color
-                    },
-                  }),
-                  multiValue: (provided) => ({
-                    ...provided,
-                    backgroundColor: 'gray', // Background for selected items
-                    color: 'white',
-                  }),
-                  multiValueLabel: (provided) => ({
-                    ...provided,
-                    color: 'white', // Text color for selected items
-                  }),
-                  multiValueRemove: (provided) => ({
-                    ...provided,
-                    color: 'white', // Remove icon color
-                  }),
-                }}
-              />
-            </div>
+  <label className="block font-serif">Select Pose(s) For Each Model 🔥</label>
+  <Select
+    isMulti
+    value={selectedPosts}
+    onChange={setSelectedPosts}
+    options={poses}
+    className="text-black"
+    styles={{
+      control: (provided, state) => ({
+        ...provided,
+        backgroundColor: 'black',
+        color: 'white',
+        height: '46px', // Fix height to 46px
+        border: state.isFocused ? '2px solid white' : 'none', // White border when focused
+        boxShadow: state.isFocused ? '0 0 4px white' : 'none', // Optional: subtle glow effect
+        ':hover': {
+          border: state.isFocused ? '2px solid white' : 'none', // Maintain hover consistency
+        },
+      }),
+      option: (provided, state) => ({
+        ...provided,
+        backgroundColor: state.isSelected ? 'gray' : 'black', // Change background when selected
+        color: 'white', // Text color
+        ':hover': {
+          backgroundColor: 'gray', // Change hover color
+        },
+      }),
+      multiValue: (provided) => ({
+        ...provided,
+        backgroundColor: 'gray', // Background for selected items
+        color: 'white',
+      }),
+      multiValueLabel: (provided) => ({
+        ...provided,
+        color: 'white', // Text color for selected items
+      }),
+      multiValueRemove: (provided) => ({
+        ...provided,
+        color: 'white', // Remove icon color
+        ':hover': {
+          backgroundColor: 'transparent', // No background on hover
+          color: 'red', // Optional: Change color on hover for remove icon
+        },
+      }),
+    }}
+  />
+</div>
+
+
 
 
             {/* Generate Button */}
