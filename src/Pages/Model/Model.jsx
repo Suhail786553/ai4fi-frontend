@@ -3,8 +3,9 @@ import { useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Select from "react-select";
 import "modern-normalize";
+import { saveAs } from "file-saver";
 
-const ModelGeneratorUI = () => {
+const ModelGeneratorUI = (image, index) => {
   const [age, setAge] = useState(25);
   // const [numImages] = useState(1);
   const [gender, setGender] = useState("Male");
@@ -14,6 +15,7 @@ const ModelGeneratorUI = () => {
   const [skinColor, setSkinColor] = useState("Very Light (Fair) Skin");
   const [dress, setDress] = useState("");
   const [background, setBackground] = useState("Auto");
+  // const [backgrounds, setBackgrounds] = useState([]);
   const [pose, setPose] = useState("Classic Standing Pose");
   const [seed] = useState(0);
   const [selectedPosts, setSelectedPosts] = useState([]);
@@ -27,9 +29,9 @@ const ModelGeneratorUI = () => {
   const [seedType, setSeedType] = useState("Auto Generate");
   const [dnaNumber, setDnaNumber] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
-  const[loadingCountdowns,setLoadingCountdowns]=useState([]);
+  const [loadingCountdowns, setLoadingCountdowns] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // Tracks if modal is open
-const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoom
+  const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoom
 
   // const [modelCount, setModelCount] = useState(1); // To track the number of models for "Custom Seed"
 
@@ -44,13 +46,13 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
     { value: "Lean Against Wall", label: "Lean Against Wall" },
     { value: "Hands in Pockets", label: "Hands in Pockets" },
   ];
-  
+
 
   const generateImage = async () => {
     setLoading(true);
   
     const placeholders = Array(model).fill(null); // Placeholder array for images
-    const countdowns = Array(model).fill(null); // Initialize countdowns
+    const countdowns = Array(model).fill(0); // Initialize countdowns
   
     setGeneratedImages(placeholders); // Initialize placeholders
     setLoadingCountdowns(countdowns); // Initialize countdowns
@@ -78,25 +80,27 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
   
         console.log(`Payload for model ${i + 1}:`, payload);
   
+        // Simulated timer for professional countdown feel
+        const simulatedDuration = 5; // Total visible countdown time in seconds
+        const updateFrequency = 50; // Update every 50ms for smooth animation
+        let simulatedProgress = 0; // Start at 0%
+  
+        const timerInterval = setInterval(() => {
+          simulatedProgress += (100 / (simulatedDuration * 1000)) * updateFrequency;
+          setLoadingCountdowns((prevCountdowns) => {
+            const updatedCountdowns = [...prevCountdowns];
+            updatedCountdowns[i] = Math.min(simulatedProgress, 200); // Cap at 100%
+            return updatedCountdowns;
+          });
+  
+          if (simulatedProgress >= 200) clearInterval(timerInterval);
+        }, updateFrequency);
+  
+        // Perform the fetch request
         const baseURL =
           window.location.hostname === "localhost"
             ? "http://localhost:5000/proxy/generate-model"
             : "https://ai4fi-backend.onrender.com/proxy/generate-model";
-  
-        const startTime = performance.now(); // Record start time
-  
-        // Start dynamic countdown
-        const countdownInterval = setInterval(() => {
-          const currentTime = performance.now();
-          const elapsedTime = Math.floor((currentTime - startTime) / 1000); // Time elapsed in seconds
-          setLoadingCountdowns((prevCountdowns) => {
-            const updatedCountdowns = [...prevCountdowns];
-            updatedCountdowns[i] = elapsedTime; // Show real-time elapsed seconds
-            return updatedCountdowns;
-          });
-        }, 1000);
-  
-        // Perform the fetch request
         const response = await fetch(baseURL, {
           method: "POST",
           headers: {
@@ -104,9 +108,9 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
           },
           body: JSON.stringify(payload),
         });
-        const endTime = performance.now(); // Record end time
   
         if (!response.ok) {
+          clearInterval(timerInterval); // Stop the timer on error
           throw new Error(
             `Failed to generate the model for iteration ${i + 1}. Status: ${response.status}`
           );
@@ -115,26 +119,23 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
         const data = await response.json();
         console.log(`Response Data for model ${i + 1}:`, data);
   
-        const totalTime = Math.ceil((endTime - startTime) / 1000); // Total time taken
+        // Stop the countdown and finalize progress
+        clearInterval(timerInterval);
+        setLoadingCountdowns((prevCountdowns) => {
+          const updatedCountdowns = [...prevCountdowns];
+          updatedCountdowns[i] = 100; // Ensure it finishes at 100%
+          return updatedCountdowns;
+        });
   
         // Update generated image array
         if (data.image_urls && data.image_urls[0]) {
           images[i] = data.image_urls[0];
         }
   
-        // Replace placeholder for the current image
         setGeneratedImages((prevImages) => {
           const updatedImages = [...prevImages];
           updatedImages[i] = data.image_urls[0];
           return updatedImages;
-        });
-  
-        // Stop the countdown and set the final total time
-        clearInterval(countdownInterval);
-        setLoadingCountdowns((prevCountdowns) => {
-          const updatedCountdowns = [...prevCountdowns];
-          updatedCountdowns[i] = totalTime; // Set final time after completion
-          return updatedCountdowns;
         });
       }
     } catch (error) {
@@ -145,21 +146,43 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
     }
   };
   
+  // image download
+  const handleDownload = async (e) => {
+    e.preventDefault();
+    try {
+      if (!image) {
+        console.error("Image URL is missing!");
+        return;
+      }
+
+      // Fetch the image as a blob
+      const response = await fetch(image, { mode: "cors" });
+      if (!response.ok) throw new Error("Failed to fetch image");
+
+      const blob = await response.blob();
+
+      // Save the image using FileSaver.js
+      saveAs(blob, `Generated_Model_${index + 1}.jpg`);
+    } catch (error) {
+      console.error("Error downloading the image:", error);
+    }
+  };
+
+
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
       {/* Sidebar */}
       {/* <aside
         className={`${isSidebarOpen ? "w-full md:w-1/5" : "w-0"} bg-gray-900 transition-all duration-300 overflow-hidden`}
       > */}
-     <aside
-  className={`${
-    isSidebarOpen ? "w-full md:w-1/5" : "w-0"
-  } bg-gray-900 transition-all duration-300 overflow-hidden md:sticky md:top-0 h-auto md:h-screen`}
-  style={{
-    minWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
-    maxWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
-  }}
->
+      <aside
+        className={`${isSidebarOpen ? "w-full md:w-1/5" : "w-0"
+          } bg-gray-900 transition-all duration-300 overflow-hidden md:sticky md:top-0 h-auto md:h-screen`}
+        style={{
+          minWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
+          maxWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "19rem" : "100%") : "0",
+        }}
+      >
         <div className="h-screen overflow-y-auto">
           <div className="p-5 space-y-6">
             <h2 className="text-3xl font-bold text-white-600 font-sans">Model Inputs🛠️</h2>
@@ -393,7 +416,17 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
                 <option value="Contemporary Office Space">Contemporary Office Space</option>
               </select>
             </div>
-
+            {/* custom background */}
+            {/* <div className="space-y-2">
+              <label className="block font-serif"> Custom Background 🖼️</label>
+              <input
+                type="text"
+                value={backgrounds}
+                onChange={(e) => setBackgrounds(e.target.value)}
+                placeholder="e.g., Plain White Studio"
+                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-purple-500"
+              />
+            </div> */}
             {/* Seed */}
             {/* <div className="space-y-2">
               <label className="block font-serif">Model Seed 🔮</label>
@@ -545,15 +578,15 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
           )}
         </button>
         {/* Back to Home Button */}
-  <div className="absolute top-4 right-4">
-    <a href="/">
-      <button
-         className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
-         >
-        Back to Home 🏠
-      </button>
-    </a>
-  </div>
+        <div className="absolute top-4 right-4">
+          <a href="/">
+            <button
+              className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
+            >
+              Back to Home 🏠
+            </button>
+          </a>
+        </div>
 
         {/* Content */}
         <div className="text-center w-full py-8">
@@ -571,86 +604,86 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
 
         {/* Image Gallery */}
         {Array.isArray(generatedImages) && (
-      <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
-          {generatedImages.map((image, index) => (
-            <div
-              key={index}
-              className="relative group w-full h-78 lg:h-96 flex-shrink-0"
-              id={`image-${index}`}
-            >
-              {/* Black Placeholder with Countdown */}
-              {!image && (
-                <div className="w-full h-full bg-black rounded-lg flex items-center justify-center">
-                  <p className="text-white text-lg font-bold">
-                    {loadingCountdowns[index]}s
-                  </p>
-                </div>
-              )}
+          <div className="flex-grow w-full flex justify-center bg-black overflow-hidden">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full">
+              {generatedImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="relative group w-full h-78 lg:h-96 flex-shrink-0"
+                  id={`image-${index}`}
+                >
+                  {/* Black Placeholder with Countdown */}
+                  {!image && (
+                    <div className="w-full h-full bg-black rounded-lg flex items-center justify-center">
+                      <p className="text-white text-lg font-bold">
+                        {loadingCountdowns[index]}s
+                      </p>
+                    </div>
+                  )}
 
-              {/* Render Actual Image */}
-              {image && (
-                <img
-                  src={image}
-                  alt={`Generated Model ${index + 1}`}
-                  className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
-                />
-              )}
+                  {/* Render Actual Image */}
+                  {image && (
+                    <img
+                      src={image}
+                      alt={`Generated Model ${index + 1}`}
+                      className="w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out"
+                    />
+                  )}
 
-              {/* Hover Options */}
-              {image && (
-                <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
-                  <div className="flex space-x-4">
-                    {/* Download Button */}
-                    <a
-                      href={image}
-                      download={`Generated_Model_${index + 1}.jpg`}
-                      className="text-white hover:text-gray-400 flex flex-col items-center"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
-                        />
-                      </svg>
-                      <span className="text-sm">Download</span>
-                    </a>
+                  {/* Hover Options */}
+                  {image && (
+                    <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
+                      <div className="flex space-x-4">
+                        {/* Download Button */}
+                        <a
+                          href={image}
+                          className="text-white hover:text-gray-400 flex flex-col items-center"
+                          onClick={handleDownload}
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"
+                            />
+                          </svg>
+                          <span className="text-sm">Download</span>
+                        </a>
 
-                    {/* Delete Button */}
-                    <button
-                      onClick={() => {
-                        const updatedImages = [...generatedImages];
-                        updatedImages.splice(index, 1); // Remove the image from the array
-                        setGeneratedImages(updatedImages); // Update state
-                      }}
-                      className="text-white hover:text-gray-400 flex flex-col items-center"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={1.5}
-                        stroke="currentColor"
-                        className="w-6 h-6"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="M6 18L18 6M6 6l12 12"
-                        />
-                      </svg>
-                      <span className="text-sm">Delete</span>
-                    </button>
-                    {/* share button */}
-                    <button
+                        {/* Delete Button */}
+                        <button
+                          onClick={() => {
+                            const updatedImages = [...generatedImages];
+                            updatedImages.splice(index, 1); // Remove the image from the array
+                            setGeneratedImages(updatedImages); // Update state
+                          }}
+                          className="text-white hover:text-gray-400 flex flex-col items-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M6 18L18 6M6 6l12 12"
+                            />
+                          </svg>
+                          <span className="text-sm">Delete</span>
+                        </button>
+                        {/* share button */}
+                        <button
                           onClick={() =>
                             navigator.share({
                               title: "Generated Image",
@@ -678,82 +711,82 @@ const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoo
                         </button>
                         {/* zoom button */}
                         <button
-  onClick={() => {
-    setZoomedImage(image); // Set the image to zoom
-    setIsModalOpen(true); // Open the modal
-  }}
-  className="text-white hover:text-gray-400 flex flex-col items-center"
->
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    fill="none"
-    viewBox="0 0 24 24"
-    strokeWidth={1.5}
-    stroke="currentColor"
-    className="w-6 h-6"
-  >
-    <path
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M15 12h3m-3 0a3 3 0 01-3-3m3 3a3 3 0 013 3m-3-3V9m0 3V6m-3 6H9m0 0a3 3 0 013 3m0-3a3 3 0 00-3-3m0 3H6"
-    />
-  </svg>
-  <span className="text-sm">Zoom</span>
-</button>
-{isModalOpen && (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
-    onClick={() => setIsModalOpen(false)} // Close modal on background click
-  >
-    <div className="relative">
-      <img
-        src={zoomedImage}
-        alt="Zoomed"
-        className="max-w-full max-h-screen"
-      />
-      <button
-        onClick={() => setIsModalOpen(false)}
-        className="absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
-          strokeWidth={1.5}
-          stroke="currentColor"
-          className="w-6 h-6"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18L18 6M6 6l12 12"
-          />
-        </svg>
-      </button>
-    </div>
-  </div>
-)}
+                          onClick={() => {
+                            setZoomedImage(image); // Set the image to zoom
+                            setIsModalOpen(true); // Open the modal
+                          }}
+                          className="text-white hover:text-gray-400 flex flex-col items-center"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M15 12h3m-3 0a3 3 0 01-3-3m3 3a3 3 0 013 3m-3-3V9m0 3V6m-3 6H9m0 0a3 3 0 013 3m0-3a3 3 0 00-3-3m0 3H6"
+                            />
+                          </svg>
+                          <span className="text-sm">Zoom</span>
+                        </button>
+                        {isModalOpen && (
+                          <div
+                            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+                            onClick={() => setIsModalOpen(false)} // Close modal on background click
+                          >
+                            <div className="relative">
+                              <img
+                                src={zoomedImage}
+                                alt="Zoomed"
+                                className="max-w-full max-h-screen"
+                              />
+                              <button
+                                onClick={() => setIsModalOpen(false)}
+                                className="absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full"
+                              >
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  strokeWidth={1.5}
+                                  stroke="currentColor"
+                                  className="w-6 h-6"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                  />
+                                </svg>
+                              </button>
+                            </div>
+                          </div>
+                        )}
 
 
-                  </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
-              )}
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    )}
+          </div>
+        )}
         {generatedImages && generatedImages.length > 0 && (
-  <div className="flex justify-center mt-8 animate-bounce">
-    <a href="/virtualtryon">
-      <button
-        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
-      >
-        Virtual Try On ✨
-      </button>
-    </a>
-  </div>
-)}
+          <div className="flex justify-center mt-8 animate-bounce">
+            <a href="/virtualtryon">
+              <button
+                className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110"
+              >
+                Virtual Try On ✨
+              </button>
+            </a>
+          </div>
+        )}
 
       </main>
 
