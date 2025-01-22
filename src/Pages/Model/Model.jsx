@@ -93,7 +93,7 @@ const ModelGeneratorUI = (image, index) => {
             return updatedCountdowns;
           });
   
-          if (simulatedProgress >= 200) clearInterval(timerInterval);
+          if (simulatedProgress >= 500) clearInterval(timerInterval);
         }, updateFrequency);
   
         // Perform the fetch request

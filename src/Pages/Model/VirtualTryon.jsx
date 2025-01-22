@@ -49,18 +49,24 @@ const TryOnRoom = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 flex flex-col">
       {/* Header */}
-      <header className="bg-indigo-600 text-white py-4 text-center text-xl font-bold">
-        AI4FI TryOn Room
+      <header className="bg-indigo-700 text-white py-4 px-6 flex items-center justify-between shadow-md">
+        <h1 className="text-2xl font-bold">AI4FI TryOn Room</h1>
+        <button
+          onClick={() => (window.location.href = "/")}
+          className="bg-white text-indigo-700 px-4 py-2 rounded-lg shadow-md font-semibold hover:bg-gray-100 transform transition-transform duration-300 hover:scale-105"
+        >
+          Back to Home
+        </button>
       </header>
 
-      <div className="flex">
+      <div className="flex flex-1 flex-col lg:flex-row">
         {/* Sidebar */}
-        <aside className="w-64 bg-black text-white p-4 flex flex-col">
+        <aside className="lg:w-1/4 bg-white shadow-lg p-6 space-y-6 flex-shrink-0 rounded-lg">
           {/* Upload Model Images */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Upload Model Images
             </label>
             <input
@@ -68,30 +74,30 @@ const TryOnRoom = () => {
               accept="image/*"
               multiple
               onChange={handleBrowseModelImages}
-              className="w-full text-sm bg-gray-800 text-gray-200 py-2 px-4 rounded"
+              className="w-full text-sm border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
           {/* Upload Garment Image */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               Upload Garment Image
             </label>
             <input
               type="file"
               accept="image/*"
               onChange={handleBrowseGarmentImage}
-              className="w-full text-sm bg-gray-800 text-gray-200 py-2 px-4 rounded"
+              className="w-full text-sm border border-gray-300 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
           </div>
           {/* TryOn Type */}
-          <div className="mb-6">
-            <label className="block text-sm font-semibold mb-2">
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
               TryOn Type
             </label>
             <select
               value={tryOnType}
               onChange={(e) => setTryOnType(e.target.value)}
-              className="w-full bg-gray-800 text-gray-200 py-2 px-4 rounded"
+              className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
               <option value="default">Default</option>
               <option value="advanced">Advanced</option>
@@ -100,26 +106,29 @@ const TryOnRoom = () => {
           {/* Generate TryOn Button */}
           <button
             onClick={handleGenerateTryOn}
-            className="w-full bg-indigo-600 py-2 px-4 rounded text-center text-white hover:bg-indigo-700"
+            className="w-full bg-indigo-600 py-2 px-4 rounded-lg text-white font-semibold hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transform transition-transform duration-300 hover:scale-105"
           >
             Generate TryOn
           </button>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1 grid grid-cols-3 gap-4 p-6">
+        <main className="flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
           {/* Model Images */}
-          <div className="space-y-4">
+          <div className="col-span-1 space-y-4">
             {[...Array(4)].map((_, index) => (
-              <div key={index} className="bg-blue-100 h-28 flex items-center justify-center rounded-lg shadow">
+              <div
+                key={index}
+                className="bg-gray-200 h-32 flex items-center justify-center rounded-lg shadow-md overflow-hidden"
+              >
                 {modelImages[index] ? (
                   <img
                     src={URL.createObjectURL(modelImages[index])}
                     alt={`Model ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-sm text-gray-500">
+                  <span className="text-gray-500 text-sm">
                     Model Image {index + 1}
                   </span>
                 )}
@@ -128,7 +137,7 @@ const TryOnRoom = () => {
           </div>
 
           {/* Garment Image */}
-          <div className="flex flex-col items-center justify-center bg-green-100 rounded-lg shadow">
+          <div className="col-span-1 flex items-center justify-center bg-gray-100 rounded-lg shadow-md">
             {garmentImage ? (
               <img
                 src={URL.createObjectURL(garmentImage)}
@@ -136,22 +145,25 @@ const TryOnRoom = () => {
                 className="w-40 h-40 object-cover rounded-lg"
               />
             ) : (
-              <span className="text-sm text-gray-500">No Garment Selected</span>
+              <span className="text-gray-500 text-sm">No Garment Selected</span>
             )}
           </div>
 
           {/* TryOn Results */}
-          <div className="space-y-4">
+          <div className="col-span-1 space-y-4">
             {[...Array(4)].map((_, index) => (
-              <div key={index} className="bg-blue-100 h-28 flex items-center justify-center rounded-lg shadow">
+              <div
+                key={index}
+                className="bg-gray-200 h-32 flex items-center justify-center rounded-lg shadow-md overflow-hidden"
+              >
                 {tryOnResults[index] ? (
                   <img
                     src={tryOnResults[index]}
                     alt={`Result ${index + 1}`}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover"
                   />
                 ) : (
-                  <span className="text-sm text-gray-500">
+                  <span className="text-gray-500 text-sm">
                     Result {index + 1}
                   </span>
                 )}
