@@ -3,9 +3,9 @@ import { useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import Select from "react-select";
 import "modern-normalize";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 
-const ModelGeneratorUI = (image, index) => {
+const ModelGeneratorUI = () => {
   const [age, setAge] = useState(25);
   // const [numImages] = useState(1);
   const [gender, setGender] = useState("Male");
@@ -147,27 +147,52 @@ const ModelGeneratorUI = (image, index) => {
   };
   
   // image download
-  const handleDownload = async (e) => {
-    e.preventDefault();
-    try {
-      if (!image) {
-        console.error("Image URL is missing!");
-        return;
-      }
+  // const handleDownload = async (img) => {
+  //   // e.preventDefault();
+  //   try {
+  //     if (!img) {
+  //       console.error("Image URL is missing!");
+  //       return;
+  //     }
+  //     console.log(img);
+  //     // const link = document.createElement("a");
+  //     // link.href = img; // Set the file URL
+  //     // link.download ="Generated Model"; // Specify the file name
+  //     // document.body.appendChild(link);
+  //     // link.click();
+  //     // document.body.removeChild(link);
+  //     // Fetch the image as a blob
+  //     const response = await fetch(img, {mode:"no-cors"});
+  //     if (!response.ok) throw new Error("Failed to fetch image");
 
-      // Fetch the image as a blob
-      const response = await fetch(image, { mode: "cors" });
-      if (!response.ok) throw new Error("Failed to fetch image");
+  //     const blob = await response.blob();
 
-      const blob = await response.blob();
+  //     // Save the image using FileSaver.js
+  //     saveAs(blob, `Generated_Model_${new Date().getTime()}.jpg`);
+  //   } catch (error) {
+  //     console.error("Error downloading the image:", error);
+  //   }
+  // };
+const handleDownload= async(imageUrl)=>{
+  try {
+    const response = await fetch(imageUrl); // Fetch the image
+    const blob = await response.blob(); // Convert response to a Blob
+    const blobUrl = URL.createObjectURL(blob); // Create a URL for the Blob
 
-      // Save the image using FileSaver.js
-      saveAs(blob, `Generated_Model_${index + 1}.jpg`);
-    } catch (error) {
-      console.error("Error downloading the image:", error);
-    }
-  };
+    // Create a temporary link element
+    const link = document.createElement("a");
+    link.href = blobUrl; // Set the Blob URL
+    link.download = "example-image.jpg"; // Specify the file name
+    document.body.appendChild(link); // Append link to the body
+    link.click(); // Trigger download
+    document.body.removeChild(link); // Remove link after download
 
+    // Release the Blob URL to free memory
+    URL.revokeObjectURL(blobUrl);
+  } catch (error) {
+    console.error("Failed to download image:", error);
+  }
+}
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
@@ -657,10 +682,11 @@ const ModelGeneratorUI = (image, index) => {
                     <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out">
                       <div className="flex space-x-4">
                         {/* Download Button */}
-                        <a
-                          href={image}
+                        <span
+                          
                           className="text-white hover:text-gray-400 flex flex-col items-center"
-                          onClick={handleDownload}
+                          onClick={()=>handleDownload(image)}
+                          
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -677,7 +703,7 @@ const ModelGeneratorUI = (image, index) => {
                             />
                           </svg>
                           <span className="text-sm">Download</span>
-                        </a>
+                        </span>
 
                         {/* Delete Button */}
                         <button

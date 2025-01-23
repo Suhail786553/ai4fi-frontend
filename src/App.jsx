@@ -11,6 +11,7 @@ import About from './Pages/About/About';
 import Dashboard from './Pages/Dashboard/Dashboard';
 import SettingsPage from './Pages/Dashboard/SettingPage';
 import VirtualTryon from './Pages/Model/VirtualTryon';
+import Usecases from './Pages/Usecases/Usecases';
 
 function App() {
   const currentPath = window.location.pathname;
@@ -31,6 +32,7 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/settings" element={<SettingsPage />} />
           <Route path="/virtualtryon" element={<VirtualTryon />} />
+          <Route path="/usecases" element={<Usecases />} />
         </Routes>
 
         {currentPath !== '/model' && currentPath !== '/modelgallery'&& currentPath !== '/dashboard'&& currentPath !== '/virtualtryon'&& <Footer />} {/* Show Footer for all routes except /model */}
