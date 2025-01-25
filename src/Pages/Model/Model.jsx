@@ -50,16 +50,16 @@ const ModelGeneratorUI = () => {
 
   const generateImage = async () => {
     setLoading(true);
-  
+
     const placeholders = Array(model).fill(null); // Placeholder array for images
     const countdowns = Array(model).fill(0); // Initialize countdowns
-  
+
     setGeneratedImages(placeholders); // Initialize placeholders
     setLoadingCountdowns(countdowns); // Initialize countdowns
-  
+
     try {
       const images = []; // Array to store generated image URLs
-  
+
       for (let i = 0; i < model; i++) {
         const payload = {
           gender,
@@ -77,14 +77,14 @@ const ModelGeneratorUI = () => {
           auto_seed: autoSeed,
           num_images: 1,
         };
-  
+
         console.log(`Payload for model ${i + 1}:`, payload);
-  
+
         // Simulated timer for professional countdown feel
         const simulatedDuration = 5; // Total visible countdown time in seconds
         const updateFrequency = 50; // Update every 50ms for smooth animation
         let simulatedProgress = 0; // Start at 0%
-  
+
         const timerInterval = setInterval(() => {
           simulatedProgress += (100 / (simulatedDuration * 1000)) * updateFrequency;
           setLoadingCountdowns((prevCountdowns) => {
@@ -92,10 +92,10 @@ const ModelGeneratorUI = () => {
             updatedCountdowns[i] = Math.min(simulatedProgress, 200); // Cap at 100%
             return updatedCountdowns;
           });
-  
+
           if (simulatedProgress >= 500) clearInterval(timerInterval);
         }, updateFrequency);
-  
+
         // Perform the fetch request
         const baseURL =
           window.location.hostname === "localhost"
@@ -108,17 +108,17 @@ const ModelGeneratorUI = () => {
           },
           body: JSON.stringify(payload),
         });
-  
+
         if (!response.ok) {
           clearInterval(timerInterval); // Stop the timer on error
           throw new Error(
             `Failed to generate the model for iteration ${i + 1}. Status: ${response.status}`
           );
         }
-  
+
         const data = await response.json();
         console.log(`Response Data for model ${i + 1}:`, data);
-  
+
         // Stop the countdown and finalize progress
         clearInterval(timerInterval);
         setLoadingCountdowns((prevCountdowns) => {
@@ -126,12 +126,12 @@ const ModelGeneratorUI = () => {
           updatedCountdowns[i] = 100; // Ensure it finishes at 100%
           return updatedCountdowns;
         });
-  
+
         // Update generated image array
         if (data.image_urls && data.image_urls[0]) {
           images[i] = data.image_urls[0];
         }
-  
+
         setGeneratedImages((prevImages) => {
           const updatedImages = [...prevImages];
           updatedImages[i] = data.image_urls[0];
@@ -145,7 +145,7 @@ const ModelGeneratorUI = () => {
       setLoading(false);
     }
   };
-  
+
   // image download
   // const handleDownload = async (img) => {
   //   // e.preventDefault();
@@ -173,26 +173,26 @@ const ModelGeneratorUI = () => {
   //     console.error("Error downloading the image:", error);
   //   }
   // };
-const handleDownload= async(imageUrl)=>{
-  try {
-    const response = await fetch(imageUrl); // Fetch the image
-    const blob = await response.blob(); // Convert response to a Blob
-    const blobUrl = URL.createObjectURL(blob); // Create a URL for the Blob
+  const handleDownload = async (imageUrl) => {
+    try {
+      const response = await fetch(imageUrl); // Fetch the image
+      const blob = await response.blob(); // Convert response to a Blob
+      const blobUrl = URL.createObjectURL(blob); // Create a URL for the Blob
 
-    // Create a temporary link element
-    const link = document.createElement("a");
-    link.href = blobUrl; // Set the Blob URL
-    link.download = "example-image.jpg"; // Specify the file name
-    document.body.appendChild(link); // Append link to the body
-    link.click(); // Trigger download
-    document.body.removeChild(link); // Remove link after download
+      // Create a temporary link element
+      const link = document.createElement("a");
+      link.href = blobUrl; // Set the Blob URL
+      link.download = "example-image.jpg"; // Specify the file name
+      document.body.appendChild(link); // Append link to the body
+      link.click(); // Trigger download
+      document.body.removeChild(link); // Remove link after download
 
-    // Release the Blob URL to free memory
-    URL.revokeObjectURL(blobUrl);
-  } catch (error) {
-    console.error("Failed to download image:", error);
+      // Release the Blob URL to free memory
+      URL.revokeObjectURL(blobUrl);
+    } catch (error) {
+      console.error("Failed to download image:", error);
+    }
   }
-}
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-black text-white">
@@ -218,8 +218,8 @@ const handleDownload= async(imageUrl)=>{
               <select
                 value={gender}
                 onChange={(e) => setGender(e.target.value)}
-                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                className="w-full  rounded bg-black text-white focus:ring-2 focus:ring-white"
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
@@ -260,7 +260,7 @@ const handleDownload= async(imageUrl)=>{
                 value={country}
                 onChange={(e) => setCountry(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option value="India">India</option>
                 <option value="USA">USA</option>
@@ -296,7 +296,7 @@ const handleDownload= async(imageUrl)=>{
                 value={hairColor}
                 onChange={(e) => setHairColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option>Black</option>
                 <option>Brown</option>
@@ -312,7 +312,7 @@ const handleDownload= async(imageUrl)=>{
                 value={hairType}
                 onChange={(e) => setHairType(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option>Straight</option>
                 <option>Curly</option>
@@ -327,7 +327,7 @@ const handleDownload= async(imageUrl)=>{
                 value={eyeColor}
                 onChange={(e) => setEyeColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option>Black</option>
                 <option>Brown</option>
@@ -343,7 +343,7 @@ const handleDownload= async(imageUrl)=>{
                 value={skinColor}
                 onChange={(e) => setSkinColor(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option value="Very Light (Fair) Skin">Very Light (Fair) Skin</option>
                 <option value="Light (Medium Fair) Skin">Light (Medium Fair) Skin</option>
@@ -384,7 +384,7 @@ const handleDownload= async(imageUrl)=>{
                 onChange={(e) => setDress(e.target.value)}
                 placeholder="e.g., Tyron-style dress"
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-purple-500"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               />
             </div>
 
@@ -395,7 +395,7 @@ const handleDownload= async(imageUrl)=>{
                 value={pose}
                 onChange={(e) => setPose(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option>Classic Standing Pose</option>
                 <option>Hands on Hips</option>
@@ -415,7 +415,7 @@ const handleDownload= async(imageUrl)=>{
                 value={background}
                 onChange={(e) => setBackground(e.target.value)}
                 className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-                style={{ height: "46px" }} 
+                style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
               >
                 <option value="Auto">Auto</option>
                 <option value="Plain White Studio">Plain White Studio</option>
@@ -450,28 +450,6 @@ const handleDownload= async(imageUrl)=>{
                 <option value="Contemporary Office Space">Contemporary Office Space</option>
               </select>
             </div>
-            {/* custom background */}
-            {/* <div className="space-y-2">
-              <label className="block font-serif"> Custom Background 🖼️</label>
-              <input
-                type="text"
-                value={backgrounds}
-                onChange={(e) => setBackgrounds(e.target.value)}
-                placeholder="e.g., Plain White Studio"
-                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-purple-500"
-              />
-            </div> */}
-            {/* Seed */}
-            {/* <div className="space-y-2">
-              <label className="block font-serif">Model Seed 🔮</label>
-              <input
-                type="number"
-                value={seed}
-                onChange={(e) => setSeed(Number(e.target.value))}
-                className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
-              />
-            </div> */}
-
             {/* Auto Seed */}
             <div className="space-y-4">
               <label className="block font-serif font-medium">Choose Seed Type ✨</label>
@@ -510,6 +488,7 @@ const handleDownload= async(imageUrl)=>{
                     onChange={(e) => setDnaNumber(Number(e.target.value))}
                     className="w-full p-3 rounded bg-black text-white focus:ring-2 focus:ring-white"
                     min="0"
+                    style={{ height: "35px", padding: "0 5px", fontSize: "14px" }}
                   />
                 </div>
               )}
@@ -537,60 +516,70 @@ const handleDownload= async(imageUrl)=>{
                 value={model}
                 onChange={(e) => setModel(Number(e.target.value))}
                 className="w-full accent-white"
-                style={{ height: "46px" }} 
+                style={{ height: "46px" }}
               />
               <span className="text-white-400">{model}</span>
             </div>
 
             {/* Select Post */}
             <div className="space-y-2">
-  <label className="block font-serif">Select Pose(s) For Each Model 🔥</label>
-  <Select
-    isMulti
-    value={selectedPosts}
-    onChange={setSelectedPosts}
-    options={poses}
-    className="text-black"
-    styles={{
-      control: (provided, state) => ({
-        ...provided,
-        backgroundColor: 'black',
-        color: 'white',
-        height: '46px', // Fix height to 46px
-        border: state.isFocused ? '2px solid white' : 'none', // White border when focused
-        boxShadow: state.isFocused ? '0 0 4px white' : 'none', // Optional: subtle glow effect
-        ':hover': {
-          border: state.isFocused ? '2px solid white' : 'none', // Maintain hover consistency
-        },
-      }),
-      option: (provided, state) => ({
-        ...provided,
-        backgroundColor: state.isSelected ? 'gray' : 'black', // Change background when selected
-        color: 'white', // Text color
-        ':hover': {
-          backgroundColor: 'gray', // Change hover color
-        },
-      }),
-      multiValue: (provided) => ({
-        ...provided,
-        backgroundColor: 'gray', // Background for selected items
-        color: 'white',
-      }),
-      multiValueLabel: (provided) => ({
-        ...provided,
-        color: 'white', // Text color for selected items
-      }),
-      multiValueRemove: (provided) => ({
-        ...provided,
-        color: 'white', // Remove icon color
-        ':hover': {
-          backgroundColor: 'transparent', // No background on hover
-          color: 'red', // Optional: Change color on hover for remove icon
-        },
-      }),
-    }}
-  />
-</div>
+              <label className="block font-serif">Select Pose(s) For Each Model 🔥</label>
+              <Select
+                isMulti
+                value={selectedPosts}
+                onChange={setSelectedPosts}
+                options={poses}
+                className="text-black"
+                styles={{
+                  control: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: 'black',
+                    color: 'white',
+                    height: '35px', // Fixed height
+                    border: state.isFocused ? '2px solid white' : '1px solid gray', // Focus border
+                    boxShadow: state.isFocused ? '0 0 4px white' : 'none', // Optional subtle glow
+                    ':hover': {
+                      border: state.isFocused ? '2px solid white' : '1px solid gray', // Consistent hover styling
+                    },
+                    overflow: 'hidden', // Prevent overflow
+                  }),
+                  valueContainer: (provided) => ({
+                    ...provided,
+                    maxHeight: '35px', // Restrict height to ensure wrapping
+                    overflowY: 'auto', // Add scrolling for overflow
+                  }),
+                  option: (provided, state) => ({
+                    ...provided,
+                    backgroundColor: state.isSelected ? 'gray' : 'black',
+                    color: 'white',
+                    ':hover': {
+                      backgroundColor: 'gray', // Hover color for options
+                    },
+                  }),
+                  multiValue: (provided) => ({
+                    ...provided,
+                    backgroundColor: 'gray',
+                    color: 'white',
+                  }),
+                  multiValueLabel: (provided) => ({
+                    ...provided,
+                    color: 'white',
+                  }),
+                  multiValueRemove: (provided) => ({
+                    ...provided,
+                    color: 'white',
+                    ':hover': {
+                      backgroundColor: 'transparent',
+                      color: 'red', // Hover color for remove icon
+                    },
+                  }),
+                  indicatorsContainer: (provided) => ({
+                    ...provided,
+                    height: '35px', // Match the height of the control
+                  }),
+                }}
+              />
+            </div>
 
 
 
@@ -683,10 +672,10 @@ const handleDownload= async(imageUrl)=>{
                       <div className="flex space-x-4">
                         {/* Download Button */}
                         <span
-                          
+
                           className="text-white hover:text-gray-400 flex flex-col items-center"
-                          onClick={()=>handleDownload(image)}
-                          
+                          onClick={() => handleDownload(image)}
+
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -835,11 +824,7 @@ const handleDownload= async(imageUrl)=>{
             </a>
           </div>
         )}
-
       </main>
-
-
-
     </div>
   );
 };
