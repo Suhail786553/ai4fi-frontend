@@ -1,15 +1,26 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
-import { useLocation } from "react-router-dom";
+// import { useLocation } from "react-router-dom";
 import img from "./logoai.png";
+import { FiChevronDown } from "react-icons/fi";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const location = useLocation();
-  const currentPath = location.pathname;
+  // const location = useLocation();
+  // const currentPath = location.pathname;
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  let timeoutId;
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
+  };
+  const handleDropdownMouseEnter = () => {
+    clearTimeout(timeoutId);
+    setIsDropdownOpen(true);
+  };
+
+  const handleDropdownMouseLeave = () => {
+    timeoutId = setTimeout(() => setIsDropdownOpen(false), 300);
   };
 
   return (
@@ -31,29 +42,58 @@ const Navbar = () => {
 
           {/* Desktop Links */}
           <ul
-            className="hidden md:flex space-x-4 text-purple-700"
-            style={{ fontFamily: "Sans-Serif Noto-sans", fontSize: "15px" }}
+      className="hidden md:flex space-x-4 text-purple-700"
+      style={{ fontFamily: "Sans-Serif Noto-sans", fontSize: "15px" }}
+    >
+      {[
+        { label: "Home", path: "/" },
+        {
+          label: "Offspring",
+          path: "#",
+          submenu: [
+            { label: "Model Generator", path: "/model" },
+            { label: "TryOn Room", path: "/virtualtryon" },
+          ],
+        },
+        { label: "Model Gallery", path: "/modelgallery" },
+        { label: "About", path: "/about" },
+        { label: "Contact Us", path: "/contact" },
+      ].map((link, index) => (
+        <li
+          key={index}
+          className="relative group"
+          onMouseEnter={link.submenu ? handleDropdownMouseEnter : null}
+          onMouseLeave={link.submenu ? handleDropdownMouseLeave : null}
+        >
+          <div
+            className={`flex items-center ${
+              link.submenu ? "cursor-pointer" : ""
+            } hover:opacity-80`}
           >
-            {[
-              { label: "Home", path: "/" },
-              { label: "Products", path: "/products" },
-              { label: "Model Gallery", path: "/modelgallery" },
-              { label: "Use Cases", path: "/usecases" },
-              { label: "About", path: "/about" },
-              { label: "Contact Us", path: "/contact" },
-            ].map((link, index) => (
-              <li
-                key={index}
-                className={`${
-                  currentPath === link.path
-                    ? "font-semibold underline text-purple-900"
-                    : "hover:opacity-80"
+            <a href={link.path}>{link.label}</a>
+            {link.submenu && (
+              <FiChevronDown
+                className={`ml-1 transition-transform ${
+                  isDropdownOpen ? "rotate-180" : ""
                 }`}
-              >
-                <a href={link.path}>{link.label}</a>
-              </li>
-            ))}
-          </ul>
+              />
+            )}
+          </div>
+          {link.submenu && isDropdownOpen && (
+            <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg space-y-2 text-purple-700 p-2 z-10">
+              {link.submenu.map((sublink, subIndex) => (
+                <li
+                  key={subIndex}
+                  className="hover:opacity-80 hover:bg-purple-100 px-2 py-1 rounded"
+                >
+                  <a href={sublink.path}>{sublink.label}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </li>
+      ))}
+    </ul>
         </div>
 
         {/* Buttons */}
@@ -86,22 +126,52 @@ const Navbar = () => {
           <ul className="flex flex-col items-center space-y-4 py-4 text-purple-700">
             {[
               { label: "Home", path: "/" },
-              { label: "Products", path: "/products" },
+              {
+                label: "Offspring",
+                path: "#",
+                submenu: [
+                  { label: "Model Generator", path: "/model" },
+                  { label: "TryOn Room", path: "/virtualtryon" },
+                ],
+              },
               { label: "Model Gallery", path: "/modelgallery" },
-              { label: "Use Cases", path: "/usecases" },
+              // { label: "Use Cases", path: "/usecases" },
               { label: "About", path: "/about" },
               { label: "Contact Us", path: "/contact" },
             ].map((link, index) => (
               <li
-                key={index}
-                className={`${
-                  currentPath === link.path
-                    ? "font-semibold underline text-purple-900"
-                    : "hover:opacity-80"
-                }`}
+              key={index}
+              className="relative group"
+              onMouseEnter={link.submenu ? handleDropdownMouseEnter : null}
+              onMouseLeave={link.submenu ? handleDropdownMouseLeave : null}
+            >
+              <div
+                className={`flex items-center ${
+                  link.submenu ? "cursor-pointer" : ""
+                } hover:opacity-80`}
               >
                 <a href={link.path}>{link.label}</a>
-              </li>
+                {link.submenu && (
+                  <FiChevronDown
+                    className={`ml-1 transition-transform ${
+                      isDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                )}
+              </div>
+              {link.submenu && isDropdownOpen && (
+                <ul className="absolute left-0 mt-2 bg-white shadow-md rounded-lg space-y-2 text-purple-700 p-2 z-10">
+                  {link.submenu.map((sublink, subIndex) => (
+                    <li
+                      key={subIndex}
+                      className="hover:opacity-80 hover:bg-purple-100 px-2 py-1 rounded"
+                    >
+                      <a href={sublink.path}>{sublink.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
             ))}
             <a
               href="/login"
