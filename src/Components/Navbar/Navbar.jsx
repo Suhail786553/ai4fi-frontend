@@ -48,7 +48,7 @@ const Navbar = () => {
       {[
         { label: "Home", path: "/" },
         {
-          label: "Our Offering.",
+          label: "Our Offering",
           path: "#",
           submenu: [
             { label: "Model Generator", path: "/model" },
@@ -127,7 +127,7 @@ const Navbar = () => {
             {[
               { label: "Home", path: "/" },
               {
-                label: "Our Offering.",
+                label: "Our Offering",
                 path: "#",
                 submenu: [
                   { label: "Model Generator", path: "/model" },
