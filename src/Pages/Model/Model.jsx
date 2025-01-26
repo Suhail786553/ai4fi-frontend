@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import Select from "react-select";
+// import Select from "react-select";
 import "modern-normalize";
 import "./Model.css";
 import ModelConfigForm from "../../Components/ModelConfigFrom/ModelConfigForm";
@@ -23,7 +23,7 @@ const ModelGeneratorUI = () => {
   const [autoSeed] = useState(true);
   const [country, setCountry] = useState("India");
   // const [generatedImage, setGeneratedImage] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading,setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [model, setModel] = useState(1); // Number of images, default 1
   const [shotType, setShotType] = useState("Full Body"); // Default is "Full Body"
@@ -223,6 +223,7 @@ const ModelGeneratorUI = () => {
             seedType={seedType}
             dnaNumber={dnaNumber}
             background={background}
+            generateImage={generateImage}
           />
         </div>
       </aside>
