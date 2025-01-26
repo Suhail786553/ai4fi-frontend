@@ -10,7 +10,7 @@ import video from './ai4fivideo.mp4'
 
 const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  const [isMonthly, setIsMonthly] = useState(true);
+  // const [isMonthly, setIsMonthly] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeTab, setActiveTab] = useState("pixelPerfect");
   const ref1 = useRef(null);
@@ -112,7 +112,7 @@ const HeroSection = () => {
       {/* Hero Section */}
       <section
         onMouseMove={handleMouseMove}
-        className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 bg-gradient-to-br from-white to-gray-100"
+        className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 py-240 bg-gradient-to-br from-white to-gray-100 h-[100vh]"style={{paddingBottom:"100px",marginTop: '-72px',paddingTop: "114px" }}
       >
         {/* Background Animation */}
         <motion.div
@@ -130,6 +130,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug"
+            style={{ fontFamily: "'Playfair Display'" }}
           >
             Say goodbye to costly photoshoots. <br />
             Create stunning, customizable <br />
@@ -140,7 +141,7 @@ const HeroSection = () => {
             <a href="/model">
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"
+                className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}
               >
                 Get Started for Free
               </motion.button>
@@ -162,7 +163,7 @@ const HeroSection = () => {
             </div>
             <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1">
               <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
-              <p className="text-gray-600 font-medium text-sm">
+              <p className="text-gray-600 font-medium text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
                 Loved by <span className="font-bold">153,000+</span> users
               </p>
             </div>
@@ -170,31 +171,103 @@ const HeroSection = () => {
         </div>
 
         {/* Right Content */}
-        <motion.div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mt-8 md:mt-0 md:w-1/2">
-          {/* Before Image */}
-          <div className="relative group">
-            <img
-              src={top1}
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
-            />
-          </div>
-          {/* After Image */}
-          <div className="relative group">
-            <img
-              src={top2}
-              alt="AI-Generated Photoshoot"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto md:h-[45vh] lg:h-[63vh] object-cover"
-            />
-          </div>
-        </motion.div>
+        <motion.div className="grid grid-cols-1 md: grid grid-cols-2 gap-8 md:gap-10 mt-8 md:mt-0 md:w-6/12 lg:w-5/12">
+    {/* Before Image */}
+    <div className="relative group">
+      <img
+        src={top1}
+        alt="Before Photoshoot"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover"
+      />
+    </div>
+    {/* After Image */}
+    <div className="relative group">
+      <img
+        src={top2}
+        alt="AI-Generated Photoshoot"
+        className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover"
+      />
+    </div>
+  </motion.div>
+      </section>
+      {/* section4 shift here */}
+      <section ref={ref1} className="bg-gradient-to-b from-white to-gray-50 py-16 relative overflow-hidden">
+        {/* Background Accents */}
+        {/* <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div> */}
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
+
+        <div className="container mx-auto px-6 lg:px-16 relative z-10">
+          {/* Heading */}
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}> 
+          Simplified<span className="text-purple-600"> 3-StepWorkflow</span>
+          </h2>
+
+          {/* Steps Grid */}
+          <div
+  className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
+  style={{ fontFamily: "'Playfair Display', serif" }}
+>
+  {[
+    {
+      step: "Step 1",
+      title: "Select Model",
+      desc: "Easily upload your unique garment designs for the process to begin.",
+      img: "f368124b-401c-4047-3f48-965d5f1b0300",
+    },
+    {
+      step: "Step 2",
+      title: "Select Garment",
+      desc: "Choose your AI model, customize details, and select a background that matches your brand.",
+      img: "e50431f0-8bb9-4bc0-a79d-092082226d00",
+    },
+    {
+      step: "Step 3",
+      title: "Download Result",
+      desc: "Generate stunning, high-quality images and download them for immediate use on your eCommerce platforms.",
+      img: "24baab0e-c60a-40b9-eb07-bcf7af6d4e00",
+    },
+  ].map((item, index) => (
+    <motion.div
+      key={index}
+      whileHover={{ scale: 1.05, y: -10 }}
+      transition={{ duration: 0.4 }}
+      className="group bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center transform hover:shadow-2xl transition-all duration-300"
+    >
+      {/* Image Section */}
+      <div className="relative">
+        <img
+          src={`https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/${item.img}/public`}
+          alt={item.title}
+          className="rounded-lg max-w-full w-[260px] h-[330px] object-cover transition-transform duration-300 group-hover:scale-110"
+        />
+        <span className="absolute top-2 left-2 bg-purple-600 text-white font-semibold text-xs uppercase py-1 px-3 rounded-tr-lg rounded-bl-lg shadow-md">
+          {item.step}
+        </span>
+      </div>
+
+      {/* Title */}
+      <h3 className="text-xl font-semibold text-gray-900 mt-6 group-hover:text-purple-600 transition-colors duration-300">
+        {item.title}
+      </h3>
+
+      {/* Description */}
+      <p className="text-gray-600 text-sm mt-3 leading-relaxed">
+        {item.desc}
+      </p>
+    </motion.div>
+  ))}
+</div>
+
+        </div>
       </section>
 
-
       {/* section1 */}
-      <section
+ <section
         ref={ref2}
         className="relative bg-white py-16 px-6 lg:px-24 overflow-hidden"
       >
+        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
+        
         {/* Background Gradient Accent */}
         <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse"></div>
         <div className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse"></div>
@@ -203,26 +276,26 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
           {/* Left Section: Content */}
           <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in"style={{ fontFamily: "'Playfair Display', serif" }}>
               The Challenges of Traditional Fashion Photography
             </h1>
-            <p className="text-xl text-gray-600 animate-fade-in-delay">
+            <p className="text-xl text-gray-600 animate-fade-in-delay"style={{ fontFamily: "'Playfair Display', serif" }}>
               Expensive model hiring and photoshoots. Time-consuming processes for
               selecting models, locations, and photographers. Limited flexibility for
               customization and quick updates
             </p>
             <ul className="space-y-4 text-gray-700">
               <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Expensive costs for hiring models, photographers, and renting locations.</p>
+                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
+                <p className="text-lg"style={{ fontFamily: "'Playfair Display', serif" }}>Expensive costs for hiring models, photographers, and renting locations.</p>
               </li>
               <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Time-consuming processes for organizing shoots and selecting the right team.</p>
+                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
+                <p className="text-lg"style={{ fontFamily: "'Playfair Display', serif" }}>Time-consuming processes for organizing shoots and selecting the right team.</p>
               </li>
               <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Limited flexibility for making quick updates or tailoring visuals to new ideas.</p>
+                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
+                <p className="text-lg"style={{ fontFamily: "'Playfair Display', serif" }}>Limited flexibility for making quick updates or tailoring visuals to new ideas.</p>
               </li>
             </ul>
           </div>
@@ -231,29 +304,28 @@ const HeroSection = () => {
           <div className="grid grid-cols-2 gap-6">
             {/* Before Image */}
             <div className="relative group">
-              <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+              <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}>
                 Traditional
               </span>
               <img
                 src={trdan}
-                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover"
               />
             </div>
             {/* After Image */}
             <div className="relative group">
-              <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg">
+              <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}>
                 AI-Generated
               </span>
               <img
                 src={ai}
                 alt="AI-Generated Photoshoot"
-                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-auto lg:h-[63vh] object-cover"
+                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover"
               />
             </div>
           </div>
         </div>
       </section>
-
       {/* section2 */}
       <section
         ref={sectionRef}
@@ -282,35 +354,35 @@ const HeroSection = () => {
 
           {/* Right Section: Content */}
           <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}>
               AI Visual Try-On: Your Game-Changing Fashion Solution
             </h1>
             <ul className="space-y-4 text-gray-700">
               <li className="flex items-start">
                 <span className="text-purple-700 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">
+                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Instantly create realistic fashion models of any nationality and background.
                 </p>
               </li>
               <li className="flex items-start">
                 <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">
+                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Seamlessly apply your garments to AI-generated models for a perfect fit.
                 </p>
               </li>
               <li className="flex items-start">
                 <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">Customize models to fit your brand’s unique aesthetic.</p>
+                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Customize models to fit your brand’s unique aesthetic.</p>
               </li>
               <li className="flex items-start">
                 <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg">
+                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
                   Deliver high-quality, eCommerce-ready photos in minutes.
                 </p>
               </li>
             </ul>
             <div className="flex justify-center lg:justify-start items-center w-full mt-6">
-              <button className="bg-purple-600 text-white w-full sm:w-3/4 md:w-2/4 py-3 px-6 rounded-lg text-lg font-semibold transition-all duration-300 hover:bg-purple-700">
+              <button className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}>
                 Explore Our Technology
               </button>
             </div>
@@ -322,7 +394,7 @@ const HeroSection = () => {
       <section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
         {/* Buttons Section */}
         <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
-          <div className="flex justify-center gap-4 flex-wrap">
+          <div className="flex justify-center gap-4 flex-wrap"style={{ fontFamily: "'Playfair Display', serif" }}>
             {Object.keys(imageSets).map((tab) => (
               <button
                 key={tab}
@@ -344,7 +416,7 @@ const HeroSection = () => {
           style={{ maxWidth: "800px" }}
         >
           {/* Heading Above Images */}
-          <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center">
+          <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center"style={{ fontFamily: "'Playfair Display', serif" }}>
             Keeping perfect resemblance to the reference garment is our top priority
             and research focus
           </h2>
@@ -372,141 +444,14 @@ const HeroSection = () => {
 
 
       {/* section 4 */}
-      <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-16 relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-
-        {/* Why Choose Us Section */}
-        <div className="container mx-auto px-6 lg:px-16 relative z-10">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900">
-            Why Choose <span className="text-purple-600">Us?</span>
-          </h2>
-
-          {/* Features Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              {
-                title: "Realistic Model Generation",
-                desc: "Create lifelike models that resonate with your audience.",
-                icon: "🖼️",
-              },
-              {
-                title: "Easy Customization",
-                desc: "Adjust every detail, from skin tone to poses and backgrounds.",
-                icon: "🎨",
-              },
-              {
-                title: "Cost Efficiency",
-                desc: "Save up to 80% on traditional photoshoot expenses.",
-                icon: "💰",
-              },
-              {
-                title: "Quick Turnaround",
-                desc: "Get professional images in hours, not weeks.",
-                icon: "⏱️",
-              },
-              {
-                title: "Ecommerce Optimization",
-                desc: "Tailored outputs perfect for online platforms.",
-                icon: "🛍️",
-              },
-              {
-                title: "Trusted Results",
-                desc: "Deliver high-quality outputs trusted by industry professionals.",
-                icon: "🌟",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ rotate: 5, scale: 1.05 }}
-                transition={{ duration: 0.4, type: "spring", stiffness: 300 }}
-                className="group bg-white rounded-xl shadow-lg p-6 transform hover:shadow-2xl transition-all duration-300"
-              >
-                {/* Icon */}
-                <div className="text-purple-600 text-4xl mb-4">{item.icon}</div>
-
-                {/* Title */}
-                <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mb-3 group-hover:text-purple-600 transition-colors duration-300">
-                  {item.title}
-                </h3>
-
-                {/* Description */}
-                <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+    
 
       {/* section4 */}
-      <section ref={ref1} className="bg-gradient-to-b from-white to-gray-50 py-16 relative overflow-hidden">
-        {/* Background Accents */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
 
-        <div className="container mx-auto px-6 lg:px-16 relative z-10">
-          {/* Heading */}
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in">
-            Simplified Workflow, <span className="text-purple-600">Exceptional Results</span>
-          </h2>
-
-          {/* Steps Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              {
-                step: "Step 1",
-                title: "Upload Your Garment Designs",
-                desc: "Easily upload your unique garment designs for the process to begin.",
-                img: "f368124b-401c-4047-3f48-965d5f1b0300",
-              },
-              {
-                step: "Step 2",
-                title: "Customize Model & Select Background",
-                desc: "Choose your AI model, customize details, and select a background that matches your brand.",
-                img: "e50431f0-8bb9-4bc0-a79d-092082226d00",
-              },
-              {
-                step: "Step 3",
-                title: "Generate & Download",
-                desc: "Generate stunning, high-quality images and download them for immediate use on your eCommerce platforms.",
-                img: "24baab0e-c60a-40b9-eb07-bcf7af6d4e00",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="group bg-white rounded-xl shadow-lg p-6 transform hover:shadow-2xl transition-all duration-300"
-              >
-                {/* Image and Step Badge */}
-                <div className="relative">
-                  <img
-                    src={`https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/${item.img}/public`}
-                    alt={item.title}
-                    className="rounded-lg mx-auto w-full max-w-[240px] transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="absolute top-2 left-2 bg-purple-600 text-white font-semibold text-xs uppercase py-1 px-3 rounded-tr-lg rounded-bl-lg shadow-md">
-                    {item.step}
-                  </span>
-                </div>
-
-                {/* Title and Description */}
-                <h3 className="text-lg lg:text-xl font-semibold text-gray-900 mt-6 group-hover:text-purple-600 transition-colors duration-300">
-                  {item.title}
-                </h3>
-                <p className="text-gray-600 text-sm mt-3 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
       {/* features */}
       <section className="py-16 bg-gray-900 relative overflow-hidden">
         <div className="container mx-auto px-6 lg:px-16">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white">
+          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
             Features of <span className="text-purple-400">AI4FI</span>
           </h2>
 
@@ -556,187 +501,10 @@ const HeroSection = () => {
 
 
       {/* section 5 */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-16 relative overflow-hidden">
-        {/* Background Accents */}
-        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-
-        <div className="container mx-auto px-6 lg:px-16 relative z-10">
-          {/* Heading */}
-          <h2 className="text-3xl lg:text-4xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in">
-            Trusted by <span className="text-purple-600">Fashion Innovators Worldwide</span>
-          </h2>
-
-          {/* Testimonials */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-            {[
-              {
-                img: "https://via.placeholder.com/150", // Replace with actual client photo URLs
-                quote:
-                  "This AI solution has transformed how we present our collections online. It’s fast, cost-effective, and delivers amazing quality!",
-                name: "Alex Johnson",
-                position: "Creative Director at FashionHub",
-              },
-              {
-                img: "https://via.placeholder.com/150", // Replace with actual client photo URLs
-                quote:
-                  "We’ve reduced our photoshoot costs by 80%, and the results look stunning! Our customers love the virtual try-on feature.",
-                name: "Sophia Lee",
-                position: "CEO at Trendify",
-              },
-              {
-                img: "https://via.placeholder.com/150", // Replace with actual client photo URLs
-                quote:
-                  "ApricityTS AI4FI has revolutionized our approach to fashion eCommerce. It’s a game-changer for our brand.",
-                name: "Michael Carter",
-                position: "Marketing Lead at StyleWave",
-              },
-            ].map((testimonial, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="group bg-white rounded-xl shadow-lg p-6 transform hover:shadow-2xl transition-all duration-300"
-              >
-                {/* Client Image */}
-                <div className="w-20 h-20 mx-auto rounded-full overflow-hidden shadow-lg">
-                  <img
-                    src={testimonial.img}
-                    alt={testimonial.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-
-                {/* Testimonial Content */}
-                <blockquote className="text-gray-600 italic text-sm mt-6 text-center">
-                  “{testimonial.quote}”
-                </blockquote>
-                <div className="mt-4 text-center">
-                  <h3 className="text-lg font-semibold text-gray-900">{testimonial.name}</h3>
-                  <p className="text-sm text-purple-600">{testimonial.position}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
+     
 
       {/* section6 */}
-      <section className="bg-gray-50 py-16">
-        <div className="container mx-auto px-6 lg:px-16">
-          {/* Pricing Header */}
-          <motion.h2
-            initial={{ opacity: 0, y: -50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="text-4xl font-extrabold text-center mb-6 text-gray-900"
-          >
-            Flexible Plans for Every Business Size
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-center text-gray-600 max-w-3xl mx-auto mb-12"
-          >
-            Explore our Basic, Pro, and Enterprise plans. Whether you are just starting or scaling, we have the perfect plan for you. Start with a free trial or demo today!
-          </motion.p>
 
-          {/* Toggle Button */}
-          <div className="flex justify-center mb-10">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              className={`px-6 py-2 text-sm font-medium rounded-l-lg ${isMonthly ? "bg-purple-600 text-white" : "bg-gray-300 text-gray-600"
-                }`}
-              onClick={() => setIsMonthly(true)}
-            >
-              Monthly
-            </motion.button>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              className={`px-6 py-2 text-sm font-medium rounded-r-lg ${!isMonthly ? "bg-purple-600 text-white" : "bg-gray-300 text-gray-600"
-                }`}
-              onClick={() => setIsMonthly(false)}
-            >
-              Annually
-            </motion.button>
-          </div>
-
-          {/* Pricing Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {[
-              {
-                name: "Basic",
-                priceMonthly: "$29",
-                priceAnnually: "$290",
-                credits: "100 Credits",
-                features: ["Free Trial Available", "Basic AI Features", "Email Support"],
-                buttonText: "Start Free Trial",
-              },
-              {
-                name: "Pro",
-                priceMonthly: "$79",
-                priceAnnually: "$790",
-                credits: "500 Credits",
-                features: ["Advanced AI Features", "Priority Support", "Custom Backgrounds"],
-                buttonText: "Start Free Trial",
-              },
-              {
-                name: "Enterprise",
-                priceMonthly: "Custom Pricing",
-                priceAnnually: "Custom Pricing",
-                credits: "Unlimited Credits",
-                features: ["Dedicated AI Solutions", "Account Manager", "Full Customization"],
-                buttonText: "Contact Us",
-              },
-            ].map((plan, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.2, duration: 0.5 }}
-                className={`bg-white p-10 rounded-3xl shadow-lg border ${plan.name === "Pro" ? "border-purple-600" : "border-gray-300"
-                  } flex flex-col items-center min-h-[420px]`}
-              >
-                <h3 className="text-xl font-semibold mb-4 text-gray-900">{plan.name}</h3>
-                <p className="text-lg text-gray-500 mb-2">{plan.credits}</p>
-                <p className="mt-4 text-3xl font-bold text-gray-900">
-                  {isMonthly ? plan.priceMonthly : plan.priceAnnually}
-                  <span className="text-sm text-gray-600">{plan.name === "Enterprise" ? "" : "/month"}</span>
-                </p>
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className={`mt-8 px-8 py-4 rounded-lg font-medium transition-transform ${plan.name === "Pro"
-                    ? "bg-purple-600 text-white"
-                    : "bg-gray-200 text-gray-900 hover:bg-gray-300"
-                    }`}
-                >
-                  {plan.buttonText}
-                </motion.button>
-                <ul className="mt-6 space-y-3 text-sm text-gray-700">
-                  {plan.features.map((feature, i) => (
-                    <li key={i} className="flex items-center">
-                      <span className="text-green-500 mr-2">✔</span>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Call-to-Action */}
-          <div className="text-center mt-16">
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              className="bg-purple-600 text-white px-8 py-3 rounded-lg font-medium text-lg shadow-lg"
-            >
-              View Pricing
-            </motion.button>
-          </div>
-        </div>
-      </section>
       {/* section7 */}
       <section
         ref={ref2}
@@ -750,20 +518,20 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
           {/* Left Section: Call to Action Content */}
           <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in">
+            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in"style={{ fontFamily: "'Playfair Display', serif" }}>
               Ready to Transform Your Fashion Business?
             </h1>
-            <p className="text-lg text-gray-700 animate-fade-in-delay">
+            <p className="text-lg text-gray-700 animate-fade-in-delay"style={{ fontFamily: "'Playfair Display', serif" }}>
               Take the next step and elevate your business with AI-powered fashion solutions. Whether you want to explore our platform, book a personalized demo, or get in touch with us, we’re here to help you transform your fashion experience.
             </p>
             <div className="flex flex-col lg:flex-row justify-center lg:justify-start lg:space-x-4 space-y-4 lg:space-y-0 animate-fade-in">
-              <a href="/signup"><button className="bg-purple-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-purple-700 w-full sm:w-auto">
+              <a href="/signup"><button className="bg-purple-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}>
                 Sign Up Now
               </button></a>
               {/* <button className="bg-teal-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-teal-700 w-full sm:w-auto">
                 Book a Demo
               </button> */}
-              <a href="/contact"><button className="bg-blue-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-blue-700 w-full sm:w-auto">
+              <a href="/contact"><button className="bg-blue-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg"style={{ fontFamily: "'Playfair Display', serif" }}>
                 Contact Us
               </button></a>
             </div>
@@ -780,13 +548,16 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
+      {/* shift section1 */}
+     
+{/* faq section */}
       <section className="bg-gray-50 py-16 px-8">
         <div className="max-w-6xl mx-auto">
           <motion.h2
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-sm text-purple-700 font-bold uppercase"
+            className="text-sm text-purple-700 font-bold uppercase"style={{ fontFamily: "'Playfair Display', serif" }}
           >
             FAQ
           </motion.h2>
@@ -794,7 +565,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2"
+            className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2"style={{ fontFamily: "'Playfair Display', serif" }}
           >
             Frequently Asked Questions
           </motion.h1>

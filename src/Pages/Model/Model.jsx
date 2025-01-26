@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
-import Select from "react-select";
+// import Select from "react-select";
 import "modern-normalize";
 import "./Model.css";
 import ModelConfigForm from "../../Components/ModelConfigFrom/ModelConfigForm";

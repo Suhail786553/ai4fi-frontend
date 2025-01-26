@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { ChevronDown, ChevronUp, User, Camera, Palette, Image as ImageIcon, Sparkles, Info, Rocket } from "lucide-react";
 import {
   backgroundOptions,
@@ -87,6 +87,7 @@ const ModelConfigForm = ({
   eyeColor,
   pose,
   loading,
+  generateImage,
 }) => {
   const [activeTab, setActiveTab] = useState("basic");
 
@@ -333,7 +334,11 @@ const ModelConfigForm = ({
           <button
             onClick={generateImage}
             className='flex-1 flex justify-center gap-1 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
-            {true ? <img src='/loader.gif' alt='loader' className='mr-2 h-4 w-4 mix-blend-darken' /> : <Rocket className='mr-2 h-4 w-4' />}
+            {loading ? (
+              <img src='/loader.gif' alt='loader' className='mr-2 h-4 w-4 mix-blend-darken' />
+            ) : (
+              <Rocket className='mr-2 h-4 w-4' />
+            )}
             <span>Generate Image</span>
           </button>
         </div>

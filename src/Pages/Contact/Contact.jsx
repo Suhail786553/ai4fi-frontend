@@ -20,11 +20,14 @@ const ContactForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    const baseURL = window.location.hostname === "localhost"
-        ? "http://localhost:5000/api/about"
-        : "https://ai4fi-backend.onrender.com/api/about";
     e.preventDefault();
     console.log("Form Data Submitted:", formData);
+  
+    const baseURL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5000/api/about"
+        : "https://ai4fi-backend.onrender.com/api/about";
+  
     try {
       const response = await fetch(baseURL, {
         method: "POST",
@@ -33,9 +36,9 @@ const ContactForm = () => {
         },
         body: JSON.stringify(formData),
       });
-
+  
       if (response.ok) {
-        alert("Message sent successfully");
+        alert("Message sent successfully!");
         setFormData({
           name: "",
           company: "",
@@ -45,12 +48,46 @@ const ContactForm = () => {
           message: "",
         });
       } else {
-        alert("Error sending message");
+        const errorResponse = await response.json();
+        alert(`Error: ${errorResponse.error || "Something went wrong"}`);
       }
     } catch (error) {
       console.error("Error:", error);
+      alert("Failed to send the message. Please try again.");
     }
   };
+  
+  //   const baseURL = window.location.hostname === "localhost"
+  //       ? "http://localhost:5000/api/about"
+  //       : "https://ai4fi-backend.onrender.com/api/about";
+  //   e.preventDefault();
+  //   console.log("Form Data Submitted:", formData);
+  //   try {
+  //     const response = await fetch(baseURL, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+
+  //     if (response.ok) {
+  //       alert("Message sent successfully");
+  //       setFormData({
+  //         name: "",
+  //         company: "",
+  //         phone: "",
+  //         email: "",
+  //         subject: "",
+  //         message: "",
+  //       });
+  //     } else {
+  //       alert("Error sending message");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   const animationLeft = {
     hidden: { x: "-100vw", opacity: 0 },
