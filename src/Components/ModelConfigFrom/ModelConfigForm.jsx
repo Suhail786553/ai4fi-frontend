@@ -59,6 +59,7 @@ const SegmentedControl = ({ options, value, onChange }) => {
 };
 
 const ModelConfigForm = ({
+  generateImage,
   setGender,
   setAge,
   age,
@@ -85,6 +86,7 @@ const ModelConfigForm = ({
   hairColor,
   eyeColor,
   pose,
+  loading,
 }) => {
   const [activeTab, setActiveTab] = useState("basic");
 
@@ -221,8 +223,8 @@ const ModelConfigForm = ({
                   <label className='block text-sm mb-1'>Shot Type</label>
                   <SegmentedControl
                     options={[
-                      { value: "full", label: "Full Body" },
-                      { value: "half", label: "Half Body" },
+                      { value: "Full Body", label: "Full Body" },
+                      { value: "Half Body", label: "Half Body" },
                     ]}
                     value={shotType}
                     onChange={(value) => setShotType(value)}
@@ -250,15 +252,15 @@ const ModelConfigForm = ({
                   <label className='block text-sm mb-1'>Seed Type</label>
                   <SegmentedControl
                     options={[
-                      { value: "auto", label: "Auto" },
-                      { value: "custom", label: "Custom" },
+                      { value: "Auto Generate", label: "Auto" },
+                      { value: "Custom Generated", label: "Custom" },
                     ]}
                     value={seedType}
                     onChange={(value) => setSeedType(value)}
                   />
                 </div>
 
-                {seedType === "custom" && (
+                {seedType === "Custom Generated" && (
                   <div>
                     <label className='block text-sm mb-1'>Model DNA Number (Seed) </label>
                     <input
@@ -328,8 +330,10 @@ const ModelConfigForm = ({
       {/* Footer Actions */}
       <div className='p-4 border-t border-gray-700 bg-gray-900'>
         <div className='flex gap-2'>
-          <button className='flex-1 flex justify-center gap-1 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
-            <Rocket className='mr-2 h-4 w-4' />
+          <button
+            onClick={generateImage}
+            className='flex-1 flex justify-center gap-1 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
+            {true ? <img src='/loader.gif' alt='loader' className='mr-2 h-4 w-4 mix-blend-darken' /> : <Rocket className='mr-2 h-4 w-4' />}
             <span>Generate Image</span>
           </button>
         </div>

@@ -151,34 +151,6 @@ const ModelGeneratorUI = () => {
     }
   };
 
-  console.table(
-    "form",
-    age,
-    gender,
-    hairColor,
-    background,
-    skinColor,
-
-    seed,
-    shotType,
-
-    selectedPosts,
-    country,
-    gender,
-    hairType,
-    skinColor,
-    seedType,
-
-    autoSeed,
-    country,
-    model,
-    hairColor,
-    eyeColor,
-    dress,
-    background,
-    pose
-  );
-
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-black text-white'>
       <aside
@@ -223,6 +195,8 @@ const ModelGeneratorUI = () => {
             seedType={seedType}
             dnaNumber={dnaNumber}
             background={background}
+            generateImage={generateImage}
+            loading={loading}
           />
         </div>
       </aside>
