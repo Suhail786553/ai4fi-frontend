@@ -280,7 +280,9 @@ const ModelGeneratorUI = () => {
                     <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'>
                       <div className='flex space-x-4'>
                         {/* Download Button */}
-                        <span className='text-white hover:text-gray-400 flex flex-col items-center' onClick={() => handleDownload(image)}>
+                        
+                        <span className='text-white  hover:text-gray-400  flex flex-col items-center cursor-pointer' onClick={() => handleDownload(image)}
+                        style={{ pointerEvents: 'auto' }}>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -296,7 +298,7 @@ const ModelGeneratorUI = () => {
                           </svg>
                           <span className='text-sm'>Download</span>
                         </span>
-
+                       
                         {/* Delete Button */}
                         <button
                           onClick={() => {

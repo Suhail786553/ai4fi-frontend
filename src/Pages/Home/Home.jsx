@@ -394,14 +394,14 @@ const HeroSection = () => {
       <section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
         {/* Buttons Section */}
         <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
-          <div className="flex justify-center gap-4 flex-wrap"style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className="flex justify-center gap-4 flex-wrap"style={{ fontFamily: "'Playfair Display'" }}>
             {Object.keys(imageSets).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${activeTab === tab
-                  ? "bg-purple-600 text-white transform scale-105"
-                  : "bg-gray-200 hover:bg-gray-300"
+                  ? "bg-[#5A00FF] text-white transform scale-105"
+                  : "bg-gray-300 hover:bg-gray-300"
                   }`}
               >
                 {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
