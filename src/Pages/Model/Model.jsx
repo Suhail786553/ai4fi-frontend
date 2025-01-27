@@ -4,6 +4,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import "modern-normalize";
 import "./Model.css";
 import ModelConfigForm from "../../Components/ModelConfigFrom/ModelConfigForm";
+import { DeleteIcon, Download, DownloadIcon, Share2, ShareIcon, Trash, ZoomIn } from "lucide-react";
 // import { saveAs } from "file-saver";
 
 const ModelGeneratorUI = () => {
@@ -23,7 +24,7 @@ const ModelGeneratorUI = () => {
   const [autoSeed] = useState(true);
   const [country, setCountry] = useState("India");
   // const [generatedImage, setGeneratedImage] = useState(null);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [model, setModel] = useState(1); // Number of images, default 1
   const [shotType, setShotType] = useState("Full Body"); // Default is "Full Body"
@@ -151,34 +152,6 @@ const ModelGeneratorUI = () => {
     }
   };
 
-  console.table(
-    "form",
-    age,
-    gender,
-    hairColor,
-    background,
-    skinColor,
-
-    seed,
-    shotType,
-
-    selectedPosts,
-    country,
-    gender,
-    hairType,
-    skinColor,
-    seedType,
-
-    autoSeed,
-    country,
-    model,
-    hairColor,
-    eyeColor,
-    dress,
-    background,
-    pose
-  );
-
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-black text-white'>
       <aside
@@ -224,12 +197,13 @@ const ModelGeneratorUI = () => {
             dnaNumber={dnaNumber}
             background={background}
             generateImage={generateImage}
+            loading={loading}
           />
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className='relative flex flex-col items-center justify-center lg:px-24 py-4 min-h-screen'>
+      <main className='relative flex flex-col items-center w-full justify-center lg:px-12 py-4 min-h-screen'>
         {/* Sidebar Toggle Button */}
         <button
           className='absolute left-4 top-4 bg-white text-black p-2 rounded-full shadow-lg z-150 sm:block hidden'
@@ -247,10 +221,10 @@ const ModelGeneratorUI = () => {
 
         {/* Content */}
         <div className='text-center w-full py-8'>
-          <h1 className='text-4xl py-2 font-bold text-white mb-4 '>AI4FI - Fashion Model Generation ✨</h1>
-          <p className='text-3xl font-bold text-gray-200 mb-4'>Create Photorealistic Fashion Model Images with Custom Attributes 🔮</p>
-          <hr className='border-gray-600 my-4' />
-          <p className='text-xl text-gray-400'>Powered by ApricityTS💡AI-Driven Fashion Modeling ✨</p>
+          <h1 className='text-2xl py-2 font-bold text-white mb-4 '>AI4FI - Fashion Model Generation ✨</h1>
+          <p className='text-xl font-bold text-gray-200 mb-4'>Create Photorealistic Fashion Model Images with Custom Attributes 🔮</p>
+          <hr className='border-gray-600 my-2' />
+          <p className='text-lg text-gray-400'>Powered by ApricityTS💡AI-Driven Fashion Modeling ✨</p>
         </div>
 
         {/* Image Gallery */}
@@ -280,9 +254,7 @@ const ModelGeneratorUI = () => {
                     <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'>
                       <div className='flex space-x-4'>
                         {/* Download Button */}
-                        
-                        <span className='text-white  hover:text-gray-400  flex flex-col items-center cursor-pointer' onClick={() => handleDownload(image)}
-                        style={{ pointerEvents: 'auto' }}>
+                        <span className='text-white hover:text-gray-400 flex flex-col items-center' onClick={() => handleDownload(image)}>
                           <svg
                             xmlns='http://www.w3.org/2000/svg'
                             fill='none'
@@ -298,7 +270,7 @@ const ModelGeneratorUI = () => {
                           </svg>
                           <span className='text-sm'>Download</span>
                         </span>
-                       
+
                         {/* Delete Button */}
                         <button
                           onClick={() => {
@@ -306,20 +278,10 @@ const ModelGeneratorUI = () => {
                             updatedImages.splice(index, 1); // Remove the image from the array
                             setGeneratedImages(updatedImages); // Update state
                           }}
-                          className='text-white hover:text-gray-400 flex flex-col items-center'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6'>
-                            <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
-                          </svg>
-                          <span className='text-sm'>Delete</span>
-                        </button>
-                        {/* share button */}
-                        <button
+                        />
+
+                        <Share2
+                          className='h-6 w-6 cursor-pointer'
                           onClick={() =>
                             navigator
                               .share({
@@ -329,44 +291,16 @@ const ModelGeneratorUI = () => {
                               })
                               .catch((err) => console.error("Share failed:", err))
                           }
-                          className='text-white hover:text-gray-400 flex flex-col items-center'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6'>
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M14.25 15.682l5.444-3.262M14.25 8.318l5.444 3.262m-9.638 6.08A6.004 6.004 0 1114.25 3a6.004 6.004 0 010 12.053z'
-                            />
-                          </svg>
-                          <span className='text-sm'>Share</span>
-                        </button>
-                        {/* zoom button */}
-                        <button
+                        />
+
+                        <ZoomIn
+                          className='h-6 w-6 cursor-pointer'
                           onClick={() => {
                             setZoomedImage(image); // Set the image to zoom
                             setIsModalOpen(true); // Open the modal
                           }}
-                          className='text-white hover:text-gray-400 flex flex-col items-center'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6'>
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M15 12h3m-3 0a3 3 0 01-3-3m3 3a3 3 0 013 3m-3-3V9m0 3V6m-3 6H9m0 0a3 3 0 013 3m0-3a3 3 0 00-3-3m0 3H6'
-                            />
-                          </svg>
-                          <span className='text-sm'>Zoom</span>
-                        </button>
+                        />
+
                         {isModalOpen && (
                           <div
                             className='fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50'
@@ -399,7 +333,7 @@ const ModelGeneratorUI = () => {
           </div>
         )}
         {generatedImages && generatedImages.length > 0 && (
-          <div className='flex justify-center mt-8 animate-bounce'>
+          <div className='flex justify-center mt-4 animate-bounce'>
             <a href='/virtualtryon'>
               <button className='bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform transform hover:scale-110'>
                 Virtual Try On ✨

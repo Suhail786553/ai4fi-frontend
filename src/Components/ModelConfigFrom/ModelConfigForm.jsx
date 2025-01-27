@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import { ChevronDown, ChevronUp, User, Camera, Palette, Image as ImageIcon, Sparkles, Info, Rocket } from "lucide-react";
 import {
   backgroundOptions,
@@ -85,6 +85,7 @@ const ModelConfigForm = ({
   hairColor,
   eyeColor,
   pose,
+  loading,
   generateImage,
 }) => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -222,8 +223,8 @@ const ModelConfigForm = ({
                   <label className='block text-sm mb-1'>Shot Type</label>
                   <SegmentedControl
                     options={[
-                      { value: "full", label: "Full Body" },
-                      { value: "half", label: "Half Body" },
+                      { value: "Full Body", label: "Full Body" },
+                      { value: "Half Body", label: "Half Body" },
                     ]}
                     value={shotType}
                     onChange={(value) => setShotType(value)}
@@ -251,15 +252,15 @@ const ModelConfigForm = ({
                   <label className='block text-sm mb-1'>Seed Type</label>
                   <SegmentedControl
                     options={[
-                      { value: "auto", label: "Auto" },
-                      { value: "custom", label: "Custom" },
+                      { value: "Auto Generate", label: "Auto" },
+                      { value: "Custom Generated", label: "Custom" },
                     ]}
                     value={seedType}
                     onChange={(value) => setSeedType(value)}
                   />
                 </div>
 
-                {seedType === "custom" && (
+                {seedType === "Custom Generated" && (
                   <div>
                     <label className='block text-sm mb-1'>Model DNA Number (Seed) </label>
                     <input
@@ -329,13 +330,34 @@ const ModelConfigForm = ({
       {/* Footer Actions */}
       <div className='p-4 border-t border-gray-700 bg-gray-900'>
         <div className='flex gap-2'>
-          <button onClick={generateImage} className='flex-1 flex justify-center gap-1 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
-            <Rocket className='mr-2 h-4 w-4' />
-            <span>Generate Image</span>
+          <button
+            onClick={generateImage}
+            className='flex-1 flex justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
+            {loading ? <LoadingSpinner size={15} /> : <Rocket className=' h-4 w-4' />}
+            <span>{loading ? "Generating..." : "Generate Image"}</span>
           </button>
         </div>
       </div>
     </div>
+  );
+};
+
+export const LoadingSpinner = ({ size = 24, className, ...props }) => {
+  return (
+    <svg
+      xmlns='http://www.w3.org/2000/svg'
+      width={size}
+      height={size}
+      {...props}
+      viewBox='0 0 24 24'
+      fill='none'
+      stroke='currentColor'
+      strokeWidth='2'
+      strokeLinecap='round'
+      strokeLinejoin='round'
+      className={`animate-spin ${className}`}>
+      <path d='M21 12a9 9 0 1 1-6.219-8.56' />
+    </svg>
   );
 };
 
