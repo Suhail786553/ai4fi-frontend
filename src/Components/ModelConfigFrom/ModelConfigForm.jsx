@@ -59,7 +59,6 @@ const SegmentedControl = ({ options, value, onChange }) => {
 };
 
 const ModelConfigForm = ({
-  generateImage,
   setGender,
   setAge,
   age,
