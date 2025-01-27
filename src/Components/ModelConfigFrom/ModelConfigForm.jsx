@@ -334,7 +334,7 @@ const ModelConfigForm = ({
             onClick={generateImage}
             className='flex-1 flex justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
             {loading ? <LoadingSpinner size={15} /> : <Rocket className=' h-4 w-4' />}
-            <span>{loading ? "Generating" : "Generate Image"}</span>
+            <span>{loading ? "Generating..." : "Generate Image"}</span>
           </button>
         </div>
       </div>
