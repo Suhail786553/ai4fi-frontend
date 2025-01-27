@@ -505,7 +505,7 @@ const HeroSection = () => {
   </div>
 
   <div className="flex justify-center mt-16">
-    <div className="bg-white border border-gray-200 shadow-lg rounded-3xl p-12 w-full max-w-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-300 hover:translate-y-1">
+    <div className="bg-white border shadow-lg rounded-3xl p-12 w-full max-w-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-300 hover:translate-y-1" style={{borderColor:"#8852FF",borderWidth:"0.5px"}}>
       <h3 className="text-3xl font-semibold text-gray-900 mb-6">Contact Us</h3>
       <p className="text-gray-600 mb-8 text-lg leading-relaxed">
         Our dedicated team is ready to provide tailored solutions for your unique needs. Reach out today for personalized advice and detailed plans!
