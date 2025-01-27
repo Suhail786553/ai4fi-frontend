@@ -3,19 +3,17 @@ import axios from "axios";
 import imageCompression from "browser-image-compression";
 
 const TryOnRoom = () => {
-  const [modelImages, setModelImages] = useState([]); // Array for model images
+  const [modelImage, setModelImage] = useState([]); // Array for model images
   const [garmentImage, setGarmentImage] = useState(null); // Single file for garment image
   const [tryOnResults, setTryOnResults] = useState([]);
-  // const [tryOnType, setTryOnType] = useState("default");
-  // const [selectedCategory] = useState("default");
   const [selectedCategory, setSelectedCategory] = useState("tops");
 
-   const handleBrowseModelImages = async (e) => {
+  const handleBrowseModelImages = async (e) => {
     const files = Array.from(e.target.files);
     const compressedFiles = await Promise.all(
       files.map((file) => compressImage(file))
     );
-    setModelImages(compressedFiles);
+    setModelImage(compressedFiles);
   };
 
   // Handle selecting and compressing garment image
@@ -28,46 +26,43 @@ const TryOnRoom = () => {
   // Handle generating try-on results
   const handleGenerateTryOn = async () => {
     try {
-      // Convert images to base64
-      const modelImagesBase64 = await Promise.all(
-        modelImages.map((file) => convertToBase64(file))
-      );
-      const garmentImageBase64 = await convertToBase64(garmentImage);
-
-      // Prepare payload
-      const data = {
-        model_images: modelImagesBase64,
-        garment_image: garmentImageBase64,
-        category: selectedCategory,
-      };
-
-      // POST request
+      const formData = new FormData();
+  
+      // Append model images as files
+      modelImage.forEach((file) => {
+        formData.append('model_image', file);  // 'model_image' key matches backend
+      });
+  
+      // Append garment image as file
+      formData.append('garment_image', garmentImage);
+  
+      // Append other fields
+      formData.append('category', selectedCategory);
+  
+      // POST request with axios, Content-Type will be set automatically
       const response = await axios.post(
-        "http://localhost:5000/proxy/virtual-try-on",
-        data,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+        'http://localhost:5000/proxy/virtual-try-on',
+        formData,
       );
-
+  
       setTryOnResults(response.data.results); // Update results
     } catch (error) {
       console.error(
-        "Error generating try-on:",
+        'Error generating try-on:',
         error.response?.data || error.message
       );
       alert(
-        `Failed to generate try-on: ${
-          error.response?.data?.detail || "Unknown error"
-        }`
+        `Failed to generate try-on: ${error.response?.data?.detail || 'Unknown error'}`
       );
     }
   };
+  
+
 
   // Compress image utility
   const compressImage = async (file) => {
     const options = {
-      maxSizeMB: 0.2, // 200kb
+      maxSizeMB: 1, // 200kb
       maxWidthOrHeight: 500, // Resize image for smaller dimensions
       useWebWorker: true,
     };
@@ -75,16 +70,16 @@ const TryOnRoom = () => {
   };
 
   // Convert to base64 utility
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result.split(",")[1]); // Extract base64 content
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  };
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onload = () => resolve(reader.result.split(",")[1]); // Extract base64 content
+  //     reader.onerror = (error) => reject(error);
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
 
-  
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 flex flex-col">
@@ -137,7 +132,7 @@ const TryOnRoom = () => {
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="default">tops</option> 
+              <option value="default">tops</option>
               <option value="advanced">bottoms</option>
               <option value="advanced">one-pieces</option>
             </select>
@@ -160,9 +155,9 @@ const TryOnRoom = () => {
                 key={index}
                 className="bg-gray-200 h-32 flex items-center justify-center rounded-lg shadow-md overflow-hidden"
               >
-                {modelImages[index] ? (
+                {modelImage[index] ? (
                   <img
-                    src={URL.createObjectURL(modelImages[index])}
+                    src={URL.createObjectURL(modelImage[index])}
                     alt={`Model ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
