@@ -4,8 +4,15 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 import "modern-normalize";
 import "./Model.css";
 import ModelConfigForm from "../../Components/ModelConfigFrom/ModelConfigForm";
-import { DeleteIcon, Download, DownloadIcon, Share2, ShareIcon, Trash, ZoomIn } from "lucide-react";
+import { DownloadIcon, Share2, Trash, ZoomIn } from "lucide-react";
+import axios from "axios";
+import Spinner from "../../Components/Spinner/Spinner";
 // import { saveAs } from "file-saver";
+
+function calculateSecondsDifference(time1, time2) {
+  const differenceInMilliseconds = time2 - time1;
+  return differenceInMilliseconds / 1000;
+}
 
 const ModelGeneratorUI = () => {
   const [age, setAge] = useState(25);
@@ -34,102 +41,9 @@ const ModelGeneratorUI = () => {
   const [loadingCountdowns, setLoadingCountdowns] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // Tracks if modal is open
   const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoom
-
-  // const [modelCount, setModelCount] = useState(1); // To track the number of models for "Custom Seed"
-
-  const generateImage = async () => {
-    setLoading(true);
-    const placeholders = Array(model).fill(null); // Placeholder array for images
-    const countdowns = Array(model).fill(0); // Initialize countdowns
-    setGeneratedImages(placeholders); // Initialize placeholders
-    setLoadingCountdowns(countdowns); // Initialize countdowns
-
-    try {
-      const images = []; // Array to store generated image URLs
-
-      for (let i = 0; i < model; i++) {
-        const payload = {
-          gender,
-          country,
-          age: Number(age),
-          hair_color: hairColor,
-          hair_type: hairType,
-          eye_color: eyeColor,
-          skin_color: skinColor,
-          shot_type: shotType,
-          dress: dress || "",
-          background,
-          pose,
-          seed: autoSeed ? null : seed,
-          auto_seed: autoSeed,
-          num_images: 1,
-        };
-
-        console.log(`Payload for model ${i + 1}:`, payload);
-
-        // Simulated timer for professional countdown feel
-        const simulatedDuration = 5; // Total visible countdown time in seconds
-        const updateFrequency = 50; // Update every 50ms for smooth animation
-        let simulatedProgress = 0; // Start at 0%
-
-        const timerInterval = setInterval(() => {
-          simulatedProgress += (100 / (simulatedDuration * 1000)) * updateFrequency;
-          setLoadingCountdowns((prevCountdowns) => {
-            const updatedCountdowns = [...prevCountdowns];
-            updatedCountdowns[i] = Math.min(simulatedProgress, 200); // Cap at 100%
-            return updatedCountdowns;
-          });
-
-          if (simulatedProgress >= 500) clearInterval(timerInterval);
-        }, updateFrequency);
-
-        // Perform the fetch request
-        const baseURL =
-          window.location.hostname === "localhost"
-            ? "http://localhost:5000/proxy/generate-model"
-            : "https://ai4fi-backend.onrender.com/proxy/generate-model";
-        const response = await fetch(baseURL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        });
-
-        if (!response.ok) {
-          clearInterval(timerInterval); // Stop the timer on error
-          throw new Error(`Failed to generate the model for iteration ${i + 1}. Status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log(`Response Data for model ${i + 1}:`, data);
-
-        // Stop the countdown and finalize progress
-        clearInterval(timerInterval);
-        setLoadingCountdowns((prevCountdowns) => {
-          const updatedCountdowns = [...prevCountdowns];
-          updatedCountdowns[i] = 100; // Ensure it finishes at 100%
-          return updatedCountdowns;
-        });
-
-        // Update generated image array
-        if (data.image_urls && data.image_urls[0]) {
-          images[i] = data.image_urls[0];
-        }
-
-        setGeneratedImages((prevImages) => {
-          const updatedImages = [...prevImages];
-          updatedImages[i] = data.image_urls[0];
-          return updatedImages;
-        });
-      }
-    } catch (error) {
-      console.error("Error during generation:", error);
-      alert(`Error generating the models: ${error.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [startTime, setStartTime] = useState(null);
+  const [endTime, setEndTime] = useState(null);
+  const [images, setImages] = useState([]);
 
   const handleDownload = async (imageUrl) => {
     try {
@@ -150,6 +64,55 @@ const ModelGeneratorUI = () => {
     } catch (error) {
       console.error("Failed to download image:", error);
     }
+  };
+
+  const generateImages = async () => {
+    setLoading(true);
+    const placeholders = Array(model).fill(null);
+    setGeneratedImages(placeholders); // Initialize placeholders
+    const baseURL =
+      window.location.hostname === "localhost"
+        ? "http://localhost:5000/proxy/generate-model"
+        : "https://ai4fi-backend.onrender.com/proxy/generate-model";
+
+    placeholders.map(async (nul, i) => {
+      const payload = {
+        gender,
+        country,
+        age: Number(age),
+        hair_color: hairColor,
+        hair_type: hairType,
+        eye_color: eyeColor,
+        skin_color: skinColor,
+        shot_type: shotType,
+        dress: dress || "",
+        background,
+        pose,
+        seed: autoSeed ? null : seed,
+        auto_seed: autoSeed,
+        num_images: 1,
+      };
+
+      try {
+        setStartTime((prv) => ({ ...prv, [`image_${i + 1}`]: Date.now() }));
+        const response = await axios.post(baseURL, payload);
+        const data = response.data;
+        if (data.image_urls && data.image_urls[0]) {
+          setGeneratedImages((prevImages) => {
+            const updatedImages = [...prevImages];
+            updatedImages[i] = data.image_urls[0];
+            return updatedImages;
+          });
+        }
+      } catch (error) {
+        console.error(`Error generating image ${i + 1}:`, error);
+        alert(`Error generating the models: ${error.message}`);
+      } finally {
+        setEndTime((prv) => ({ ...prv, [`image_${i + 1}`]: Date.now() }));
+      }
+    });
+
+    setLoading(false);
   };
 
   return (
@@ -196,7 +159,7 @@ const ModelGeneratorUI = () => {
             seedType={seedType}
             dnaNumber={dnaNumber}
             background={background}
-            generateImage={generateImage}
+            generateImage={() => generateImages()}
             loading={loading}
           />
         </div>
@@ -232,101 +195,91 @@ const ModelGeneratorUI = () => {
           <div className='flex-grow w-full flex justify-center bg-black overflow-hidden'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full'>
               {generatedImages.map((image, index) => (
-                <div key={index} className='relative group w-full h-78 lg:h-96 flex-shrink-0' id={`image-${index}`}>
-                  {/* Black Placeholder with Countdown */}
-                  {!image && (
-                    <div className='w-full h-full bg-black rounded-lg flex items-center justify-center'>
-                      <p className='text-white text-lg font-bold'>{loadingCountdowns[index]}s</p>
-                    </div>
+                <div>
+                  {startTime && endTime && startTime[`image_${index + 1}`] && endTime[`image_${index + 1}`] && (
+                    <p className='text-sm mb-2 '>
+                      {calculateSecondsDifference(startTime[`image_${index + 1}`], endTime[`image_${index + 1}`])?.toFixed(2)}{" "}
+                      <span className='ml-[2px]'>sec</span>
+                    </p>
                   )}
 
-                  {/* Render Actual Image */}
-                  {image && (
-                    <img
-                      src={image}
-                      alt={`Generated Model ${index + 1}`}
-                      className='w-full h-full object-cover rounded-lg shadow-md transition-all duration-300 ease-in-out'
-                    />
-                  )}
+                  <div key={index} className='relative  group w-full h-78 lg:h-96 flex-shrink-0' id={`image-${index}`}>
+                    {/* Black Placeholder with Countdown */}
+                    {!image && startTime && <Spinner startTime={startTime[`image_${index + 1}`]} />}
 
-                  {/* Hover Options */}
-                  {image && (
-                    <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'>
-                      <div className='flex space-x-4'>
-                        {/* Download Button */}
-                        <span className='text-white hover:text-gray-400 flex flex-col items-center' onClick={() => handleDownload(image)}>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6'>
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M12 16v-8m0 8l-4-4m4 4l4-4m-7 12h10a2 2 0 002-2V6a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z'
-                            />
-                          </svg>
-                          <span className='text-sm'>Download</span>
-                        </span>
+                    {image && (
+                      <img
+                        src={image}
+                        alt={`Generated Model ${index + 1}`}
+                        className='w-full h-full object-contain rounded-lg shadow-md transition-all duration-300 ease-in-out'
+                      />
+                    )}
 
-                        {/* Delete Button */}
-                        <button
-                          onClick={() => {
-                            const updatedImages = [...generatedImages];
-                            updatedImages.splice(index, 1); // Remove the image from the array
-                            setGeneratedImages(updatedImages); // Update state
-                          }}
-                        />
+                    {/* Hover Options */}
+                    {image && (
+                      <div className='absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out'>
+                        <div className='flex space-x-4'>
+                          {/* Download Button */}
 
-                        <Share2
-                          className='h-6 w-6 cursor-pointer'
-                          onClick={() =>
-                            navigator
-                              .share({
-                                title: "Generated Image",
-                                text: "Check out this image!",
-                                url: image,
-                              })
-                              .catch((err) => console.error("Share failed:", err))
-                          }
-                        />
+                          <DownloadIcon className='h-6 w-6 cursor-pointer' onClick={() => handleDownload(image)} />
 
-                        <ZoomIn
-                          className='h-6 w-6 cursor-pointer'
-                          onClick={() => {
-                            setZoomedImage(image); // Set the image to zoom
-                            setIsModalOpen(true); // Open the modal
-                          }}
-                        />
+                          <Trash
+                            className='h-6 w-6 cursor-pointer hove:text-red-600'
+                            onClick={() => {
+                              const updatedImages = [...generatedImages];
+                              updatedImages.splice(index, 1); // Remove the image from the array
+                              setGeneratedImages(updatedImages); // Update state
+                            }}
+                          />
 
-                        {isModalOpen && (
-                          <div
-                            className='fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50'
-                            onClick={() => setIsModalOpen(false)} // Close modal on background click
-                          >
-                            <div className='relative'>
-                              <img src={zoomedImage} alt='Zoomed' className='max-w-full max-h-screen' />
-                              <button
-                                onClick={() => setIsModalOpen(false)}
-                                className='absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full'>
-                                <svg
-                                  xmlns='http://www.w3.org/2000/svg'
-                                  fill='none'
-                                  viewBox='0 0 24 24'
-                                  strokeWidth={1.5}
-                                  stroke='currentColor'
-                                  className='w-6 h-6'>
-                                  <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
-                                </svg>
-                              </button>
+                          <Share2
+                            className='h-6 w-6 cursor-pointer'
+                            onClick={() =>
+                              navigator
+                                .share({
+                                  title: "Generated Image",
+                                  text: "Check out this image!",
+                                  url: image,
+                                })
+                                .catch((err) => console.error("Share failed:", err))
+                            }
+                          />
+
+                          <ZoomIn
+                            className='h-6 w-6 cursor-pointer'
+                            onClick={() => {
+                              setZoomedImage(image); // Set the image to zoom
+                              setIsModalOpen(true); // Open the modal
+                            }}
+                          />
+
+                          {isModalOpen && (
+                            <div
+                              className='fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50'
+                              onClick={() => setIsModalOpen(false)} // Close modal on background click
+                            >
+                              <div className='relative'>
+                                <img src={zoomedImage} alt='Zoomed' className='max-w-full max-h-screen' />
+                                <button
+                                  onClick={() => setIsModalOpen(false)}
+                                  className='absolute top-4 right-4 bg-gray-800 text-white p-2 rounded-full'>
+                                  <svg
+                                    xmlns='http://www.w3.org/2000/svg'
+                                    fill='none'
+                                    viewBox='0 0 24 24'
+                                    strokeWidth={1.5}
+                                    stroke='currentColor'
+                                    className='w-6 h-6'>
+                                    <path strokeLinecap='round' strokeLinejoin='round' d='M6 18L18 6M6 6l12 12' />
+                                  </svg>
+                                </button>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

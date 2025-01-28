@@ -53,7 +53,6 @@ const HeroSection = () => {
     };
   }, []);
 
-
   const imageSets = {
     pixelPerfect: [
       "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg", // Replace with your image paths
@@ -68,12 +67,12 @@ const HeroSection = () => {
     versatilePoses: [
       "/images/model-gallery/getimg_ai_img-5hP1KqLe4bqKuufBhZfEv.jpeg",
       "/images/model-gallery/getimg_ai_img-2LuGKyxjYnuXThjWTabZ5.jpeg",
-      "/images/model-gallery/getimg_ai_img-5V5fKiMdAjG2zwwmUFXPO.jpeg"
+      "/images/model-gallery/getimg_ai_img-5V5fKiMdAjG2zwwmUFXPO.jpeg",
     ],
     inputFlexibility: [
       "/images/model-gallery/getimg_ai_img-7BxvLDHU6Gw1fjusT2qYh.jpeg",
       "/images/model-gallery/getimg_ai_img-CPju632voVEmTDM37Iesi.jpeg",
-      "/images/model-gallery/getimg_ai_img-Ec8Wd4kmnZZSnxOYEtrxO.jpeg"
+      "/images/model-gallery/getimg_ai_img-Ec8Wd4kmnZZSnxOYEtrxO.jpeg",
     ],
   };
 
@@ -104,11 +103,8 @@ const HeroSection = () => {
     setActiveIndex(activeIndex === index ? null : index);
   };
 
-
-
   const handleMouseMove = (e) => {
     setCursorPosition({ x: e.clientX, y: e.clientY });
-
   };
 
 
@@ -185,11 +181,11 @@ const HeroSection = () => {
       {/* Hero Section */}
       <section
         onMouseMove={handleMouseMove}
-        className="relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 py-240 bg-gradient-to-br from-white to-gray-100 h-[100vh]" style={{ paddingBottom: "100px", marginTop: '-72px', paddingTop: "114px" }}
-      >
+        className='relative overflow-hidden flex flex-col md:flex-row items-center justify-between p-8 lg:p-20 py-240 bg-gradient-to-br from-white to-gray-100 h-[100vh]'
+        style={{ paddingBottom: "100px", marginTop: "-72px", paddingTop: "114px" }}>
         {/* Background Animation */}
         <motion.div
-          className="absolute inset-0 pointer-events-none"
+          className='absolute inset-0 pointer-events-none'
           animate={{
             background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
           }}
@@ -197,68 +193,65 @@ const HeroSection = () => {
         />
 
         {/* Left Content */}
-        <div className="md:w-1/2 space-y-6 md:space-y-8 relative z-10 text-center md:text-left">
+        <div className='md:w-1/2 space-y-6 md:space-y-8 relative z-10 text-center md:text-left'>
           <motion.h1
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug"
-            style={{ fontFamily: "'Playfair Display'" }}
-          >
+            className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug'>
             Say goodbye to costly photoshoots. <br />
             Create stunning, customizable <br />
             AI models and showcase your garments.
           </motion.h1>
 
-          <div className="mt-4 md:mt-6">
-            <a href="/model">
+          <div className='mt-4 md:mt-6'>
+            <a href='/choose-option'>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}
-              >
+                className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'>
                 Get Started for Free
               </motion.button>
             </a>
           </div>
 
           {/* User Ratings */}
-          <div className="flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6">
-            <div className="flex -space-x-2">
+          <div className='flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6'>
+            <div className='flex -space-x-2'>
               {["45", "47", "48", "49"].map((id, index) => (
                 <motion.img
                   whileHover={{ scale: 1.2 }}
                   key={index}
                   src={`https://randomuser.me/api/portraits/${index % 2 === 0 ? "men" : "women"}/${id}.jpg`}
-                  alt="user"
-                  className="w-10 h-10 rounded-full border-2 border-white shadow-md"
+                  alt='user'
+                  className='w-10 h-10 rounded-full border-2 border-white shadow-md'
                 />
               ))}
             </div>
-            <div className="flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1">
-              <div className="text-yellow-400 text-lg">⭐⭐⭐⭐⭐</div>
-              <p className="text-gray-600 font-medium text-sm" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Loved by <span className="font-bold">153,000+</span> users
+            <div className='flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1'>
+              <div className='text-yellow-400 text-lg'>⭐⭐⭐⭐⭐</div>
+              <p className='text-gray-600 font-medium text-sm' style={{ fontFamily: "'Playfair Display', serif" }}>
+                Loved by <span className='font-bold'>153,000+</span> users
               </p>
             </div>
           </div>
         </div>
 
         {/* Right Content */}
-        <motion.div className="grid grid-cols-1 md: grid grid-cols-2 gap-8 md:gap-10 mt-8 md:mt-0 md:w-6/12 lg:w-5/12">
+        <motion.div className='grid grid-cols-1 md: grid grid-cols-2 gap-8 md:gap-10 mt-8 md:mt-0 md:w-6/12 lg:w-5/12'>
           {/* Before Image */}
-          <div className="relative group">
+          <div className='relative group'>
             <img
               src={top1}
-              alt="Before Photoshoot"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover"
+              alt='Before Photoshoot'
+              className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover'
             />
           </div>
           {/* After Image */}
-          <div className="relative group">
+          <div className='relative group'>
             <img
               src={top2}
-              alt="AI-Generated Photoshoot"
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover"
+              alt='AI-Generated Photoshoot'
+              className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[50vh] object-cover'
             />
           </div>
         </motion.div>
@@ -373,65 +366,73 @@ const HeroSection = () => {
 
 
       {/* section1 */}
-      <section
-        ref={ref2}
-        className="relative bg-white py-16 px-6 lg:px-24 overflow-hidden"
-      >
-        <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
+      <section ref={ref2} className='relative bg-white py-16 px-6 lg:px-24 overflow-hidden'>
+        <div className='absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse'></div>
 
         {/* Background Gradient Accent */}
-        <div className="absolute -top-20 -left-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className='absolute -top-20 -left-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse'></div>
+        <div className='absolute -bottom-20 -right-20 w-96 h-96 rounded-full filter blur-3xl animate-pulse'></div>
 
         {/* Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10'>
           {/* Left Section: Content */}
-          <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
+            <h1
+              className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
+              style={{ fontFamily: "'Playfair Display', serif" }}>
               The Challenges of Traditional Fashion Photography
             </h1>
-            <p className="text-xl text-gray-600 animate-fade-in-delay" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Expensive model hiring and photoshoots. Time-consuming processes for
-              selecting models, locations, and photographers. Limited flexibility for
-              customization and quick updates
+            <p className='text-xl text-gray-600 animate-fade-in-delay' style={{ fontFamily: "'Playfair Display', serif" }}>
+              Expensive model hiring and photoshoots. Time-consuming processes for selecting models, locations, and photographers. Limited
+              flexibility for customization and quick updates
             </p>
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Expensive costs for hiring models, photographers, and renting locations.</p>
+            <ul className='space-y-4 text-gray-700'>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Expensive costs for hiring models, photographers, and renting locations.
+                </p>
               </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Time-consuming processes for organizing shoots and selecting the right team.</p>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Time-consuming processes for organizing shoots and selecting the right team.
+                </p>
               </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3 relative top-[-3px]">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Limited flexibility for making quick updates or tailoring visuals to new ideas.</p>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Limited flexibility for making quick updates or tailoring visuals to new ideas.
+                </p>
               </li>
             </ul>
           </div>
 
           {/* Right Section: Visual Comparison */}
-          <div className="grid grid-cols-2 gap-6">
+          <div className='grid grid-cols-2 gap-6'>
             {/* Before Image */}
-            <div className="relative group">
-              <span className="absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <div className='relative group'>
+              <span
+                className='absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg'
+                style={{ fontFamily: "'Playfair Display', serif" }}>
                 Traditional
               </span>
               <img
                 src={trdan}
-                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover"
+                className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover'
               />
             </div>
             {/* After Image */}
-            <div className="relative group">
-              <span className="absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <div className='relative group'>
+              <span
+                className='absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg'
+                style={{ fontFamily: "'Playfair Display', serif" }}>
                 AI-Generated
               </span>
               <img
                 src={ai}
-                alt="AI-Generated Photoshoot"
-                className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover"
+                alt='AI-Generated Photoshoot'
+                className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 w-full h-[45vh] lg:h-[55vh] object-cover'
               />
             </div>
           </div>
@@ -440,60 +441,65 @@ const HeroSection = () => {
       {/* section2 */}
       <section
         ref={sectionRef}
-        className="relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden"
-      >
+        className='relative bg-gradient-to-br from-blue-100 via-teal-50 to-blue-200 py-16 px-6 lg:px-24 overflow-hidden'>
         {/* Background Gradient Accent */}
-        <div className="absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className='absolute -top-20 -left-20 w-96 h-96 bg-teal-400 opacity-30 rounded-full filter blur-3xl animate-pulse'></div>
+        <div className='absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200 opacity-30 rounded-full filter blur-3xl animate-pulse'></div>
 
         {/* Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-          <div className="relative group">
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10'>
+          <div className='relative group'>
             {/* Video */}
             <video
               ref={videoRef}
               src={video}
-              className="rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto cursor-pointer"
+              className='rounded-lg shadow-lg group-hover:scale-105 transition-transform duration-300 object-cover w-full h-auto cursor-pointer'
               style={{ height: "50vh", width: "100%", objectFit: "cover" }}
               playsInline
               loop
               autoPlay
               muted
-              poster="your-fallback-image.jpg"
+              poster='your-fallback-image.jpg'
             />
           </div>
 
           {/* Right Section: Content */}
-          <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
+            <h1
+              className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
+              style={{ fontFamily: "'Playfair Display', serif" }}>
               AI Visual Try-On: Your Game-Changing Fashion Solution
             </h1>
-            <ul className="space-y-4 text-gray-700">
-              <li className="flex items-start">
-                <span className="text-purple-700 text-xl font-bold mr-3">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <ul className='space-y-4 text-gray-700'>
+              <li className='flex items-start'>
+                <span className='text-purple-700 text-xl font-bold mr-3'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
                   Instantly create realistic fashion models of any nationality and background.
                 </p>
               </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
                   Seamlessly apply your garments to AI-generated models for a perfect fit.
                 </p>
               </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Customize models to fit your brand’s unique aesthetic.</p>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Customize models to fit your brand’s unique aesthetic.
+                </p>
               </li>
-              <li className="flex items-start">
-                <span className="text-purple-600 text-xl font-bold mr-3">•</span>
-                <p className="text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+              <li className='flex items-start'>
+                <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
+                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
                   Deliver high-quality, eCommerce-ready photos in minutes.
                 </p>
               </li>
             </ul>
-            <div className="flex justify-center lg:justify-start items-center w-full mt-6">
-              <button className="bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <div className='flex justify-center lg:justify-start items-center w-full mt-6'>
+              <button
+                className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
+                style={{ fontFamily: "'Playfair Display', serif" }}>
                 Explore Our Technology
               </button>
             </div>
@@ -502,19 +508,17 @@ const HeroSection = () => {
       </section>
 
       {/* section3 */}
-      <section className="bg-white py-8 px-4 lg:px-16 flex flex-col items-center">
+      <section className='bg-white py-8 px-4 lg:px-16 flex flex-col items-center'>
         {/* Buttons Section */}
-        <div className="border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3">
-          <div className="flex justify-center gap-4 flex-wrap" style={{ fontFamily: "'Playfair Display'" }}>
+        <div className='border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3'>
+          <div className='flex justify-center gap-4 flex-wrap' style={{ fontFamily: "'Playfair Display', serif" }}>
             {Object.keys(imageSets).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${activeTab === tab
-                  ? "bg-[#5A00FF] text-white transform scale-105"
-                  : "bg-gray-300 hover:bg-gray-300"
-                  }`}
-              >
+                className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${
+                  activeTab === tab ? "bg-purple-600 text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
+                }`}>
                 {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
               </button>
             ))}
@@ -522,57 +526,47 @@ const HeroSection = () => {
         </div>
 
         {/* Images Section */}
-        <div
-          className="border border-gray-300 rounded-lg p-4 sm:p-6 mt-8 w-full md:w-3/4 lg:w-2/3"
-          style={{ maxWidth: "800px" }}
-        >
+        <div className='border border-gray-300 rounded-lg p-4 sm:p-6 mt-8 w-full md:w-3/4 lg:w-2/3' style={{ maxWidth: "800px" }}>
           {/* Heading Above Images */}
-          <h2 className="text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Keeping perfect resemblance to the reference garment is our top priority
-            and research focus
+          <h2
+            className='text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center'
+            style={{ fontFamily: "'Playfair Display', serif" }}>
+            Keeping perfect resemblance to the reference garment is our top priority and research focus
           </h2>
 
           {/* Images in Responsive Rows */}
-          <div
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
-          >
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6'>
             {imageSets[activeTab].map((image, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center bg-gray-100 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105"
-                style={{ width: "100%", height: "240px" }}
-              >
-                <img
-                  src={image}
-                  alt={`Image ${index + 1}`}
-                  className="w-full h-full object-cover"
-                />
+                className='flex items-center justify-center bg-gray-100 rounded-lg shadow-lg overflow-hidden transform transition-all hover:scale-105'
+                style={{ width: "100%", height: "240px" }}>
+                <img src={image} alt={`Image ${index + 1}`} className='w-full h-full object-cover' />
               </div>
             ))}
           </div>
         </div>
       </section>
+
+      {/* section 4 */}
+
+      {/* section4 */}
+
       {/* features */}
-      <section className="py-16 bg-gray-900 relative overflow-hidden">
-        <div className="container mx-auto px-6 lg:px-16">
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Features of <span className="text-purple-400">AI4FI</span>
+      <section className='py-16 bg-gray-900 relative overflow-hidden'>
+        <div className='container mx-auto px-6 lg:px-16'>
+          <h2
+            className='text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white'
+            style={{ fontFamily: "'Playfair Display', serif" }}>
+            Features of <span className='text-purple-400'>AI4FI</span>
           </h2>
 
           {/* Auto-Scrolling Row */}
-          <div className="scroll-container overflow-hidden relative">
-            <div className="scroll-track flex items-center">
+          <div className='scroll-container overflow-hidden relative'>
+            <div className='scroll-track flex items-center'>
               {images.concat(images).map((imagePath, index) => (
-                <div
-                  key={index}
-                  className="flex-shrink-0"
-                  style={{ width: '240px', margin: '0 8px' }}
-                >
-                  <img
-                    src={imagePath}
-                    alt={`Model Gallery ${index + 1}`}
-                    className="w-full h-auto rounded-md"
-                  />
+                <div key={index} className='flex-shrink-0' style={{ width: "240px", margin: "0 8px" }}>
+                  <img src={imagePath} alt={`Model Gallery ${index + 1}`} className='w-full h-auto rounded-md' />
                 </div>
               ))}
             </div>
@@ -603,7 +597,6 @@ const HeroSection = () => {
         </div>
       </section>
 
-
       {/* section 5 */}
       <section className="bg-gradient-to-r from-indigo-50 to-purple-50 py-24 px-6 sm:px-12 lg:px-24">
         <div className="text-center">
@@ -633,84 +626,90 @@ const HeroSection = () => {
       {/* section7 */}
       <section
         ref={ref2}
-        className="relative bg-gradient-to-br from-indigo-100 via-blue-50 to-indigo-200 py-16 px-6 lg:px-24 overflow-hidden"
-      >
+        className='relative bg-gradient-to-br from-indigo-100 via-blue-50 to-indigo-200 py-16 px-6 lg:px-24 overflow-hidden'>
         {/* Background Gradient Accent */}
-        <div className="absolute -top-20 -left-20 w-96 h-96 bg-indigo-400 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
-        <div className="absolute -bottom-20 -right-20 w-96 h-96 bg-indigo-200 opacity-30 rounded-full filter blur-3xl animate-pulse"></div>
+        <div className='absolute -top-20 -left-20 w-96 h-96 bg-indigo-400 opacity-30 rounded-full filter blur-3xl animate-pulse'></div>
+        <div className='absolute -bottom-20 -right-20 w-96 h-96 bg-indigo-200 opacity-30 rounded-full filter blur-3xl animate-pulse'></div>
 
         {/* Container */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+        <div className='grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10'>
           {/* Left Section: Call to Action Content */}
-          <div className="flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left">
-            <h1 className="text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
+            <h1
+              className='text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in'
+              style={{ fontFamily: "'Playfair Display', serif" }}>
               Ready to Transform Your Fashion Business?
             </h1>
-            <p className="text-lg text-gray-700 animate-fade-in-delay" style={{ fontFamily: "'Playfair Display', serif" }}>
-              Take the next step and elevate your business with AI-powered fashion solutions. Whether you want to explore our platform, book a personalized demo, or get in touch with us, we’re here to help you transform your fashion experience.
+            <p className='text-lg text-gray-700 animate-fade-in-delay' style={{ fontFamily: "'Playfair Display', serif" }}>
+              Take the next step and elevate your business with AI-powered fashion solutions. Whether you want to explore our platform, book
+              a personalized demo, or get in touch with us, we’re here to help you transform your fashion experience.
             </p>
-            <div className="flex flex-col lg:flex-row justify-center lg:justify-start lg:space-x-4 space-y-4 lg:space-y-0 animate-fade-in">
-              <a href="/signup"><button className="bg-purple-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Sign Up Now
-              </button></a>
+            <div className='flex flex-col lg:flex-row justify-center lg:justify-start lg:space-x-4 space-y-4 lg:space-y-0 animate-fade-in'>
+              <a href='/signup'>
+                <button
+                  className='bg-purple-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
+                  style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Sign Up Now
+                </button>
+              </a>
               {/* <button className="bg-teal-600 text-white py-2 px-4 sm:py-3 sm:px-8 rounded-lg text-sm sm:text-lg font-semibold transition-all duration-300 hover:bg-teal-700 w-full sm:w-auto">
                 Book a Demo
               </button> */}
-              <a href="/contact"><button className="bg-blue-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg" style={{ fontFamily: "'Playfair Display', serif" }}>
-                Contact Us
-              </button></a>
+              <a href='/contact'>
+                <button
+                  className='bg-blue-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
+                  style={{ fontFamily: "'Playfair Display', serif" }}>
+                  Contact Us
+                </button>
+              </a>
             </div>
-
           </div>
 
           {/* Right Section: Visual Representation (Optional) */}
-          <div className="flex justify-center lg:justify-end">
+          <div className='flex justify-center lg:justify-end'>
             <img
-              src="https://eucarlwears.com/wp-content/uploads/2022/05/ezgif.com-gif-maker-2022-05-17T231822.092.webp"
-              alt="Fashion Transformation"
-              className="rounded-lg shadow-lg w-full max-w-md lg:max-w-lg transition-all duration-300 hover:scale-105"
+              src='https://eucarlwears.com/wp-content/uploads/2022/05/ezgif.com-gif-maker-2022-05-17T231822.092.webp'
+              alt='Fashion Transformation'
+              className='rounded-lg shadow-lg w-full max-w-md lg:max-w-lg transition-all duration-300 hover:scale-105'
             />
           </div>
         </div>
       </section>
       {/* faq section */}
-      <section className="bg-gray-50 py-16 px-8">
-        <div className="max-w-6xl mx-auto">
+      <section className='bg-gray-50 py-16 px-8'>
+        <div className='max-w-6xl mx-auto'>
           <motion.h2
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-sm text-purple-700 font-bold uppercase" style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+            className='text-sm text-purple-700 font-bold uppercase'
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             FAQ
           </motion.h2>
           <motion.h1
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl font-bold text-gray-900 mt-2" style={{ fontFamily: "'Playfair Display', serif" }}
-          >
+            className='text-3xl sm:text-4xl font-bold text-gray-900 mt-2'
+            style={{ fontFamily: "'Playfair Display', serif" }}>
             Frequently Asked Questions
           </motion.h1>
-          <div className="mt-8 space-y-6">
+          <div className='mt-8 space-y-6'>
             {faqs.map((faq, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1, duration: 0.5 }}
-                className="border-b border-gray-300 pb-4"
-              >
+                className='border-b border-gray-300 pb-4'>
                 <button
-                  className="w-full flex justify-between items-center text-left text-lg text-gray-700 font-medium hover:text-gray-900"
-                  onClick={() => handleToggle(index)}
-                >
+                  className='w-full flex justify-between items-center text-left text-lg text-gray-700 font-medium hover:text-gray-900'
+                  onClick={() => handleToggle(index)}>
                   {faq.question}
                   <motion.span
                     animate={{ rotate: activeIndex === index ? 45 : 0 }}
                     transition={{ duration: 0.3 }}
-                    className="text-gray-500 text-lg"
-                  >
+                    className='text-gray-500 text-lg'>
                     {activeIndex === index ? "−" : "+"}
                   </motion.span>
                 </button>
@@ -719,8 +718,7 @@ const HeroSection = () => {
                     initial={{ height: 0 }}
                     animate={{ height: "auto" }}
                     transition={{ duration: 0.4 }}
-                    className="mt-3 text-gray-600 text-sm"
-                  >
+                    className='mt-3 text-gray-600 text-sm'>
                     {faq.answer}
                   </motion.p>
                 )}
@@ -729,8 +727,6 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
-
-
     </>
   );
 };
