@@ -125,8 +125,7 @@ const HeroSection = () => {
             initial={{ opacity: 0, y: 50 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug'
-            style={{ fontFamily: "'Playfair Display'" }}>
+            className='text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-gray-900 leading-snug'>
             Say goodbye to costly photoshoots. <br />
             Create stunning, customizable <br />
             AI models and showcase your garments.
@@ -136,8 +135,7 @@ const HeroSection = () => {
             <a href='/choose-option'>
               <motion.button
                 whileHover={{ scale: 1.05 }}
-                className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                style={{ fontFamily: "'Playfair Display', serif" }}>
+                className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'>
                 Get Started for Free
               </motion.button>
             </a>

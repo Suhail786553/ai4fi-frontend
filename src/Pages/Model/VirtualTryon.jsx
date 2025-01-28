@@ -1,52 +1,85 @@
 import { useState } from "react";
 import axios from "axios";
+import imageCompression from "browser-image-compression";
 
 const TryOnRoom = () => {
-  const [modelImages, setModelImages] = useState([]);
-  const [garmentImage, setGarmentImage] = useState(null);
+  const [modelImage, setModelImage] = useState([]); // Array for model images
+  const [garmentImage, setGarmentImage] = useState(null); // Single file for garment image
   const [tryOnResults, setTryOnResults] = useState([]);
-  const [tryOnType, setTryOnType] = useState("default");
+  const [selectedCategory, setSelectedCategory] = useState("tops");
 
-  // Handlers
-  const handleBrowseModelImages = (e) => {
+  const handleBrowseModelImages = async (e) => {
     const files = Array.from(e.target.files);
-    setModelImages(files);
+    const compressedFiles = await Promise.all(
+      files.map((file) => compressImage(file))
+    );
+    setModelImage(compressedFiles);
   };
 
-  const handleBrowseGarmentImage = (e) => {
+  // Handle selecting and compressing garment image
+  const handleBrowseGarmentImage = async (e) => {
     const file = e.target.files[0];
-    setGarmentImage(file);
+    const compressedFile = await compressImage(file);
+    setGarmentImage(compressedFile);
   };
 
+  // Handle generating try-on results
   const handleGenerateTryOn = async () => {
-    if (!garmentImage || modelImages.length === 0) {
-      alert("Please upload both model images and a garment image.");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("garmentImage", garmentImage);
-    modelImages.forEach((image, index) => {
-      formData.append(`modelImage${index + 1}`, image);
-    });
-    formData.append("tryOnType", tryOnType);
-
     try {
+      const formData = new FormData();
+  
+      // Append model images as files
+      modelImage.forEach((file) => {
+        formData.append('model_image', file);  // 'model_image' key matches backend
+      });
+  
+      // Append garment image as file
+      formData.append('garment_image', garmentImage);
+  
+      // Append other fields
+      formData.append('category', selectedCategory);
+  
+      // POST request with axios, Content-Type will be set automatically
       const response = await axios.post(
-        "https://your-backend-api-url/virtual-tryon", // Replace with your API URL
+        'http://localhost:5000/proxy/virtual-try-on',
         formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
       );
-      setTryOnResults(response.data.results);
+  
+      setTryOnResults(response.data.results); // Update results
     } catch (error) {
-      console.error("Error generating try-on:", error);
-      alert("Failed to generate try-on.");
+      console.error(
+        'Error generating try-on:',
+        error.response?.data || error.message
+      );
+      alert(
+        `Failed to generate try-on: ${error.response?.data?.detail || 'Unknown error'}`
+      );
     }
   };
+  
+
+
+  // Compress image utility
+  const compressImage = async (file) => {
+    const options = {
+      maxSizeMB: 1, // 200kb
+      maxWidthOrHeight: 500, // Resize image for smaller dimensions
+      useWebWorker: true,
+    };
+    return await imageCompression(file, options);
+  };
+
+  // Convert to base64 utility
+  // const convertToBase64 = (file) => {
+  //   return new Promise((resolve, reject) => {
+  //     const reader = new FileReader();
+  //     reader.onload = () => resolve(reader.result.split(",")[1]); // Extract base64 content
+  //     reader.onerror = (error) => reject(error);
+  //     reader.readAsDataURL(file);
+  //   });
+  // };
+
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-100 to-gray-300 flex flex-col">
@@ -92,15 +125,16 @@ const TryOnRoom = () => {
           {/* TryOn Type */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              TryOn Type
+              Category
             </label>
             <select
-              value={tryOnType}
-              onChange={(e) => setTryOnType(e.target.value)}
+              value={selectedCategory}
+              onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full border border-gray-300 rounded-lg p-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
             >
-              <option value="default">Default</option>
-              <option value="advanced">Advanced</option>
+              <option value="default">tops</option>
+              <option value="advanced">bottoms</option>
+              <option value="advanced">one-pieces</option>
             </select>
           </div>
           {/* Generate TryOn Button */}
@@ -121,9 +155,9 @@ const TryOnRoom = () => {
                 key={index}
                 className="bg-gray-200 h-32 flex items-center justify-center rounded-lg shadow-md overflow-hidden"
               >
-                {modelImages[index] ? (
+                {modelImage[index] ? (
                   <img
-                    src={URL.createObjectURL(modelImages[index])}
+                    src={URL.createObjectURL(modelImage[index])}
                     alt={`Model ${index + 1}`}
                     className="w-full h-full object-cover"
                   />
