@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "./Spinner.css";
 
+// eslint-disable-next-line react/prop-types
 const SpinnerWithCard = ({ startTime }) => {
   const [elapsedTime, setElapsedTime] = useState(0);
 

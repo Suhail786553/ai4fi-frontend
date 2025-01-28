@@ -517,7 +517,7 @@ const HeroSection = () => {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${
-                  activeTab === tab ? "bg-purple-600 text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
+                  activeTab === tab ? "bg-[#5A00FF] text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
                 }`}>
                 {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
               </button>

@@ -1,6 +1,6 @@
-import React from "react";
+// import React from "react";
 import { useNavigate } from "react-router-dom";
-import { ArrowLeft, ImagePlus, Images } from "lucide-react";
+import { ArrowLeft, ImagePlus, Images,PersonStanding } from "lucide-react";
 
 const ChooseModelOption = () => {
   const navigate = useNavigate();
@@ -30,6 +30,17 @@ const ChooseModelOption = () => {
                 <Images className='w-8 h-8 text-white' />
               </div>
               <h2 className='text-xl font-semibold text-white'>Use Existing Models</h2>
+              <p className='text-gray-400 text-center'>Select from our collection of pre-existing model images</p>
+            </div>
+          </div>
+          <div
+            onClick={() => navigate("/virtualtryon")}
+            className='bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors cursor-pointer group'>
+            <div className='flex flex-col items-center space-y-4'>
+              <div className='p-4 bg--600 rounded-full group-hover:bg-purple-500 transition-colors'>
+                <PersonStanding className='w-8 h-8 text-white' />
+              </div>
+              <h2 className='text-xl font-semibold text-white'>Direct Use Virtual-Try-On</h2>
               <p className='text-gray-400 text-center'>Select from our collection of pre-existing model images</p>
             </div>
           </div>
