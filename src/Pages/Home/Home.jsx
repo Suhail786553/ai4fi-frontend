@@ -1,6 +1,7 @@
 "use client";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
+// import {useScroll, useTransform } from "framer-motion";
 import './Home.css';
 import top1 from './formal (1).jpg';
 import top2 from './casual (1).jpg';
@@ -10,13 +11,16 @@ import video from './ai4fivideo.mp4'
 
 const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
-  // const [isMonthly, setIsMonthly] = useState(true);
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeTab, setActiveTab] = useState("pixelPerfect");
-  const ref1 = useRef(null);
+  // const ref1 = useRef(null);
   const ref2 = useRef(null);
   const videoRef = useRef(null);
   const sectionRef = useRef(null);
+  // const [ setActiveStep] = useState(1);
+  const [currentStep, setCurrentStep] = useState(0);
+  const sectionRef1 = useRef(null);
+  const [allowScroll, setAllowScroll] = useState(false);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -107,6 +111,75 @@ const HeroSection = () => {
 
   };
 
+
+  const steps = [
+    {
+      id: 1,
+      title: "SELECT MODEL",
+      subtitle: "Create your unique avatar in less than 5 minutes",
+      description:
+        "Easily upload your unique garment designs for the process to begin.",
+      image: "https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/f368124b-401c-4047-3f48-965d5f1b0300/public",
+    },
+    {
+      id: 2,
+      title: "SELECT GARMENT",
+      subtitle: "Bring your 3D designs to life",
+      description:
+        "Choose your AI model, customize details, and select a background that matches your brand.",
+      image: "https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/e50431f0-8bb9-4bc0-a79d-092082226d00/public",
+    },
+    {
+      id: 3,
+      title: "DOWNLOAD RESULT",
+      subtitle: "Contribute to our digitised future",
+      description:
+        "Generate stunning, high-quality images and download them for immediate use on your eCommerce platforms.",
+      image: "https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/24baab0e-c60a-40b9-eb07-bcf7af6d4e00/public",
+    },
+  ];
+
+  useEffect(() => {
+    let scrollTimeout = null;
+
+    const handleScroll = (event) => {
+      if (scrollTimeout || allowScroll) return; // Prevent rapid multiple scrolls
+
+      // Determine scroll direction
+      if (event.deltaY > 0) {
+        // Scroll down
+        setCurrentStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
+      } else if (event.deltaY < 0) {
+        // Scroll up
+        setCurrentStep((prev) => (prev > 0 ? prev - 1 : prev));
+      }
+
+      // Set a timeout to throttle the scroll events
+      scrollTimeout = setTimeout(() => {
+        scrollTimeout = null;
+      }, 1000); // Adjusted for smoother transitions
+    };
+
+    const section = sectionRef1.current;
+    section.addEventListener("wheel", handleScroll);
+
+    return () => {
+      section.removeEventListener("wheel", handleScroll);
+    };
+  }, [steps.length, allowScroll]);
+
+
+  useEffect(() => {
+    if (currentStep === steps.length - 1) {
+      setTimeout(() => {
+        setAllowScroll(true);
+      }, 1000); // Unlock scroll on the last step
+    }
+  }, [currentStep, steps.length]);
+
+
+
+
   return (
     <>
       {/* Hero Section */}
@@ -191,75 +264,113 @@ const HeroSection = () => {
         </motion.div>
       </section>
       {/* section4 shift here */}
-      <section ref={ref1} className="bg-gradient-to-b from-white to-gray-50 py-16 relative overflow-hidden">
-        {/* Background Accents */}
-        {/* <div className="absolute top-0 left-0 w-80 h-80 bg-purple-400 opacity-20 rounded-full filter blur-3xl animate-pulse"></div> */}
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-purple-300 opacity-20 rounded-full filter blur-3xl animate-pulse"></div>
-
-        <div className="container mx-auto px-6 lg:px-16 relative z-10">
-          {/* Heading */}
-          <h2 className="text-3xl lg:text-5xl font-extrabold text-center mb-12 text-gray-900 animate-fade-in" style={{ fontFamily: "'Playfair Display', serif" }}>
-            Simplified<span className="text-purple-600"> 3-StepWorkflow</span>
-          </h2>
-
-          {/* Steps Grid */}
-          <div
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            {[
-              {
-                step: "Step 1",
-                title: "Select Model",
-                desc: "Easily upload your unique garment designs for the process to begin.",
-                img: "f368124b-401c-4047-3f48-965d5f1b0300",
-              },
-              {
-                step: "Step 2",
-                title: "Select Garment",
-                desc: "Choose your AI model, customize details, and select a background that matches your brand.",
-                img: "e50431f0-8bb9-4bc0-a79d-092082226d00",
-              },
-              {
-                step: "Step 3",
-                title: "Download Result",
-                desc: "Generate stunning, high-quality images and download them for immediate use on your eCommerce platforms.",
-                img: "24baab0e-c60a-40b9-eb07-bcf7af6d4e00",
-              },
-            ].map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.05, y: -10 }}
-                transition={{ duration: 0.4 }}
-                className="group bg-white rounded-xl shadow-lg p-8 flex flex-col items-center text-center transform hover:shadow-2xl transition-all duration-300"
+      <section
+        ref={sectionRef1}
+        className="h-screen w-full flex flex-col justify-center items-center bg-gray-100 relative overflow-hidden"
+        style={{ overflowY: allowScroll ? "auto" : "hidden" }}
+      >
+        {/* Steps Navigation (Visible on desktop only) */}
+        <div
+          className="absolute top-[7rem] left-4 md:left-16 space-y-4 md:space-y-6 z-10 hidden md:block"
+        >
+          {steps.map((step, index) => (
+            <div key={step.id} className="relative flex items-center space-x-4">
+              <span
+                className={`text-base md:text-2xl lg:text-3xl font-bold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+                  }`}
               >
-                {/* Image Section */}
-                <div className="relative">
-                  <img
-                    src={`https://imagedelivery.net/X26-mmRvk4CuiCyo9bU9tw/${item.img}/public`}
-                    alt={item.title}
-                    className="rounded-lg max-w-full w-[260px] h-[330px] object-cover transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="absolute top-2 left-2 bg-purple-600 text-white font-semibold text-xs uppercase py-1 px-3 rounded-tr-lg rounded-bl-lg shadow-md">
-                    {item.step}
-                  </span>
-                </div>
+                {step.id < 10 ? `0${step.id}` : step.id}
+              </span>
 
-                {/* Title */}
-                <h3 className="text-xl font-semibold text-gray-900 mt-6 group-hover:text-purple-600 transition-colors duration-300">
-                  {item.title}
-                </h3>
+              {/* Horizontal Line */}
+              <div
+                className={`h-[1px] md:h-[2px] w-10 md:w-16 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+                  }`}
+              ></div>
 
-                {/* Description */}
-                <p className="text-gray-600 text-sm mt-3 leading-relaxed">
-                  {item.desc}
-                </p>
-              </motion.div>
+              <span
+                className={`text-sm md:text-lg font-semibold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+                  }`}
+              >
+                {step.title}
+              </span>
+            </div>
+          ))}
+        </div>
+
+        {/* Content Section */}
+        <div
+          className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-16 px-4 w-full md:w-[calc(100%-17rem)] ml-0 md:ml-72"
+        >
+          {/* Steps (Visible only on mobile) */}
+          <div className="flex flex-col md:hidden w-full space-y-4 text-center">
+            {steps.map((step, index) => (
+              <div
+                key={step.id}
+                className="relative flex items-center justify-center space-x-4"
+              >
+                <span
+                  className={`text-base font-bold ${currentStep === index ? "text-black" : "text-gray-400"
+                    }`}
+                >
+                  {step.id < 10 ? `0${step.id}` : step.id}
+                </span>
+                <div
+                  className={`h-[1px] w-10 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+                    }`}
+                ></div>
+                <span
+                  className={`text-sm ${currentStep === index ? "text-black" : "text-gray-400"
+                    }`}
+                >
+                  {step.title}
+                </span>
+              </div>
             ))}
           </div>
 
+          {/* Image */}
+          <div className="flex-shrink-0 order-2 md:order-1 w-full md:w-auto">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={steps[currentStep].id}
+                src={steps[currentStep].image}
+                alt={steps[currentStep].title}
+                className="h-[250px] md:h-[400px] lg:h-[500px] w-auto object-cover rounded-lg shadow-lg mx-auto"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* Description */}
+          <div className="flex flex-col max-w-full md:max-w-md space-y-4 text-center md:text-left order-3">
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={steps[currentStep].title}
+                className="text-lg md:text-xl lg:text-2xl font-bold text-purple-600"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                {steps[currentStep].title}
+              </motion.h2>
+              <motion.p
+                key={steps[currentStep].description}
+                className="text-sm md:text-lg lg:text-lg text-gray-700"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                {steps[currentStep].description}
+              </motion.p>
+            </AnimatePresence>
+          </div>
         </div>
       </section>
+
+
 
       {/* section1 */}
       <section
@@ -495,32 +606,29 @@ const HeroSection = () => {
 
       {/* section 5 */}
       <section className="bg-gradient-to-r from-indigo-50 to-purple-50 py-24 px-6 sm:px-12 lg:px-24">
-  <div className="text-center">
-    <h2 className="text-5xl font-extrabold text-gray-900 mb-8 tracking-tight">
-      Plans & Inquiries
-    </h2>
-    <p className="mt-4 text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
-      Ready to take the next step? We are here to offer you tailored plans and assistance for all your needs. Reach out for a personalized consultation, and let’s discuss how we can make it happen!
-    </p>
-  </div>
+        <div className="text-center">
+          <h2 className="text-5xl font-extrabold text-gray-900 mb-8 tracking-tight">
+            Plans & Inquiries
+          </h2>
+          <p className="mt-4 text-xl text-gray-700 max-w-3xl mx-auto leading-relaxed">
+            Ready to take the next step? We are here to offer you tailored plans and assistance for all your needs. Reach out for a personalized consultation, and let’s discuss how we can make it happen!
+          </p>
+        </div>
 
-  <div className="flex justify-center mt-16">
-    <div className="bg-white border shadow-lg rounded-3xl p-12 w-full max-w-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-300 hover:translate-y-1" style={{borderColor:"#8852FF",borderWidth:"0.5px"}}>
-      <h3 className="text-3xl font-semibold text-gray-900 mb-6">Contact Us</h3>
-      <p className="text-gray-600 mb-8 text-lg leading-relaxed">
-        Our dedicated team is ready to provide tailored solutions for your unique needs. Reach out today for personalized advice and detailed plans!
-      </p>
-      <a href="/contact">
-        <button className="mt-6 bg-[#5A00FF] text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-xl">
-          Contact Us
-        </button>
-      </a>
-    </div>
-  </div>
-</section>
-
-
-      {/* section6 */}
+        <div className="flex justify-center mt-16">
+          <div className="bg-white border shadow-lg rounded-3xl p-12 w-full max-w-lg text-center transition-transform duration-300 ease-in-out transform hover:scale-105 hover:shadow-2xl hover:shadow-purple-300 hover:translate-y-1" style={{ borderColor: "#8852FF", borderWidth: "0.5px" }}>
+            <h3 className="text-3xl font-semibold text-gray-900 mb-6">Contact Us</h3>
+            <p className="text-gray-600 mb-8 text-lg leading-relaxed">
+              Our dedicated team is ready to provide tailored solutions for your unique needs. Reach out today for personalized advice and detailed plans!
+            </p>
+            <a href="/contact">
+              <button className="mt-6 bg-[#5A00FF] text-white hover:bg-blue-700 font-semibold py-3 px-8 rounded-full shadow-lg transition-all duration-300 ease-in-out transform hover:scale-110 hover:shadow-xl">
+                Contact Us
+              </button>
+            </a>
+          </div>
+        </div>
+      </section>
 
       {/* section7 */}
       <section
@@ -565,8 +673,6 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
-      {/* shift section1 */}
-
       {/* faq section */}
       <section className="bg-gray-50 py-16 px-8">
         <div className="max-w-6xl mx-auto">
