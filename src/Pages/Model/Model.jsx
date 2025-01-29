@@ -38,12 +38,12 @@ const ModelGeneratorUI = () => {
   const [seedType, setSeedType] = useState("Auto Generate");
   const [dnaNumber, setDnaNumber] = useState("");
   const [generatedImages, setGeneratedImages] = useState([]);
-  const [loadingCountdowns, setLoadingCountdowns] = useState([]);
+  // const [, setLoadingCountdowns] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false); // Tracks if modal is open
   const [zoomedImage, setZoomedImage] = useState(null); // Stores the image to zoom
   const [startTime, setStartTime] = useState(null);
   const [endTime, setEndTime] = useState(null);
-  const [images, setImages] = useState([]);
+  // const [images, setImages] = useState([]);
 
   const handleDownload = async (imageUrl) => {
     try {
@@ -92,7 +92,7 @@ const ModelGeneratorUI = () => {
         auto_seed: autoSeed,
         num_images: 1,
       };
-
+      console.log("Sending payload:", payload); // Debugging
       try {
         setStartTime((prv) => ({ ...prv, [`image_${i + 1}`]: Date.now() }));
         const response = await axios.post(baseURL, payload);
@@ -195,6 +195,7 @@ const ModelGeneratorUI = () => {
           <div className='flex-grow w-full flex justify-center bg-black overflow-hidden'>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 px-4 w-full'>
               {generatedImages.map((image, index) => (
+                // eslint-disable-next-line react/jsx-key
                 <div>
                   {startTime && endTime && startTime[`image_${index + 1}`] && endTime[`image_${index + 1}`] && (
                     <p className='text-sm mb-2 '>

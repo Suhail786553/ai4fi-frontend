@@ -6,10 +6,10 @@ const ChooseModelOption = () => {
   const navigate = useNavigate();
 
   return (
-    <div className='min-h-screen bg-gray-900 flex items-center justify-center p-4'>
-      <div className='max-w-4xl w-full space-y-8'>
+    <div className='min-h-screen bg-gray-900 flex items-center  justify-center p-4'>
+      <div className='max-w-7xl w-full space-y-8'>
         <h1 className='text-4xl font-bold text-center text-white mb-12'>Choose Your Option</h1>
-        <div className='grid md:grid-cols-2 gap-8'>
+        <div className='grid md:grid-cols-3 gap-8'>
           <div
             onClick={() => navigate("/model")}
             className='bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors cursor-pointer group'>
@@ -37,11 +37,11 @@ const ChooseModelOption = () => {
             onClick={() => navigate("/virtualtryon")}
             className='bg-gray-800 rounded-xl p-6 hover:bg-gray-700 transition-colors cursor-pointer group'>
             <div className='flex flex-col items-center space-y-4'>
-              <div className='p-4 bg--600 rounded-full group-hover:bg-purple-500 transition-colors'>
+              <div className='p-4 bg-green-600 rounded-full group-hover:bg-green-500 transition-colors'>
                 <PersonStanding className='w-8 h-8 text-white' />
               </div>
               <h2 className='text-xl font-semibold text-white'>Direct Use Virtual-Try-On</h2>
-              <p className='text-gray-400 text-center'>Select from our collection of pre-existing model images</p>
+              <p className='text-gray-400 text-center'>Try garments directly on pre-existing model images with our virtual try-on feature.</p>
             </div>
           </div>
         </div>

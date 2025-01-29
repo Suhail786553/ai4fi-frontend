@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import { ChevronDown, ChevronUp, User, Camera, Palette, Image as ImageIcon, Sparkles, Info, Rocket } from "lucide-react";
 import {
@@ -47,9 +48,8 @@ const SegmentedControl = ({ options, value, onChange }) => {
       {options.map((option) => (
         <button
           key={option.value}
-          className={`flex-1 px-3 py-1.5 text-sm rounded-md transition-colors ${
-            value === option.value ? "bg-blue-600 text-white" : "text-gray-400 hover:text-white hover:bg-transparent "
-          }`}
+          className={`flex-1 px-3 py-1.5 text-sm rounded-md transition-colors ${value === option.value ? "bg-blue-600 text-white" : "text-gray-400 hover:text-white hover:bg-transparent "
+            }`}
           onClick={() => onChange(option.value)}>
           {option.label}
         </button>
@@ -69,11 +69,13 @@ const ModelConfigForm = ({
   setEyeColor,
   setCountry,
   setBackground,
+  setDnaNumber,
   background,
   setModel,
   setSeedType,
   setSeed,
   seed,
+  setDress,
   setShotType,
   shotType,
   country,
@@ -87,6 +89,8 @@ const ModelConfigForm = ({
   pose,
   loading,
   generateImage,
+  dress,
+  dnaNumber
 }) => {
   const [activeTab, setActiveTab] = useState("basic");
 
@@ -232,7 +236,10 @@ const ModelConfigForm = ({
                 </div>
                 <div>
                   <label className='block text-sm mb-1'>Dress Description</label>
-                  <textarea rows={1} className='w-full bg-gray-900 rounded p-2 text-sm' />
+                  <textarea rows={1} value={dress} onChange={(e) => {
+                    setDress(e.target.value); // Update dress state
+                    console.log("Dress Input:", e.target.value); // Debugging
+                  }} className='w-full bg-gray-900 rounded p-2 text-sm' />
                 </div>
                 <div>
                   <label className='block text-sm mb-1'>Pose</label>
@@ -262,12 +269,12 @@ const ModelConfigForm = ({
 
                 {seedType === "Custom Generated" && (
                   <div>
-                    <label className='block text-sm mb-1'>Model DNA Number (Seed) </label>
+                    <label className='block text-sm mb-1'>Model DNA Number</label>
                     <input
                       type='number'
                       className='w-full bg-gray-900 rounded p-2 text-sm'
-                      value={seed}
-                      onChange={(e) => setSeed(e.target.value)}
+                      value={dnaNumber}
+                      onChange={(e) => setDnaNumber(e.target.value)}
                     />
                   </div>
                 )}
@@ -313,14 +320,14 @@ const ModelConfigForm = ({
                     ))}
                   </select>
                 </div>
-                <div>
+                {/* <div>
                   <label className='block text-sm mb-1'>Lighting</label>
                   <select className='w-full bg-gray-900 rounded p-2 text-sm'>
                     <option>Natural</option>
                     <option>Studio</option>
                     <option>Dramatic</option>
                   </select>
-                </div>
+                </div> */}
               </div>
             </CollapsibleSection>
           </>
