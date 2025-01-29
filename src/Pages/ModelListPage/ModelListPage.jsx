@@ -37,13 +37,14 @@ const modelImages = [
 
 const ModelListPage = () => {
   const navigate = useNavigate();
-  const [selectedModels, setSelectedModels] = useState(null);
+  const [selectedModels, setSelectedModels] = useState([]);
 
   const toggleModelSelection = (model) => {
-    if (selectedModels && model.id === selectedModels.id) {
-      setSelectedModels(null);
+    if (selectedModels.includes(model)) {
+      let updateModel = selectedModels.filter((m) => m.id !== model.id);
+      setSelectedModels(updateModel);
     } else {
-      setSelectedModels(model);
+      setSelectedModels((prv) => [...prv, model]);
     }
   };
 
@@ -77,14 +78,14 @@ const ModelListPage = () => {
                 />
                 <div
                   className={`absolute inset-0 bg-black/40 transition-opacity ${
-                    selectedModels?.id === model.id ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                    selectedModels.includes(model) ? "opacity-100" : "opacity-0 group-hover:opacity-100"
                   }`}>
                   <div className='absolute top-4 right-4'>
                     <div
                       className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        selectedModels?.id === model.id ? "bg-blue-500" : "bg-white"
+                        selectedModels.includes(model) ? "bg-blue-500" : "bg-white"
                       }`}>
-                      <Check className={`w-5 h-5 ${selectedModels?.id === model.id ? "text-white" : "text-gray-900"}`} />
+                      <Check className={`w-5 h-5 ${selectedModels.includes(model) ? "text-white" : "text-gray-900"}`} />
                     </div>
                   </div>
                 </div>
@@ -96,11 +97,10 @@ const ModelListPage = () => {
 
         <div className='fixed bottom-0 left-0 right-0 bg-gray-800 p-4'>
           <div className='max-w-6xl h-10 mx-auto flex items-center justify-between'>
-            {selectedModels ? <p className='text-white'>Selected: {selectedModels.name}</p> : <div></div>}
-            {selectedModels && (
+            {selectedModels.length ? <p className='text-white'>Selected: {selectedModels.length}</p> : <div></div>}
+            {selectedModels.length && (
               <button
                 onClick={handleContinue}
-                disabled={selectedModels}
                 className=' flex justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
                 Continue
               </button>
