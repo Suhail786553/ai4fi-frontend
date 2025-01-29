@@ -118,9 +118,8 @@ const ModelGeneratorUI = () => {
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-black text-white'>
       <aside
-        className={`${
-          isSidebarOpen ? "w-full md:w-1/5" : "w-0"
-        } bg-gray-900 transition-all duration-300 overflow-hidden md:sticky md:top-0 h-auto md:h-screen`}
+        className={`${isSidebarOpen ? "w-full md:w-1/5" : "w-0"
+          } bg-gray-900 transition-all duration-300 overflow-hidden md:sticky md:top-0 h-auto md:h-screen`}
         style={{
           minWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "22rem" : "100%") : "0",
           maxWidth: isSidebarOpen ? (window.innerWidth >= 768 ? "22rem" : "100%") : "0",
