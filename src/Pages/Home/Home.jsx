@@ -229,7 +229,7 @@ const HeroSection = () => {
             </div>
             <div className='flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1'>
               <div className='text-yellow-400 text-lg'>⭐⭐⭐⭐⭐</div>
-              <p className='text-gray-600 font-medium text-sm' style={{ fontFamily: "'Playfair Display', serif" }}>
+              <p className='text-gray-600 font-medium text-sm'>
                 Loved by <span className='font-bold'>153,000+</span> users
               </p>
             </div>
@@ -379,29 +379,29 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-              style={{ fontFamily: "'Playfair Display', serif" }}>
+             >
               The Challenges of Traditional Fashion Photography
             </h1>
-            <p className='text-xl text-gray-600 animate-fade-in-delay' style={{ fontFamily: "'Playfair Display', serif" }}>
+            <p className='text-xl text-gray-600 animate-fade-in-delay'>
               Expensive model hiring and photoshoots. Time-consuming processes for selecting models, locations, and photographers. Limited
               flexibility for customization and quick updates
             </p>
             <ul className='space-y-4 text-gray-700'>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg'>
                   Expensive costs for hiring models, photographers, and renting locations.
                 </p>
               </li>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg'>
                   Time-consuming processes for organizing shoots and selecting the right team.
                 </p>
               </li>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3 relative top-[-3px]'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg'>
                   Limited flexibility for making quick updates or tailoring visuals to new ideas.
                 </p>
               </li>
@@ -414,7 +414,7 @@ const HeroSection = () => {
             <div className='relative group'>
               <span
                 className='absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg'
-                style={{ fontFamily: "'Playfair Display', serif" }}>
+                >
                 Traditional
               </span>
               <img
@@ -426,7 +426,7 @@ const HeroSection = () => {
             <div className='relative group'>
               <span
                 className='absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg'
-                style={{ fontFamily: "'Playfair Display', serif" }}>
+                >
                 AI-Generated
               </span>
               <img
@@ -467,31 +467,31 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-              style={{ fontFamily: "'Playfair Display', serif" }}>
+              >
               AI Visual Try-On: Your Game-Changing Fashion Solution
             </h1>
             <ul className='space-y-4 text-gray-700'>
               <li className='flex items-start'>
                 <span className='text-purple-700 text-xl font-bold mr-3'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg'>
                   Instantly create realistic fashion models of any nationality and background.
                 </p>
               </li>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg'>
                   Seamlessly apply your garments to AI-generated models for a perfect fit.
                 </p>
               </li>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg' >
                   Customize models to fit your brand’s unique aesthetic.
                 </p>
               </li>
               <li className='flex items-start'>
                 <span className='text-purple-600 text-xl font-bold mr-3'>•</span>
-                <p className='text-lg' style={{ fontFamily: "'Playfair Display', serif" }}>
+                <p className='text-lg' >
                   Deliver high-quality, eCommerce-ready photos in minutes.
                 </p>
               </li>
@@ -499,7 +499,7 @@ const HeroSection = () => {
             <div className='flex justify-center lg:justify-start items-center w-full mt-6'>
               <button
                 className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                style={{ fontFamily: "'Playfair Display', serif" }}>
+                >
                 Explore Our Technology
               </button>
             </div>
@@ -511,7 +511,7 @@ const HeroSection = () => {
       <section className='bg-white py-8 px-4 lg:px-16 flex flex-col items-center'>
         {/* Buttons Section */}
         <div className='border border-gray-300 rounded-lg p-6 w-full md:w-3/4 lg:w-2/3'>
-          <div className='flex justify-center gap-4 flex-wrap' style={{ fontFamily: "'Playfair Display', serif" }}>
+          <div className='flex justify-center gap-4 flex-wrap'>
             {Object.keys(imageSets).map((tab) => (
               <button
                 key={tab}
@@ -530,7 +530,7 @@ const HeroSection = () => {
           {/* Heading Above Images */}
           <h2
             className='text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center'
-            style={{ fontFamily: "'Playfair Display', serif" }}>
+            >
             Keeping perfect resemblance to the reference garment is our top priority and research focus
           </h2>
 
@@ -557,7 +557,7 @@ const HeroSection = () => {
         <div className='container mx-auto px-6 lg:px-16'>
           <h2
             className='text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white'
-            style={{ fontFamily: "'Playfair Display', serif" }}>
+            >
             Features of <span className='text-purple-400'>AI4FI</span>
           </h2>
 
@@ -637,10 +637,10 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-              style={{ fontFamily: "'Playfair Display', serif" }}>
+              >
               Ready to Transform Your Fashion Business?
             </h1>
-            <p className='text-lg text-gray-700 animate-fade-in-delay' style={{ fontFamily: "'Playfair Display', serif" }}>
+            <p className='text-lg text-gray-700 animate-fade-in-delay'>
               Take the next step and elevate your business with AI-powered fashion solutions. Whether you want to explore our platform, book
               a personalized demo, or get in touch with us, we’re here to help you transform your fashion experience.
             </p>
@@ -648,7 +648,7 @@ const HeroSection = () => {
               <a href='/signup'>
                 <button
                   className='bg-purple-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                  style={{ fontFamily: "'Playfair Display', serif" }}>
+                  >
                   Sign Up Now
                 </button>
               </a>
@@ -658,7 +658,7 @@ const HeroSection = () => {
               <a href='/contact'>
                 <button
                   className='bg-blue-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                  style={{ fontFamily: "'Playfair Display', serif" }}>
+                  >
                   Contact Us
                 </button>
               </a>
@@ -683,7 +683,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className='text-sm text-purple-700 font-bold uppercase'
-            style={{ fontFamily: "'Playfair Display', serif" }}>
+            >
             FAQ
           </motion.h2>
           <motion.h1
@@ -691,7 +691,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className='text-3xl sm:text-4xl font-bold text-gray-900 mt-2'
-            style={{ fontFamily: "'Playfair Display', serif" }}>
+            >
             Frequently Asked Questions
           </motion.h1>
           <div className='mt-8 space-y-6'>

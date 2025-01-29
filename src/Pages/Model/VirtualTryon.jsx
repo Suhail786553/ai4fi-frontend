@@ -25,6 +25,14 @@ const TryOnRoom = () => {
 
   // Handle generating try-on results
   const handleGenerateTryOn = async () => {
+    if (!modelImage.length || !garmentImage) {
+      alert("Please upload both model and garment images.");
+      return;
+    }
+  
+    console.log("Model Images:", modelImage);
+    console.log("Garment Image:", garmentImage);
+  
     try {
       const formData = new FormData();
   
