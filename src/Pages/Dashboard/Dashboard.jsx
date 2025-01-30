@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaBars, FaTachometerAlt, FaCogs, FaSignOutAlt, FaCode } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaCogs, FaSignOutAlt } from "react-icons/fa";
+
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   useEffect(() => {
-    // Fetch user data from query params or localStorage
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
     const email = params.get("email");
@@ -33,133 +34,77 @@ const DashboardPage = () => {
   if (!user) return <p>Loading...</p>;
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
       {/* Sidebar */}
-      <aside
-        className={`bg-gray-800 text-white w-64 ${
-          isSidebarOpen ? "block" : "hidden"
-        } md:block transition duration-300`}
-      >
-        <div className="p-4 text-lg font-bold">OCR Dashboard</div>
-        <ul className="mt-4">
-          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
-            <FaTachometerAlt className="mr-2" />
+      <aside className="bg-gray-900 text-white w-64 fixed h-full p-6 shadow-lg">
+        <div className="text-lg font-bold mb-6">AI4FI Dashboard</div>
+        <ul>
+          <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
+            <FaTachometerAlt className="inline-block mr-2" />
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
-            <FaCode className="mr-2" />
-            <Link to="/api">API</Link>
-          </li>
-          <li className="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center">
-            <FaCogs className="mr-2" />
+          <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
+            <FaCogs className="inline-block mr-2" />
             <Link to="/settings">Settings</Link>
           </li>
-          <li
-            className="px-4 py-2 hover:bg-gray-700 cursor-pointer flex items-center"
-            onClick={handleLogout}
-          >
-            <FaSignOutAlt className="mr-2" />
-            Logout
+          <li className="p-3 hover:bg-gray-700 rounded-lg transition cursor-pointer" onClick={handleLogout}>
+            <FaSignOutAlt className="inline-block mr-2" /> Logout
           </li>
         </ul>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 bg-gray-100 p-4">
-  {/* Header */}
-  <header className="flex justify-between items-center bg-white p-4 shadow-md rounded-md">
-    <h1 className="text-xl font-bold text-gray-800">AI4FI Dashboard</h1>
-    <button
-      className="block md:hidden text-gray-800"
-      onClick={toggleSidebar}
-    >
-      <FaBars size={24} />
-    </button>
-  </header>
+      <main className="flex-1 ml-64 overflow-auto p-6 bg-gray-100">
+        {/* Header */}
+        <header className="flex justify-between items-center bg-white p-4 shadow-md rounded-md mb-6">
+          <h1 className="text-xl font-bold text-gray-800">AI4FI Dashboard</h1>
+          <button className="block md:hidden text-gray-800" onClick={toggleSidebar}>
+            <FaBars size={24} />
+          </button>
+        </header>
 
-  {/* Welcome Section */}
-  <div className="mt-6">
-    <h2 className="text-2xl font-semibold text-gray-800">
-      Welcome, {user.name}!
-    </h2>
-    <p className="text-gray-800">Email: {user.email}</p>
-    <p className="text-gray-600 mt-2">
-      Explore AI-powered virtual try-on features and personalized styling.
-    </p>
-  </div>
+        {/* Welcome Section */}
+        <div className="mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">Welcome, {user.name}!</h2>
+          <p className="text-gray-600">Explore AI-powered virtual try-on features and styling.</p>
+        </div>
 
-  {/* Fashion AI Features Section */}
-  <section className="mt-8">
-    <h3 className="text-xl font-bold text-gray-800 mb-4">AI Features</h3>
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      {/* Feature Card: Upload Your Look */}
-      <div className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition duration-300">
-        <h4 className="text-lg font-semibold text-gray-800">Upload Your Look</h4>
-        <p className="text-gray-600 mt-2">
-          Upload a photo and let AI suggest the perfect outfits that suit your style.
-        </p>
-        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-          Upload Now
-        </button>
-      </div>
+        {/* AI Features Section */}
+        <section className="mb-8">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">AI Features</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {["Upload Your Look", "Virtual Try-On", "AI Styling"].map((feature, index) => (
+              <div key={index} className="p-6 bg-white shadow-md rounded-lg hover:shadow-xl transition">
+                <h4 className="text-lg font-semibold text-gray-800">{feature}</h4>
+                <p className="text-gray-600 mt-2">Experience AI-driven fashion intelligence.</p>
+                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Explore</button>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* Feature Card: Virtual Try-On */}
-      <div className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition duration-300">
-        <h4 className="text-lg font-semibold text-gray-800">Virtual Try-On</h4>
-        <p className="text-gray-600 mt-2">
-          Experiment with different styles and outfits virtually before you buy.
-        </p>
-        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-          Try Now
-        </button>
-      </div>
+        {/* Statistics Section */}
+        <section className="mb-8">
+          <h3 className="text-xl font-bold text-gray-800 mb-4">Your Activity</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {["32 Photos Uploaded", "120 Styles Tried", "15 Favorites Saved"].map((stat, index) => (
+              <div key={index} className="p-6 bg-white shadow-md rounded-lg">
+                <h4 className="text-lg font-semibold text-gray-800">{stat.split(" ")[1]}</h4>
+                <p className="text-2xl font-bold text-blue-500 mt-2">{stat.split(" ")[0]}</p>
+              </div>
+            ))}
+          </div>
+        </section>
 
-      {/* Feature Card: AI Styling Recommendations */}
-      <div className="p-6 bg-white shadow-md rounded-lg hover:shadow-lg transition duration-300">
-        <h4 className="text-lg font-semibold text-gray-800">AI Styling</h4>
-        <p className="text-gray-600 mt-2">
-          Get AI-powered recommendations tailored to your preferences and occasions.
-        </p>
-        <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">
-          Get Recommendations
-        </button>
-      </div>
-    </div>
-  </section>
-
-  {/* Statistics Section */}
-  <section className="mt-8">
-    <h3 className="text-xl font-bold text-gray-800 mb-4">Your Activity</h3>
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <div className="p-6 bg-white shadow-md rounded-lg">
-        <h4 className="text-lg font-semibold text-gray-800">Photos Uploaded</h4>
-        <p className="text-2xl font-bold text-blue-500 mt-2">32</p>
-      </div>
-      <div className="p-6 bg-white shadow-md rounded-lg">
-        <h4 className="text-lg font-semibold text-gray-800">Styles Tried</h4>
-        <p className="text-2xl font-bold text-green-500 mt-2">120</p>
-      </div>
-      <div className="p-6 bg-white shadow-md rounded-lg">
-        <h4 className="text-lg font-semibold text-gray-800">Favorites Saved</h4>
-        <p className="text-2xl font-bold text-red-500 mt-2">15</p>
-      </div>
-    </div>
-  </section>
-
-  {/* Call-to-Action Section */}
-  <section className="mt-12 text-center">
-    <h3 className="text-2xl font-semibold text-gray-800 mb-4">
-      Ready to Redefine Your Style?
-    </h3>
-    <p className="text-gray-600 mb-6">
-      Experience the power of Fashion AI and discover your best look.
-    </p>
-    <button className="px-6 py-3 bg-blue-600 text-white rounded-md text-lg hover:bg-blue-500 transition duration-300">
-      Get Started Now
-    </button>
-  </section>
-</main>
-
+        {/* Call-to-Action Section */}
+        <section className="text-center">
+          <h3 className="text-2xl font-semibold text-gray-800 mb-4">Redefine Your Style</h3>
+          <p className="text-gray-600 mb-6">Experience AI-powered fashion intelligence.</p>
+          <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition">
+            Get Started Now
+          </button>
+        </section>
+      </main>
     </div>
   );
 };

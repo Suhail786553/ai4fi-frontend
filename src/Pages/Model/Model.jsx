@@ -7,6 +7,12 @@ import ModelConfigForm from "../../Components/ModelConfigFrom/ModelConfigForm";
 import { DownloadIcon, Share2, Trash, ZoomIn } from "lucide-react";
 import axios from "axios";
 import Spinner from "../../Components/Spinner/Spinner";
+import { auth } from '../Firebase/firebaseConfig';
+// import firebase from "firebase/app";
+// import  "firebase/auth";
+// import { getAuth } from 'firebase/auth';
+// import { initializeApp } from 'firebase/app';
+
 // import { saveAs } from "file-saver";
 
 function calculateSecondsDifference(time1, time2) {
@@ -70,10 +76,19 @@ const ModelGeneratorUI = () => {
     setLoading(true);
     const placeholders = Array(model).fill(null);
     setGeneratedImages(placeholders); // Initialize placeholders
+
     const baseURL =
       window.location.hostname === "localhost"
         ? "http://localhost:5000/proxy/generate-model"
         : "https://ai4fi-backend.onrender.com/proxy/generate-model";
+
+    // Get the current user from Firebase Auth
+    const user = auth.currentUser; // Using getAuth to get the current user
+    if (!user) {
+      alert("Please log in to generate and save models!");
+      setLoading(false);
+      return;
+    }
 
     placeholders.map(async (nul, i) => {
       const payload = {
@@ -92,17 +107,39 @@ const ModelGeneratorUI = () => {
         auto_seed: autoSeed,
         num_images: 1,
       };
+
       console.log("Sending payload:", payload); // Debugging
+
       try {
         setStartTime((prv) => ({ ...prv, [`image_${i + 1}`]: Date.now() }));
         const response = await axios.post(baseURL, payload);
         const data = response.data;
+
         if (data.image_urls && data.image_urls[0]) {
           setGeneratedImages((prevImages) => {
             const updatedImages = [...prevImages];
             updatedImages[i] = data.image_urls[0];
             return updatedImages;
           });
+        }
+
+        // Save Model to MongoDB
+        const API_BASE_URL =
+          window.location.hostname === "localhost"
+            ? "http://localhost:5000"
+            : "https://your-backend-domain.com"; // Replace with actual backend URL
+
+        const saveResponse = await axios.post(`${API_BASE_URL}/api/save-model`, {
+          userId: user.uid,
+          modelConfig: payload,
+          imageUrl:generateImages,
+        });
+
+
+        if (saveResponse.status === 201) {
+          console.log("Model saved successfully!");
+        } else {
+          console.error("Error saving model:", saveResponse.data);
         }
       } catch (error) {
         console.error(`Error generating image ${i + 1}:`, error);
@@ -114,6 +151,7 @@ const ModelGeneratorUI = () => {
 
     setLoading(false);
   };
+
 
   return (
     <div className='flex flex-col md:flex-row min-h-screen bg-black text-white'>
