@@ -258,110 +258,110 @@ const HeroSection = () => {
       </section>
       {/* section4 shift here */}
       <section
-        ref={sectionRef1}
-        className="h-screen w-full flex flex-col justify-center items-center bg-gray-100 relative overflow-hidden"
-        style={{ overflowY: allowScroll ? "auto" : "hidden" }}
-      >
-        {/* Steps Navigation (Visible on desktop only) */}
-        <div
-          className="absolute top-[7rem] left-4 md:left-16 space-y-4 md:space-y-6 z-10 hidden md:block"
+  ref={sectionRef1}
+  className="h-screen w-full flex flex-col justify-center items-center bg-gray-100 relative overflow-hidden"
+  style={{ overflowY: allowScroll ? "auto" : "hidden" }}
+>
+  {/* Steps Navigation (Visible on desktop only) */}
+  <div
+    className="absolute top-[7rem] left-16 md:left-18 space-y-4 md:space-y-6 z-10 hidden md:block"
+  >
+    {steps.map((step, index) => (
+      <div key={step.id} className="relative flex items-center space-x-4">
+        <span
+          className={`text-base md:text-2xl lg:text-3xl font-bold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+            }`}
         >
-          {steps.map((step, index) => (
-            <div key={step.id} className="relative flex items-center space-x-4">
-              <span
-                className={`text-base md:text-2xl lg:text-3xl font-bold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
-                  }`}
-              >
-                {step.id < 10 ? `0${step.id}` : step.id}
-              </span>
+          {step.id < 10 ? `0${step.id}` : step.id}
+        </span>
 
-              {/* Horizontal Line */}
-              <div
-                className={`h-[1px] md:h-[2px] w-10 md:w-16 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
-                  }`}
-              ></div>
-
-              <span
-                className={`text-sm md:text-lg font-semibold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
-                  }`}
-              >
-                {step.title}
-              </span>
-            </div>
-          ))}
-        </div>
-
-        {/* Content Section */}
+        {/* Horizontal Line */}
         <div
-          className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-16 px-4 w-full md:w-[calc(100%-17rem)] ml-0 md:ml-72"
+          className={`h-[1px] md:h-[2px] w-10 md:w-16 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+            }`}
+        ></div>
+
+        <span
+          className={`text-sm md:text-lg font-semibold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+            }`}
         >
-          {/* Steps (Visible only on mobile) */}
-          <div className="flex flex-col md:hidden w-full space-y-4 text-center">
-            {steps.map((step, index) => (
-              <div
-                key={step.id}
-                className="relative flex items-center justify-center space-x-4"
-              >
-                <span
-                  className={`text-base font-bold ${currentStep === index ? "text-black" : "text-gray-400"
-                    }`}
-                >
-                  {step.id < 10 ? `0${step.id}` : step.id}
-                </span>
-                <div
-                  className={`h-[1px] w-10 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
-                    }`}
-                ></div>
-                <span
-                  className={`text-sm ${currentStep === index ? "text-black" : "text-gray-400"
-                    }`}
-                >
-                  {step.title}
-                </span>
-              </div>
-            ))}
-          </div>
+          {step.title}
+        </span>
+      </div>
+    ))}
+  </div>
 
-          {/* Image */}
-          <div className="flex-shrink-0 order-2 md:order-1 w-full md:w-auto">
-            <AnimatePresence mode="wait">
-              <motion.img
-                key={steps[currentStep].id}
-                src={steps[currentStep].image}
-                alt={steps[currentStep].title}
-                className="h-[250px] md:h-[400px] lg:h-[500px] w-auto object-cover rounded-lg shadow-lg mx-auto"
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.9 }}
-              />
-            </AnimatePresence>
-          </div>
-
-          {/* Description */}
-          <div className="flex flex-col max-w-full md:max-w-md space-y-4 text-center md:text-left order-3">
-            <AnimatePresence mode="wait">
-              <motion.h2
-                key={steps[currentStep].title}
-                className="text-lg md:text-xl lg:text-2xl font-bold text-purple-600"
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-              >
-                {steps[currentStep].title}
-              </motion.h2>
-              <motion.p
-                key={steps[currentStep].description}
-                className="text-sm md:text-lg lg:text-lg text-gray-700"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-              >
-                {steps[currentStep].description}
-              </motion.p>
-            </AnimatePresence>
-          </div>
+  {/* Content Section */}
+  <div
+    className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-16 px-4 w-full md:w-[calc(100%-17rem)] ml-0 md:ml-72"
+  >
+    {/* Steps (Visible only on mobile) */}
+    <div className="flex flex-col md:hidden w-full space-y-4 text-center items-start">
+      {steps.map((step, index) => (
+        <div
+          key={step.id}
+          className="relative flex items-center space-x-4"
+        >
+          <span
+            className={`text-base font-bold ${currentStep === index ? "text-black" : "text-gray-400"
+              }`}
+          >
+            {step.id < 10 ? `0${step.id}` : step.id}
+          </span>
+          <div
+            className={`h-[1px] w-10 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+              }`}
+          ></div>
+          <span
+            className={`text-sm ${currentStep === index ? "text-black" : "text-gray-400"
+              }`}
+          >
+            {step.title}
+          </span>
         </div>
-      </section>
+      ))}
+    </div>
+
+    {/* Image */}
+    <div className="flex-shrink-0 order-2 md:order-1 w-full md:w-auto">
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={steps[currentStep].id}
+          src={steps[currentStep].image}
+          alt={steps[currentStep].title}
+          className="h-[250px] md:h-[400px] lg:h-[500px] w-auto object-cover rounded-lg shadow-lg mx-auto"
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.9 }}
+        />
+      </AnimatePresence>
+    </div>
+
+    {/* Description */}
+    <div className="flex flex-col max-w-full md:max-w-md space-y-4 text-center md:text-left order-3">
+      <AnimatePresence mode="wait">
+        <motion.h2
+          key={steps[currentStep].title}
+          className="text-lg md:text-xl lg:text-2xl font-bold text-purple-600"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+        >
+          {steps[currentStep].title}
+        </motion.h2>
+        <motion.p
+          key={steps[currentStep].description}
+          className="text-sm md:text-lg lg:text-lg text-gray-700"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+        >
+          {steps[currentStep].description}
+        </motion.p>
+      </AnimatePresence>
+    </div>
+  </div>
+</section>
 
 
 
