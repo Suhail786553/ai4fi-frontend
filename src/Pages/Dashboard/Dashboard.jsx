@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaBars, FaTachometerAlt, FaCogs, FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaTachometerAlt,FaSignOutAlt } from "react-icons/fa";
 
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
@@ -43,10 +43,10 @@ const DashboardPage = () => {
             <FaTachometerAlt className="inline-block mr-2" />
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
+          {/* <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
             <FaCogs className="inline-block mr-2" />
             <Link to="/settings">Settings</Link>
-          </li>
+          </li> */}
           <li className="p-3 hover:bg-gray-700 rounded-lg transition cursor-pointer" onClick={handleLogout}>
             <FaSignOutAlt className="inline-block mr-2" /> Logout
           </li>

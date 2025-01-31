@@ -49,7 +49,7 @@ const LoginPage = () => {
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(backendUser));
   
-      navigate("/dashboard");
+      navigate("/");
     } catch (err) {
       if (err.code === "auth/invalid-credential") {
         // Specific Firebase error for invalid credentials
