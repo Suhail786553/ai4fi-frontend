@@ -10,10 +10,10 @@ import ModelGallery from "./Pages/ModelGallery/ModelGallery";
 import About from "./Pages/About/About";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import SettingsPage from "./Pages/Dashboard/SettingPage";
-import VirtualTryon from "./Pages/Model/VirtualTryon";
 import Usecases from "./Pages/Usecases/Usecases";
 import ChooseModelOption from "./Pages/ChooseModelOpt/ChooseModelOpt";
 import ModelListPage from "./Pages/ModelListPage/ModelListPage";
+import VirtualTryon from "./Components/VirtualTryOn/VirtualTryOn";
 
 function App() {
   const currentPath = window.location.pathname;
@@ -24,6 +24,7 @@ function App() {
         {currentPath !== "/choose-option" &&
           currentPath !== "/model" &&
           currentPath !== "/dashboard" &&
+          currentPath !== "/test" &&
           currentPath !== "/model-list" &&
           currentPath !== "/virtualtryon" && <Navbar />}{" "}
         {/* Show Navbar for all routes except /model */}
@@ -41,12 +42,14 @@ function App() {
           <Route path='/usecases' element={<Usecases />} />
           <Route path='/choose-option' element={<ChooseModelOption />} />
           <Route path='/model-list' element={<ModelListPage />} />
+          <Route path='/model-list' element={<ModelListPage />} />
         </Routes>
         {currentPath !== "/choose-option" &&
           currentPath !== "/model" &&
           currentPath !== "/model-list" &&
           currentPath !== "/modelgallery" &&
           currentPath !== "/dashboard" &&
+          currentPath !== "/test" &&
           currentPath !== "/virtualtryon" && <Footer />}{" "}
         {/* Show Footer for all routes except /model */}
       </div>
