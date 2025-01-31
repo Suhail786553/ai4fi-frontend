@@ -105,9 +105,9 @@ function VirtualTryon() {
       </header>
 
       <div className='w-full h-[calc(100vh_-_72px)] overflow-hidden'>
-        <div className='flex h-full lg:grid-cols-2 gap-2'>
+        <div className='flex lg:grid-cols-2 gap-2 '>
           {/* Model Images Upload */}
-          <div className='basis-4/12 p-4 h-full'>
+          <div className='basis-4/12 p-4  h-[calc(100vh_-_72px)] overflow-x-auto'>
             <div>
               <div className='bg-gray-900 p-4 rounded-lg shadow-sm'>
                 <div className='flex justify-between items-center mb-4'>
@@ -144,22 +144,10 @@ function VirtualTryon() {
                 ))}
               </div> */}
               </div>
-
-              <div className='py-3 mb-3'>
-                <label className='block text-sm font-medium mb-2 text-gray-100'>Category</label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className='w-full border text-gray-100 bg-gray-900 rounded-lg px-4 py-2'>
-                  <option value='tops'>Tops</option>
-                  <option value='bottoms'>Bottoms</option>
-                  <option value='one-pieces'>One-Pieces</option>
-                </select>
-              </div>
             </div>
             <div>
               {/* Garment Upload */}
-              <div className='bg-gray-900 p-6 rounded-lg shadow-sm pb-10'>
+              <div className='bg-gray-900 p-6 rounded-lg shadow-sm pb-10 mt-6'>
                 <h2 className='text-lg font-semibold mb-4 text-gray-100'>Upload Garment</h2>
                 <div className='border-2 border-dashed border-gray-500 rounded-lg p-4'>
                   <label className='flex justify-center gap-2 items-center cursor-pointer'>
@@ -182,6 +170,18 @@ function VirtualTryon() {
                 )}
               </div>
 
+              <div className='py-3 mb-3'>
+                <label className='block text-sm font-medium mb-2 text-gray-100'>Category</label>
+                <select
+                  value={category}
+                  onChange={(e) => setCategory(e.target.value)}
+                  className='w-full border text-gray-100 bg-gray-900 rounded-lg px-4 py-2'>
+                  <option value='tops'>Tops</option>
+                  <option value='bottoms'>Bottoms</option>
+                  <option value='one-pieces'>One-Pieces</option>
+                </select>
+              </div>
+
               <button
                 onClick={tryOn}
                 className=' mt-6 w-full cursor-pointer justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
@@ -196,6 +196,7 @@ function VirtualTryon() {
               </button>
             </div>
           </div>
+
           <div className='bg-gray-900 p-6 shadow-sm w-full  basis-8/8  h-[calc(100vh_-_72px)] overflow-y-auto'>
             <h2 className='text-xl font-semibold mb-4 text-gray-100'>Try-On Result</h2>
             <div className=' rounded-lg pb-10 flex w-full flex-col'>
