@@ -55,6 +55,7 @@
 // }
 
 // export default App;
+
 import { BrowserRouter as Router, Routes, Route,useLocation  } from "react-router-dom";
 import Navbar from "./Components/Navbar/Navbar"; // Adjust the path if your Navbar is in a different folder
 import Footer from "./Components/Footer/Footer";
