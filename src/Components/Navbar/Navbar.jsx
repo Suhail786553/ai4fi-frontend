@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FiMenu, FiX } from "react-icons/fi";
 // import { useLocation } from "react-router-dom";
-import img from "./logoai.png";
+import img from "./logo.jpeg";
 import { FiChevronDown } from "react-icons/fi";
 
 const Navbar = () => {
@@ -32,10 +32,10 @@ const Navbar = () => {
           <div className="flex-shrink-0">
             <a href="/">
               <img
-                className="h-10 md:h-12 w-auto"
+                className="h-8 md:h-8 w-auto"
                 src={img}
                 alt="Logo"
-                style={{ width: "150px" }}
+                style={{ width: "100px" }}
               />
             </a>
           </div>
@@ -99,16 +99,16 @@ const Navbar = () => {
         {/* Buttons */}
         <div className="hidden md:flex space-x-4">
           <a
-            href="/signup"
-            className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
-          >
-            Sign Up
-          </a>
-          <a
             href="/login"
             className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition"
           >
             Log In
+          </a>
+          <a
+            href="/signup"
+            className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
+          >
+            Sign Up
           </a>
         </div>
 
@@ -174,16 +174,16 @@ const Navbar = () => {
             </li>
             ))}
             <a
-              href="/login"
-              className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
-            >
-              Log In
-            </a>
-            <a
               href="/signup"
               className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
             >
               Sign Up
+            </a>
+            <a
+              href="/login"
+              className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition"
+            >
+              Log In
             </a>
           </ul>
         </div>

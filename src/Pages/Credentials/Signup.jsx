@@ -46,14 +46,14 @@ const SignUpForm = () => {
         ? "http://localhost:5000/api/auth/signup" // Local development URL
         : "https://ai4fi-backend.onrender.com/api/auth/signup"; // Hosted backend URL
 
-      const response = await axios.post(baseURL, { name, email, password });
-      const { token, user } = response.data;
+       await axios.post(baseURL, { name, email, password });
+      // const { token, user } = response.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+      // localStorage.setItem("token", token);
+      // localStorage.setItem("user", JSON.stringify(user));
 
       alert("Signup successful");
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
 
       alert(error.response?.data?.message || "Signup failed!");
@@ -216,7 +216,7 @@ const SignUpForm = () => {
     )}
 
     <div>
-      <p className="mb-2">Password</p>
+      <p className="mb-2">Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
       <input
         type="password"
         name="password"
@@ -228,7 +228,7 @@ const SignUpForm = () => {
       />
     </div>
     <div>
-      <p className="mb-2">Confirm Password</p>
+      <p className="mb-2">Confirm Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
       <input
         type="password"
         name="confirmPassword"

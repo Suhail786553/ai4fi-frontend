@@ -12,40 +12,77 @@ const LoginPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // const handleChange = (e) => {
+  //   setLoginData({ ...loginData, [e.target.name]: e.target.value });
+  // };
+
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
   };
-
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(""); // Clear previous errors
-
+  
     try {
-      // Use Firebase to authenticate the user
+      // 1️⃣ Authenticate with Firebase
+      const userCredential = await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
+  
+      // 2️⃣ Get Firebase User Data
+      const user = userCredential.user;
+      const idToken = await user.getIdToken(); // Get Firebase auth token
+  
+      // 3️⃣ Send Token to Your Backend for Verification & Session Handling
       const baseURL = window.location.hostname === "localhost"
-    ? "http://localhost:5000/api/auth/login" // Local development URL
-    : "https://ai4fi-backend.onrender.com/api/auth/login"; // Hosted backend URL
-
-      await signInWithEmailAndPassword(auth, loginData.email, loginData.password);
-     
-      // Simulate server login and retrieve token (optional)
+        ? "http://localhost:5000/api/auth/login"
+        : "https://ai4fi-backend.onrender.com/api/auth/login";
+  
       const response = await axios.post(baseURL, {
         email: loginData.email,
+        firebaseToken: idToken, // Send Firebase token for validation
       });
-
-      const { token } = response.data;
-      localStorage.setItem("user", JSON.stringify(response.data.user));
+  
+      const { token, user: backendUser } = response.data;
+  
+      // 4️⃣ Store Data in LocalStorage for Multi-Device Login
       localStorage.setItem("token", token);
-
-      navigate("/dashboard");
+      localStorage.setItem("user", JSON.stringify(backendUser));
+  
+      navigate("/");
     } catch (err) {
-      setError("Authentication failed. Please try again.");
+      if (err.code === "auth/invalid-credential") {
+        // Specific Firebase error for invalid credentials
+        setError("The credentials you entered are invalid. Please sign up first.");
+      } else if (err.response) {
+        // Server responded with an error
+        if (err.response.status === 401) {
+          setError("Invalid credentials. Please check your email and password.");
+        } else {
+          setError("An error occurred while logging in. Please try again later.");
+        }
+      } else if (err.request) {
+        // No response from the server
+        setError("Unable to reach the server. Please check your internet connection.");
+      } else {
+        // Firebase or other errors
+        if (err.code === "auth/invalid-email") {
+          setError("The email address is not valid.");
+        } else if (err.code === "auth/user-not-found") {
+          setError("No user found with this email.");
+        } else if (err.code === "auth/wrong-password") {
+          setError("The password you entered is incorrect.");
+        } else {
+          setError("An unexpected error occurred. Please try again.");
+        }
+      }
+  
       console.error(err.message);
     } finally {
       setLoading(false);
     }
   };
+  
 
   const animationLeft = {
     hidden: { x: "-100vw", opacity: 0 },
@@ -120,7 +157,7 @@ const LoginPage = () => {
 
               {/* Password */}
               <div>
-                <p className="mb-2">Password</p>
+                <p className="mb-2">Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
                 <input
                   type="password"
                   name="password"
