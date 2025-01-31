@@ -60,7 +60,7 @@ const ModelGeneratorUI = () => {
       // Create a temporary link element
       const link = document.createElement("a");
       link.href = blobUrl; // Set the Blob URL
-      link.download = "example-image.jpg"; // Specify the file name
+      link.download = "model-image.jpg"; // Specify the file name
       document.body.appendChild(link); // Append link to the body
       link.click(); // Trigger download
       document.body.removeChild(link); // Remove link after download
@@ -132,7 +132,7 @@ const ModelGeneratorUI = () => {
         const saveResponse = await axios.post(`${API_BASE_URL}/api/save-model`, {
           userId: user.uid,
           modelConfig: payload,
-          imageUrl:generateImages,
+          imageUrl:data.image_urls,
         });
 
 
