@@ -127,7 +127,7 @@ const ModelGeneratorUI = () => {
         const API_BASE_URL =
           window.location.hostname === "localhost"
             ? "http://localhost:5000"
-            : "https://your-backend-domain.com"; // Replace with actual backend URL
+            : "https://ai4fi-backend.onrender.com"; // Replace with actual backend URL
 
         const saveResponse = await axios.post(`${API_BASE_URL}/api/save-model`, {
           userId: user.uid,
