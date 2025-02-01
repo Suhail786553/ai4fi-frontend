@@ -191,11 +191,11 @@ const DashboardPage = () => {
     }
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    window.location.href = "/login";
-  };
+  // const handleLogout = () => {
+  //   localStorage.removeItem("user");
+  //   localStorage.removeItem("token");
+  //   window.location.href = "/login";
+  // };
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
@@ -274,12 +274,12 @@ const DashboardPage = () => {
             <FaTachometerAlt className="inline-block mr-2" />
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          <li
+          <a href="/"><li
             className="p-3 hover:bg-gray-700 rounded-lg transition cursor-pointer"
-            onClick={handleLogout}
+            // onClick={handleLogout}
           >
-            <FaSignOutAlt className="inline-block mr-2" /> Logout
-          </li>
+            <FaSignOutAlt className="inline-block mr-2" /> Back to Home
+          </li></a>
         </ul>
       </aside>
 

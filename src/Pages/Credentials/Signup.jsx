@@ -32,7 +32,6 @@ const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setLoadingSignup(true);
     setTimeout(() => {
       setLoadingSignup(false);
