@@ -3,7 +3,7 @@ import { Upload, Shirt as Tshirt, Image as ImageIcon, RefreshCw, X } from "lucid
 import axios from "axios";
 // import imageCompression from "browser-image-compression";
 import { AnimatedBeamCard } from "./AnimatedComponet";
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function VirtualTryon() {
   const [modelImages, setModelImages] = useState([]);
@@ -70,7 +70,12 @@ function VirtualTryon() {
       formData.append("category", category);
 
       // POST request with axios, Content-Type will be set automatically
-      const response = await axios.post("http://localhost:5000/proxy/virtual-try-on", formData);
+      const baseURL = window.location.hostname === "localhost"
+        ? "http://localhost:5000/proxy/virtual-try-on"  // Local development URL
+        : "https://ai4fi-backend.onrender.com/proxy/virtual-try-on";  // Production URL
+
+
+      const response = await axios.post(baseURL, formData);
       console.log("data", response.data.output_urls);
       setResultImage(response.data.output_urls); // Update results
       setIsGenerating(false);
@@ -100,7 +105,7 @@ function VirtualTryon() {
           <Tshirt className='h-6 w-6' />
           <h1 className='text-xl font-bold'>AI4FI TryOn Room</h1>
         </div>
-       <Link to="/"><button className=' justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
+        <Link to="/"><button className=' justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
           Back to Home 🏠
         </button></Link>
       </header>
