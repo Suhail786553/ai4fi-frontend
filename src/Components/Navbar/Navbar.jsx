@@ -44,7 +44,7 @@ const Navbar = () => {
     setUser(null);
     localStorage.removeItem("user");
     localStorage.removeItem("token");
-    window.location.href = "/login";
+    window.location.href = "/";
     alert("You have successfully logged out!");
   };
 
