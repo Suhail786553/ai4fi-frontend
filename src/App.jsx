@@ -10,7 +10,6 @@ import ModelGallery from "./Pages/ModelGallery/ModelGallery";
 import About from "./Pages/About/About";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import SettingsPage from "./Pages/Dashboard/SettingPage";
-import VirtualTryon from "./Pages/Model/VirtualTryon";
 import Usecases from "./Pages/Usecases/Usecases";
 import ChooseModelOption from "./Pages/ChooseModelOpt/ChooseModelOpt";
 import ModelListPage from "./Pages/ModelListPage/ModelListPage";
