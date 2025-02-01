@@ -38,10 +38,13 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
+    // localStorage.removeItem("user");
+    // localStorage.removeItem("token");
     await signOut(auth);
     setUser(null);
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    window.location.href = "/login";
     alert("You have successfully logged out!");
   };
 
