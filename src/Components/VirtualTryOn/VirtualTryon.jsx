@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Upload, Shirt as Tshirt, Image as ImageIcon, RefreshCw, X } from "lucide-react";
 import axios from "axios";
-import imageCompression from "browser-image-compression";
+// import imageCompression from "browser-image-compression";
 import { AnimatedBeamCard } from "./AnimatedComponet";
 
 function VirtualTryon() {
@@ -80,14 +80,14 @@ function VirtualTryon() {
     }
   };
 
-  const compressImage = async (file) => {
-    const options = {
-      maxSizeMB: 1, // 200kb
-      maxWidthOrHeight: 500, // Resize image for smaller dimensions
-      useWebWorker: true,
-    };
-    return await imageCompression(file, options);
-  };
+  // const compressImage = async (file) => {
+  //   const options = {
+  //     maxSizeMB: 1, // 200kb
+  //     maxWidthOrHeight: 500, // Resize image for smaller dimensions
+  //     useWebWorker: true,
+  //   };
+  //   return await imageCompression(file, options);
+  // };
 
   console.log(resultImage);
 
@@ -216,7 +216,7 @@ function VirtualTryon() {
               ) : (
                 <div className='text-gray-400 text-center'>
                   <ImageIcon className='w-16 h-16 mx-auto mb-4' />
-                  <p>Select a model and garment, then click "Try On Garment" to see the result</p>
+                  <p>Select a model and garment, then click &quot;Try On Garment&quot; to see the result</p>
                 </div>
               )}
             </div>

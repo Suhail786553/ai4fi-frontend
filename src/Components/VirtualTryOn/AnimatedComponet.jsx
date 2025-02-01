@@ -1,8 +1,11 @@
-import React, { forwardRef, useRef } from "react";
+/* eslint-disable react/prop-types */
+/* eslint-disable react/display-name */
+import  { forwardRef, useRef } from "react";
 import { AnimatedBeam } from "./AnimatesBeam";
 import { ImageIcon } from "lucide-react";
 import { RefreshCw } from "lucide-react";
 
+// eslint-disable-next-line react/prop-types
 const Model = forwardRef(({ className, children }, ref) => {
   return (
     <div
