@@ -123,37 +123,42 @@ const Navbar = () => {
 
         {/* User Authentication (Right Corner) */}
         <div className="hidden md:flex space-x-4">
-          {user ? (
-           <div className="relative  items-center">
-           <FaUserCircle
-             className="text-purple-700 text-2xl cursor-pointer"
-             onClick={() => setAvatarDropdown(!avatarDropdown)}
-           />
-           {/* ✅ **Show User Name** */}
-           <span className="text-purple-700 font-medium ml-2">{`Hello, ${user.displayName || "User"}`}</span>
-              
-              {avatarDropdown && (
-                <ul className="absolute right-0 mt-2 bg-white shadow-md rounded-lg text-purple-700 p-2 z-10">
-                  <li className="hover:bg-purple-100 px-4 py-2 rounded cursor-pointer">
-                    <Link to="/dashboard">Dashboard</Link>
-                  </li>
-                  <li className="hover:bg-purple-100 px-4 py-2 rounded cursor-pointer" onClick={handleLogout}>
-                    Logout
-                  </li>
-                </ul>
-              )}
-            </div>
-          ) : (
-            <>
-              <Link to="/login" className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition">
-                Log In
-              </Link>
-              <Link to="/signup" className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition">
-                Sign Up
-              </Link>
-            </>
-          )}
-        </div>
+  {user ? (
+    <div className="relative flex items-center">
+      {/* Avatar Icon */}
+      <FaUserCircle
+        className="text-purple-700 text-2xl cursor-pointer"
+        onClick={() => setAvatarDropdown(!avatarDropdown)}
+      />
+      
+      {/* ✅ Show User Name */}
+      <span className="text-purple-700 font-medium ml-2">{`Hello, ${user.displayName || "User"}`}</span>
+
+      {/* Dropdown Menu (Appears Below Avatar) */}
+      {avatarDropdown && (
+        <ul className="absolute left-0 mt-28 bg-white shadow-md rounded-lg text-purple-700 p-2 z-10 w-36">
+          <li className="hover:bg-purple-100 px-4 py-2 rounded cursor-pointer">
+            <Link to="/dashboard">Dashboard</Link>
+          </li>
+          <li className="hover:bg-purple-100 px-4 py-2 rounded cursor-pointer" onClick={handleLogout}>
+            Logout
+          </li>
+        </ul>
+      )}
+    </div>
+  ) : (
+    <>
+      <Link to="/login" className="px-6 py-2 bg-purple-700 text-white rounded-lg hover:bg-purple-900 transition">
+        Log In
+      </Link>
+      <Link to="/signup" className="px-4 py-2 border border-purple-700 text-purple-700 rounded-lg hover:bg-purple-700 hover:text-white transition">
+        Sign Up
+      </Link>
+    </>
+  )}
+</div>
+
+
 
         {/* Mobile Menu Toggle */}
         <div className="md:hidden">
