@@ -1,10 +1,177 @@
+// import { useEffect, useState } from "react";
+// import { useNavigate } from "react-router-dom";
+// import { Bar, Pie, Line } from "react-chartjs-2";
+// import { FaHome } from "react-icons/fa";
+// import 'chart.js/auto';
+
+// const DashboardPage = () => {
+//   const [user, setUser] = useState(null);
+//   const navigate = useNavigate();
+
+//   useEffect(() => {
+//     const params = new URLSearchParams(window.location.search);
+//     const name = params.get("name");
+//     const email = params.get("email");
+//     const token = params.get("token");
+
+//     if (token && name && email) {
+//       const userData = { name, email };
+//       localStorage.setItem("user", JSON.stringify(userData));
+//       localStorage.setItem("token", token);
+//       setUser(userData);
+//     } else {
+//       const storedUser = JSON.parse(localStorage.getItem("user"));
+//       if (storedUser) setUser(storedUser);
+//     }
+//   }, []);
+
+//   const handleBackToHome = () => {
+//     navigate("/");
+//   };
+
+//   // Data for Virtual Try-On
+//   const tryOnBarChartData = {
+//     labels: ['Tops', 'Bottoms', 'Shoes', 'Accessories'],
+//     datasets: [
+//       {
+//         label: 'Items Tried On',
+//         data: [120, 95, 80, 60],
+//         backgroundColor: '#3B82F6',
+//         borderRadius: 10,
+//       },
+//       {
+//         label: 'Items Purchased',
+//         data: [30, 25, 20, 15],
+//         backgroundColor: '#10B981',
+//         borderRadius: 10,
+//       },
+//     ],
+//   };
+
+//   // Data for Model Generator (All Months)
+//   const modelLineChartData = {
+//     labels: [
+//       'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+//       'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+//     ],
+//     datasets: [
+//       {
+//         label: 'Models Generated',
+//         data: [50, 60, 80, 120, 150, 200, 220, 250, 270, 300, 320, 350],
+//         borderColor: '#4F46E5',
+//         backgroundColor: 'rgba(79, 70, 229, 0.5)',
+//         tension: 0.4,
+//       },
+//       {
+//         label: 'Successful Models',
+//         data: [45, 55, 75, 110, 140, 190, 210, 240, 260, 290, 310, 340],
+//         borderColor: '#10B981',
+//         backgroundColor: 'rgba(16, 185, 129, 0.5)',
+//         tension: 0.4,
+//       },
+//     ],
+//   };
+
+//   // User Engagement (Combined)
+//   const pieChartData = {
+//     labels: ['Models Generated', 'Virtual Try-Ons', 'Items Purchased'],
+//     datasets: [
+//       {
+//         data: [180, 120, 90],
+//         backgroundColor: ['#4F46E5', '#3B82F6', '#10B981'],
+//       },
+//     ],
+//   };
+
+//   if (!user) return <p className="text-center text-gray-300">Loading...</p>;
+
+//   return (
+//     <div className="flex flex-col h-screen bg-gray-900 text-gray-200 p-6">
+//       {/* Header */}
+//       <header className="flex justify-between items-center bg-gray-800 p-4 shadow-md rounded-md mb-6">
+//         <h1 className="text-xl font-bold text-gray-100">AI4FI Dashboard</h1>
+//         <button
+//           className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-500 flex items-center"
+//           onClick={handleBackToHome}
+//         >
+//           <FaHome className="mr-2" /> Back to Home
+//         </button>
+//       </header>
+
+//       {/* Welcome Section */}
+//       <div className="mb-6 bg-gray-800 p-6 rounded-lg shadow-md">
+//         <h2 className="text-2xl font-semibold text-gray-100">
+//           Welcome, {user.name}!
+//         </h2>
+//         <p className="text-gray-400">
+//           Explore AI-powered model generation and virtual try-on features.
+//         </p>
+//       </div>
+
+//       {/* Virtual Try-On Statistics */}
+//       <section className="mb-8">
+//         <h3 className="text-xl font-bold text-gray-100 mb-4">
+//           Virtual Try-On Statistics
+//         </h3>
+//         <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+//           <Bar data={tryOnBarChartData} options={{
+//             responsive: true,
+//             plugins: {
+//               legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
+//             },
+//             scales: {
+//               x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+//               y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+//             },
+//           }} />
+//         </div>
+//       </section>
+
+//       {/* Model Generator Statistics */}
+//       <section className="mb-8">
+//         <h3 className="text-xl font-bold text-black mb-4">
+//           Model Generator Statistics
+//         </h3>
+//         <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+//           <Line data={modelLineChartData} options={{
+//             responsive: true,
+//             plugins: {
+//               legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
+//             },
+//             scales: {
+//               x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+//               y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+//             },
+//           }} />
+//         </div>
+//       </section>
+
+//       {/* User Engagement Section */}
+//       <section className="mb-8 bg-grey">
+//         <h3 className="text-xl font-bold text-black mb-4">
+//           User Engagement Overview
+//         </h3>
+//         <div className="bg-gray-800 p-4 rounded-lg shadow-md">
+//           <Pie data={pieChartData} options={{
+//             plugins: { legend: { display: true, labels: { color: '#ffffff' } } },
+//           }} />
+//         </div>
+//       </section>
+//     </div>
+//   );
+// };
+
+// export default DashboardPage;
+
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { FaBars, FaTachometerAlt,FaSignOutAlt } from "react-icons/fa";
+import { FaBars, FaTachometerAlt, FaSignOutAlt, FaTimes } from "react-icons/fa";
+import { Bar, Pie, Line } from "react-chartjs-2";
+import 'chart.js/auto';
 
 const DashboardPage = () => {
   const [user, setUser] = useState(null);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -31,78 +198,165 @@ const DashboardPage = () => {
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
-  if (!user) return <p>Loading...</p>;
+  // Data for Virtual Try-On
+  const tryOnBarChartData = {
+    labels: ['Tops', 'Bottoms', 'Shoes', 'Accessories'],
+    datasets: [
+      {
+        label: 'Items Tried On',
+        data: [120, 95, 80, 60],
+        backgroundColor: '#3B82F6',
+        borderRadius: 10,
+      },
+      {
+        label: 'Items Purchased',
+        data: [30, 25, 20, 15],
+        backgroundColor: '#10B981',
+        borderRadius: 10,
+      },
+    ],
+  };
+
+  // Data for Model Generator
+  const modelLineChartData = {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+    datasets: [
+      {
+        label: 'Models Generated',
+        data: [50, 60, 80, 120, 150, 200, 220],
+        borderColor: '#4F46E5',
+        backgroundColor: 'rgba(79, 70, 229, 0.5)',
+        tension: 0.4,
+      },
+      {
+        label: 'Successful Models',
+        data: [45, 55, 75, 110, 140, 190, 210],
+        borderColor: '#10B981',
+        backgroundColor: 'rgba(16, 185, 129, 0.5)',
+        tension: 0.4,
+      },
+    ],
+  };
+
+  // User Engagement (Combined)
+  const pieChartData = {
+    labels: ['Models Generated', 'Virtual Try-Ons', 'Items Purchased'],
+    datasets: [
+      {
+        data: [300, 250, 90],
+        backgroundColor: ['#4F46E5', '#3B82F6', '#10B981'],
+      },
+    ],
+  };
+
+  if (!user) return <p className="text-center text-gray-300">Loading...</p>;
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="flex h-screen overflow-hidden bg-gray-900 text-gray-200">
       {/* Sidebar */}
-      <aside className="bg-gray-900 text-white w-64 fixed h-full p-6 shadow-lg">
-        <div className="text-lg font-bold mb-6">AI4FI Dashboard</div>
+      <aside
+        className={`bg-gray-800 text-white w-64 fixed h-full p-6 shadow-lg transform transition-transform duration-200 ease-in-out ${
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        } md:translate-x-0`}
+      >
+        <div className="flex justify-between items-center mb-6">
+          <div className="text-lg font-bold">AI4FI Dashboard</div>
+          <button
+            className="block md:hidden text-white"
+            onClick={toggleSidebar}
+          >
+            <FaTimes size={24} />
+          </button>
+        </div>
         <ul>
           <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
             <FaTachometerAlt className="inline-block mr-2" />
             <Link to="/dashboard">Dashboard</Link>
           </li>
-          {/* <li className="mb-4 p-3 hover:bg-gray-700 rounded-lg transition">
-            <FaCogs className="inline-block mr-2" />
-            <Link to="/settings">Settings</Link>
-          </li> */}
-          <li className="p-3 hover:bg-gray-700 rounded-lg transition cursor-pointer" onClick={handleLogout}>
+          <li
+            className="p-3 hover:bg-gray-700 rounded-lg transition cursor-pointer"
+            onClick={handleLogout}
+          >
             <FaSignOutAlt className="inline-block mr-2" /> Logout
           </li>
         </ul>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 ml-64 overflow-auto p-6 bg-gray-100">
+      <main
+        className={`flex-1 overflow-auto p-6 transition-all duration-200 ${
+          isSidebarOpen ? "ml-64" : "ml-0"
+        } md:ml-64`}
+      >
         {/* Header */}
-        <header className="flex justify-between items-center bg-white p-4 shadow-md rounded-md mb-6">
-          <h1 className="text-xl font-bold text-gray-800">AI4FI Dashboard</h1>
-          <button className="block md:hidden text-gray-800" onClick={toggleSidebar}>
+        <header className="flex justify-between items-center bg-gray-800 p-4 shadow-md rounded-md mb-6">
+          <h1 className="text-xl font-bold text-gray-100">AI4FI Dashboard</h1>
+          <button
+            className="block md:hidden text-gray-100"
+            onClick={toggleSidebar}
+          >
             <FaBars size={24} />
           </button>
         </header>
 
         {/* Welcome Section */}
         <div className="mb-6">
-          <h2 className="text-2xl font-semibold text-gray-800">Welcome, {user.name}!</h2>
-          <p className="text-gray-600">Explore AI-powered virtual try-on features and styling.</p>
+          <h2 className="text-2xl font-semibold text-gray-100">
+            Welcome, {user.name}!
+          </h2>
+          <p className="text-gray-400">
+            Explore AI-powered model generation and virtual try-on features.
+          </p>
         </div>
 
-        {/* AI Features Section */}
+        {/* Virtual Try-On Statistics */}
         <section className="mb-8">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">AI Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {["Upload Your Look", "Virtual Try-On", "AI Styling"].map((feature, index) => (
-              <div key={index} className="p-6 bg-white shadow-md rounded-lg hover:shadow-xl transition">
-                <h4 className="text-lg font-semibold text-gray-800">{feature}</h4>
-                <p className="text-gray-600 mt-2">Experience AI-driven fashion intelligence.</p>
-                <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-md">Explore</button>
-              </div>
-            ))}
+          <h3 className="text-xl font-bold text-gray-100 mb-4">
+            Virtual Try-On Statistics
+          </h3>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <Bar data={tryOnBarChartData} options={{
+              responsive: true,
+              plugins: {
+                legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
+              },
+              scales: {
+                x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+              },
+            }} />
           </div>
         </section>
 
-        {/* Statistics Section */}
+        {/* Model Generator Statistics */}
         <section className="mb-8">
-          <h3 className="text-xl font-bold text-gray-800 mb-4">Your Activity</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {["32 Photos Uploaded", "120 Styles Tried", "15 Favorites Saved"].map((stat, index) => (
-              <div key={index} className="p-6 bg-white shadow-md rounded-lg">
-                <h4 className="text-lg font-semibold text-gray-800">{stat.split(" ")[1]}</h4>
-                <p className="text-2xl font-bold text-blue-500 mt-2">{stat.split(" ")[0]}</p>
-              </div>
-            ))}
+          <h3 className="text-xl font-bold text-gray-100 mb-4">
+            Model Generator Statistics
+          </h3>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <Line data={modelLineChartData} options={{
+              responsive: true,
+              plugins: {
+                legend: { display: true, position: 'top', labels: { color: '#ffffff' } },
+              },
+              scales: {
+                x: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+                y: { ticks: { color: '#ffffff' }, grid: { color: 'rgba(255, 255, 255, 0.1)' } },
+              },
+            }} />
           </div>
         </section>
 
-        {/* Call-to-Action Section */}
-        <section className="text-center">
-          <h3 className="text-2xl font-semibold text-gray-800 mb-4">Redefine Your Style</h3>
-          <p className="text-gray-600 mb-6">Experience AI-powered fashion intelligence.</p>
-          <button className="px-6 py-3 bg-blue-600 text-white rounded-md hover:bg-blue-500 transition">
-            Get Started Now
-          </button>
+        {/* User Engagement Section */}
+        <section className="mb-8">
+          <h3 className="text-xl font-bold text-gray-100 mb-4">
+            User Engagement Overview
+          </h3>
+          <div className="bg-gray-800 p-6 rounded-lg shadow-md">
+            <Pie data={pieChartData} options={{
+              plugins: { legend: { display: true, labels: { color: '#ffffff' } } },
+            }} />
+          </div>
         </section>
       </main>
     </div>

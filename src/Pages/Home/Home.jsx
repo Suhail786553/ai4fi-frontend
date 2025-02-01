@@ -8,6 +8,10 @@ import top2 from './casual (1).jpg';
 import trdan from './trdan.jpeg'
 import ai from './ai.jpeg';
 import video from './ai4fivideo.mp4'
+import {Link} from 'react-router-dom';
+// import { auth } from '../Firebase/firebaseConfig';
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
@@ -21,6 +25,26 @@ const HeroSection = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const sectionRef1 = useRef(null);
   const [allowScroll, setAllowScroll] = useState(false);
+
+  const auth = getAuth();
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+
+    return () => unsubscribe(); // Cleanup on unmount
+  }, [auth]);
+  const handleGetStarted = () => {
+    if (!user) {
+      alert("Please log in to continue!");
+      navigate("/login");
+      return;
+    }
+    navigate("/choose-option");
+  };
+
 
   useEffect(() => {
     const video = videoRef.current;
@@ -205,13 +229,14 @@ const HeroSection = () => {
           </motion.h1>
 
           <div className='mt-4 md:mt-6'>
-            <a href='/choose-option'>
+            <Link to='/choose-option'>
               <motion.button
                 whileHover={{ scale: 1.05 }}
+                onClick={handleGetStarted}
                 className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'>
                 Get Started for Free
               </motion.button>
-            </a>
+            </Link>
           </div>
 
           {/* User Ratings */}
@@ -258,110 +283,110 @@ const HeroSection = () => {
       </section>
       {/* section4 shift here */}
       <section
-  ref={sectionRef1}
-  className="h-screen w-full flex flex-col justify-center items-center bg-gray-100 relative overflow-hidden"
-  style={{ overflowY: allowScroll ? "auto" : "hidden" }}
->
-  {/* Steps Navigation (Visible on desktop only) */}
-  <div
-    className="absolute top-[7rem] left-16 md:left-18 space-y-4 md:space-y-6 z-10 hidden md:block"
-  >
-    {steps.map((step, index) => (
-      <div key={step.id} className="relative flex items-center space-x-4">
-        <span
-          className={`text-base md:text-2xl lg:text-3xl font-bold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
-            }`}
-        >
-          {step.id < 10 ? `0${step.id}` : step.id}
-        </span>
-
-        {/* Horizontal Line */}
+        ref={sectionRef1}
+        className="h-screen w-full flex flex-col justify-center items-center bg-gray-100 relative overflow-hidden"
+        style={{ overflowY: allowScroll ? "auto" : "hidden" }}
+      >
+        {/* Steps Navigation (Visible on desktop only) */}
         <div
-          className={`h-[1px] md:h-[2px] w-10 md:w-16 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
-            }`}
-        ></div>
-
-        <span
-          className={`text-sm md:text-lg font-semibold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
-            }`}
+          className="absolute top-[7rem] left-16 md:left-18 space-y-4 md:space-y-6 z-10 hidden md:block"
         >
-          {step.title}
-        </span>
-      </div>
-    ))}
-  </div>
+          {steps.map((step, index) => (
+            <div key={step.id} className="relative flex items-center space-x-4">
+              <span
+                className={`text-base md:text-2xl lg:text-3xl font-bold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+                  }`}
+              >
+                {step.id < 10 ? `0${step.id}` : step.id}
+              </span>
 
-  {/* Content Section */}
-  <div
-    className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-16 px-4 w-full md:w-[calc(100%-17rem)] ml-0 md:ml-72"
-  >
-    {/* Steps (Visible only on mobile) */}
-    <div className="flex flex-col md:hidden w-full space-y-4 text-center items-start">
-      {steps.map((step, index) => (
-        <div
-          key={step.id}
-          className="relative flex items-center space-x-4"
-        >
-          <span
-            className={`text-base font-bold ${currentStep === index ? "text-black" : "text-gray-400"
-              }`}
-          >
-            {step.id < 10 ? `0${step.id}` : step.id}
-          </span>
-          <div
-            className={`h-[1px] w-10 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
-              }`}
-          ></div>
-          <span
-            className={`text-sm ${currentStep === index ? "text-black" : "text-gray-400"
-              }`}
-          >
-            {step.title}
-          </span>
+              {/* Horizontal Line */}
+              <div
+                className={`h-[1px] md:h-[2px] w-10 md:w-16 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+                  }`}
+              ></div>
+
+              <span
+                className={`text-sm md:text-lg font-semibold transition-all duration-300 ${currentStep === index ? "text-black" : "text-gray-400"
+                  }`}
+              >
+                {step.title}
+              </span>
+            </div>
+          ))}
         </div>
-      ))}
-    </div>
 
-    {/* Image */}
-    <div className="flex-shrink-0 order-2 md:order-1 w-full md:w-auto">
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={steps[currentStep].id}
-          src={steps[currentStep].image}
-          alt={steps[currentStep].title}
-          className="h-[250px] md:h-[400px] lg:h-[500px] w-auto object-cover rounded-lg shadow-lg mx-auto"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-        />
-      </AnimatePresence>
-    </div>
+        {/* Content Section */}
+        <div
+          className="flex flex-col md:flex-row items-center justify-center space-y-6 md:space-y-0 md:space-x-16 px-4 w-full md:w-[calc(100%-17rem)] ml-0 md:ml-72"
+        >
+          {/* Steps (Visible only on mobile) */}
+          <div className="flex flex-col md:hidden w-full space-y-4 text-center items-start">
+            {steps.map((step, index) => (
+              <div
+                key={step.id}
+                className="relative flex items-center space-x-4"
+              >
+                <span
+                  className={`text-base font-bold ${currentStep === index ? "text-black" : "text-gray-400"
+                    }`}
+                >
+                  {step.id < 10 ? `0${step.id}` : step.id}
+                </span>
+                <div
+                  className={`h-[1px] w-10 bg-black transition-all duration-300 ${currentStep === index ? "bg-black" : "bg-gray-300"
+                    }`}
+                ></div>
+                <span
+                  className={`text-sm ${currentStep === index ? "text-black" : "text-gray-400"
+                    }`}
+                >
+                  {step.title}
+                </span>
+              </div>
+            ))}
+          </div>
 
-    {/* Description */}
-    <div className="flex flex-col max-w-full md:max-w-md space-y-4 text-center md:text-left order-3">
-      <AnimatePresence mode="wait">
-        <motion.h2
-          key={steps[currentStep].title}
-          className="text-lg md:text-xl lg:text-2xl font-bold text-purple-600"
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: 10 }}
-        >
-          {steps[currentStep].title}
-        </motion.h2>
-        <motion.p
-          key={steps[currentStep].description}
-          className="text-sm md:text-lg lg:text-lg text-gray-700"
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-        >
-          {steps[currentStep].description}
-        </motion.p>
-      </AnimatePresence>
-    </div>
-  </div>
-</section>
+          {/* Image */}
+          <div className="flex-shrink-0 order-2 md:order-1 w-full md:w-auto">
+            <AnimatePresence mode="wait">
+              <motion.img
+                key={steps[currentStep].id}
+                src={steps[currentStep].image}
+                alt={steps[currentStep].title}
+                className="h-[250px] md:h-[400px] lg:h-[500px] w-auto object-cover rounded-lg shadow-lg mx-auto"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+              />
+            </AnimatePresence>
+          </div>
+
+          {/* Description */}
+          <div className="flex flex-col max-w-full md:max-w-md space-y-4 text-center md:text-left order-3">
+            <AnimatePresence mode="wait">
+              <motion.h2
+                key={steps[currentStep].title}
+                className="text-lg md:text-xl lg:text-2xl font-bold text-purple-600"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                {steps[currentStep].title}
+              </motion.h2>
+              <motion.p
+                key={steps[currentStep].description}
+                className="text-sm md:text-lg lg:text-lg text-gray-700"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+              >
+                {steps[currentStep].description}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+        </div>
+      </section>
 
 
 
@@ -379,7 +404,7 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-             >
+            >
               The Challenges of Traditional Fashion Photography
             </h1>
             <p className='text-xl text-gray-600 animate-fade-in-delay'>
@@ -414,7 +439,7 @@ const HeroSection = () => {
             <div className='relative group'>
               <span
                 className='absolute top-4 left-4 bg-gray-900 text-white text-sm px-3 py-1 rounded-full shadow-lg'
-                >
+              >
                 Traditional
               </span>
               <img
@@ -426,7 +451,7 @@ const HeroSection = () => {
             <div className='relative group'>
               <span
                 className='absolute top-4 left-4 bg-purple-600 text-white text-sm px-3 py-1 rounded-full shadow-lg'
-                >
+              >
                 AI-Generated
               </span>
               <img
@@ -467,7 +492,7 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-2xl lg:text-4xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-              >
+            >
               AI Visual Try-On: Your Game-Changing Fashion Solution
             </h1>
             <ul className='space-y-4 text-gray-700'>
@@ -499,7 +524,7 @@ const HeroSection = () => {
             <div className='flex justify-center lg:justify-start items-center w-full mt-6'>
               <button
                 className='bg-[#5A00FF] hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                >
+              >
                 Explore Our Technology
               </button>
             </div>
@@ -516,9 +541,8 @@ const HeroSection = () => {
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${
-                  activeTab === tab ? "bg-[#5A00FF] text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
-                }`}>
+                className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${activeTab === tab ? "bg-[#5A00FF] text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
+                  }`}>
                 {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
               </button>
             ))}
@@ -530,7 +554,7 @@ const HeroSection = () => {
           {/* Heading Above Images */}
           <h2
             className='text-lg sm:text-xl font-medium text-gray-700 mb-4 sm:mb-6 text-center'
-            >
+          >
             Keeping perfect resemblance to the reference garment is our top priority and research focus
           </h2>
 
@@ -557,7 +581,7 @@ const HeroSection = () => {
         <div className='container mx-auto px-6 lg:px-16'>
           <h2
             className='text-3xl lg:text-5xl font-extrabold text-center mb-12 text-white'
-            >
+          >
             Features of <span className='text-purple-400'>AI4FI</span>
           </h2>
 
@@ -637,7 +661,7 @@ const HeroSection = () => {
           <div className='flex flex-col space-y-6 lg:space-y-8 text-center lg:text-left'>
             <h1
               className='text-4xl lg:text-5xl font-extrabold text-gray-900 leading-tight animate-fade-in'
-              >
+            >
               Ready to Transform Your Fashion Business?
             </h1>
             <p className='text-lg text-gray-700 animate-fade-in-delay'>
@@ -648,7 +672,7 @@ const HeroSection = () => {
               <a href='/signup'>
                 <button
                   className='bg-purple-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                  >
+                >
                   Sign Up Now
                 </button>
               </a>
@@ -658,7 +682,7 @@ const HeroSection = () => {
               <a href='/contact'>
                 <button
                   className='bg-blue-600 hover:bg-[#4a00e6] transition-transform duration-300 text-white font-semibold py-3 px-8 rounded-md shadow-lg'
-                  >
+                >
                   Contact Us
                 </button>
               </a>
@@ -683,7 +707,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className='text-sm text-purple-700 font-bold uppercase'
-            >
+          >
             FAQ
           </motion.h2>
           <motion.h1
@@ -691,7 +715,7 @@ const HeroSection = () => {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6 }}
             className='text-3xl sm:text-4xl font-bold text-gray-900 mt-2'
-            >
+          >
             Frequently Asked Questions
           </motion.h1>
           <div className='mt-8 space-y-6'>

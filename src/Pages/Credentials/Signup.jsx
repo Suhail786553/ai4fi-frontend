@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MdOutlineEmail } from "react-icons/md";
-// import { FaGoogle } from "react-icons/fa"; 
 import { useNavigate } from "react-router-dom";
+import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 
 const SignUpForm = () => {
@@ -16,6 +16,10 @@ const SignUpForm = () => {
   const [isOtpSent, setIsOtpSent] = useState(false); // To track OTP sent status
   const [isOtpVerified, setIsOtpVerified] = useState(false); // To track OTP verification 
   const [loading, setLoading] = useState(false);//status
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [loadingOtp, setLoadingOtp] = useState(false); // Loading state for OTP button
+  const [loadingSignup, setLoadingSignup] = useState(false); // Loading state for SignUp button
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -23,10 +27,19 @@ const SignUpForm = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
+
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    setLoadingSignup(true); // Start loading when submitting the form
+
+    // Simulate the sign-up process (e.g., sending data to server)
+    setTimeout(() => {
+      alert('Sign Up successful');
+      setLoadingSignup(false); // Stop loading after sign-up
+    }, 3000); // Simulating network delay (3 seconds)
     setLoading(true);
     // setError(""); // Clear previous errors
     const { name, email, password, confirmPassword } = formData;
@@ -46,13 +59,9 @@ const SignUpForm = () => {
         ? "http://localhost:5000/api/auth/signup" // Local development URL
         : "https://ai4fi-backend.onrender.com/api/auth/signup"; // Hosted backend URL
 
-       await axios.post(baseURL, { name, email, password });
-      // const { token, user } = response.data;
+      await axios.post(baseURL, { name, email, password });
 
-      // localStorage.setItem("token", token);
-      // localStorage.setItem("user", JSON.stringify(user));
-
-      alert("Signup successful");
+      alert("Signup successful! Now, please login.");
       navigate("/login");
     } catch (error) {
 
@@ -60,18 +69,20 @@ const SignUpForm = () => {
     }
   };
 
-  // const handleGoogleLogin = async () => {
-  //   try {
-  //     const response = await axios.get("http://localhost:5000/api/auth/google/url");
-  //     window.location.href = response.data.url; 
-  //   // eslint-disable-next-line no-unused-vars
-  //   } catch (error) {
-  //     alert("Google login failed!");
-  //   }
-  // };
 
   const handleSendOtp = async () => {
+    setLoadingOtp(true); // Start loading when sending OTP
+    // Simulate OTP sending process
+    setTimeout(() => {
+      setIsOtpSent(true);
+      setLoadingOtp(false); // Stop loading after OTP is sent
+    }, 2000); // Simulating network delay (2 seconds)
     const { email } = formData;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address!");
+      return;
+    }
     try {
       const baseURL = window.location.hostname === "localhost"
         ? "http://localhost:5000/api/auth/sendOtp"
@@ -137,7 +148,7 @@ const SignUpForm = () => {
             <MdOutlineEmail className="text-3xl" />
             <div>
               <p className="font-semibold">Email</p>
-              <p>support@yourwebsite.com</p>
+              <p>support@apricityts.com</p>
             </div>
           </div>
         </motion.div>
@@ -153,102 +164,142 @@ const SignUpForm = () => {
             Create your account
           </h4>
           <form onSubmit={handleSubmit}>
-  <div className="space-y-4">
-    <div>
-      <p className="mb-2">Name</p>
-      <input
-        type="text"
-        name="name"
-        value={formData.name}
-        onChange={handleChange}
-        placeholder="Enter your name"
-        className="w-full p-3 border border-gray-300 rounded-md text-black"
-        required
-      />
-    </div>
+            <div className="space-y-4">
+              <div>
+                <p className="mb-2">Name</p>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder="Enter your name"
+                  className="w-full p-3 border border-gray-300 rounded-md text-black"
+                  required
+                />
+              </div>
 
-    {/* Email Input Section */}
-    {!isOtpSent && (
+              {/* Email Input Section */}
+              {!isOtpSent && (
+                <div>
+                  <p className="mb-2">Email</p>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Enter your email"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black"
+                    required
+
+                  />
+                  <button
+                    type="button"
+                    disabled={loading}
+                    onClick={handleSendOtp}
+                    className={`w-full p-3 text-white rounded-md mt-4 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#904af2]"}`}
+                    style={{ borderRadius: "40px", fontSize: 19 }}
+                  >
+                     {loadingOtp ? "Sending OTP..." : "Send OTP"}
+                  </button>
+                </div>
+              )}
+
+              {/* OTP Input Section */}
+              {isOtpSent && !isOtpVerified && (
+                <div>
+                  <p className="mb-2">OTP</p>
+                  <input
+                    type="text"
+                    name="otp"
+                    value={formData.otp}
+                    onChange={handleChange}
+                    placeholder="Enter OTP"
+                    className="w-full p-3 border border-gray-300 rounded-md text-black"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={handleVerifyOtp}
+                    className="w-full p-3 bg-[#904af2] text-white rounded-md mt-4"
+                  >
+                    Verify OTP
+                  </button>
+                </div>
+              )}
+
+             
+{isOtpVerified && (
+  <>
+              {/* <div> */}
+      {/* Password Input */}
       <div>
-        <p className="mb-2">Email</p>
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter your email"
-          className="w-full p-3 border border-gray-300 rounded-md text-black"
-          required
-        />
-        <button
-          type="button"
-          disabled={loading}
-          onClick={handleSendOtp}
-          className={`w-full p-3 text-white rounded-md mt-4 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#904af2]"}`}
-          style={{ borderRadius: "40px", fontSize: 19 }}
-        >
-          {loading ? "Sending OTP..." : "Send OTP"}
-        </button>
+        <p className="mb-2">
+          Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
+        </p>
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Enter your password"
+            className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
+            required
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
       </div>
-    )}
-
-    {/* OTP Input Section */}
-    {isOtpSent && !isOtpVerified && (
-      <div>
-        <p className="mb-2">OTP</p>
-        <input
-          type="text"
-          name="otp"
-          value={formData.otp}
-          onChange={handleChange}
-          placeholder="Enter OTP"
-          className="w-full p-3 border border-gray-300 rounded-md text-black"
-          required
-        />
-        <button
-          type="button"
-          onClick={handleVerifyOtp}
-          className="w-full p-3 bg-[#904af2] text-white rounded-md mt-4"
-        >
-          Verify OTP
-        </button>
+              </>
+)}
+              
+              {isOtpVerified && (
+                <>
+             <div className="mt-4">
+        <p className="mb-2">
+          Confirm Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
+        </p>
+        <div className="relative">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm your password"
+            className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
+            required
+          />
+          <button
+            type="button"
+            className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+          </button>
+        </div>
       </div>
-    )}
 
-    <div>
-      <p className="mb-2">Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
-      <input
-        type="password"
-        name="password"
-        value={formData.password}
-        onChange={handleChange}
-        placeholder="Enter your password"
-        className="w-full p-3 border border-gray-300 rounded-md text-black"
-        required
-      />
-    </div>
-    <div>
-      <p className="mb-2">Confirm Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
-      <input
-        type="password"
-        name="confirmPassword"
-        value={formData.confirmPassword}
-        onChange={handleChange}
-        placeholder="Confirm your password"
-        className="w-full p-3 border border-gray-300 rounded-md text-black"
-        required
-      />
-    </div>
-    <button
-      type="submit"
-      className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
-      style={{ borderRadius: "40px", fontSize: 19 }}
-    >
-      Sign Up
-    </button>
-  </div>
-</form>
-<p className="mt-6 text-center text-sm text-gray-600">
+              </>
+              )}
+               {isOtpVerified && (
+                <>
+              <button
+                type="submit"
+                className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
+                style={{ borderRadius: "40px", fontSize: 19 }}
+              >
+                {loadingSignup ? "Signing Up..." : "Sign Up"}
+              </button>
+              </>
+               )}
+            </div>
+          </form>
+          <p className="mt-6 text-center text-sm text-gray-600">
             Already have an account?{" "}
             <a
               href="/login"

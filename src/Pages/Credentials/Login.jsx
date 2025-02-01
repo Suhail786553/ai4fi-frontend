@@ -5,16 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../Firebase/firebaseConfig'; // Adjust path if needed
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
 
-  // const handleChange = (e) => {
-  //   setLoginData({ ...loginData, [e.target.name]: e.target.value });
-  // };
 
   const handleChange = (e) => {
     setLoginData({ ...loginData, [e.target.name]: e.target.value });
@@ -48,7 +47,7 @@ const LoginPage = () => {
       // 4️⃣ Store Data in LocalStorage for Multi-Device Login
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(backendUser));
-  
+      alert(`Hello, ${backendUser.name}! You have successfully logged in.`);
       navigate("/");
     } catch (err) {
       if (err.code === "auth/invalid-credential") {
@@ -157,17 +156,28 @@ const LoginPage = () => {
 
               {/* Password */}
               <div>
-                <p className="mb-2">Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span></p>
-                <input
-                  type="password"
-                  name="password"
-                  value={loginData.password}
-                  onChange={handleChange}
-                  placeholder="Enter your password"
-                  className="w-full p-3 border border-gray-300 rounded-md text-black"
-                  required
-                />
-              </div>
+      <p className="mb-2">
+        Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
+      </p>
+      <div className="relative">
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          value={loginData.password}
+          onChange={handleChange}
+          placeholder="Enter your password"
+          className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
+          required
+        />
+        <button
+          type="button"
+          className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+          onClick={() => setShowPassword(!showPassword)}
+        >
+          {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+        </button>
+      </div>
+    </div>
 
               {/* Submit Button */}
               <button
