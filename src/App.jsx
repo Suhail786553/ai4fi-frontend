@@ -14,7 +14,7 @@ import Usecases from "./Pages/Usecases/Usecases";
 import ChooseModelOption from "./Pages/ChooseModelOpt/ChooseModelOpt";
 import ModelListPage from "./Pages/ModelListPage/ModelListPage";
 import ProtectedRoute from "./Components/ProtectedRoute/ProtectedRoute";
-import VirtualTryon from './Pages/Model/VirtualTryon'
+import VirtualTryon from './Components/VirtualTryOn/VirtualTryon';
 
 const App = () => {
   return (

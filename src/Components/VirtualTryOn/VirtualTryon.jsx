@@ -3,6 +3,7 @@ import { Upload, Shirt as Tshirt, Image as ImageIcon, RefreshCw, X } from "lucid
 import axios from "axios";
 // import imageCompression from "browser-image-compression";
 import { AnimatedBeamCard } from "./AnimatedComponet";
+import {Link} from 'react-router-dom';
 
 function VirtualTryon() {
   const [modelImages, setModelImages] = useState([]);
@@ -99,9 +100,9 @@ function VirtualTryon() {
           <Tshirt className='h-6 w-6' />
           <h1 className='text-xl font-bold'>AI4FI TryOn Room</h1>
         </div>
-        <button className=' justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
-          Go back
-        </button>
+       <Link to="/"><button className=' justify-center gap-2 items-center bg-gradient-to-r from-purple-600 to-indigo-600 hover:bg-gradient-to-r hover:from-purple-800 hover:to-indigo-800 text-white font-bold px-6 py-3 rounded-lg shadow-lg transition-transform'>
+          Back to Home 🏠
+        </button></Link>
       </header>
 
       <div className='w-full h-[calc(100vh_-_72px)] overflow-hidden'>

@@ -38,6 +38,8 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
     await signOut(auth);
     setUser(null);
     alert("You have successfully logged out!");

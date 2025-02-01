@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 "use client";
 
 import { motion } from "motion/react";
@@ -66,6 +67,7 @@ export const AnimatedBeam = ({
     // Initialize ResizeObserver
     const resizeObserver = new ResizeObserver((entries) => {
       // For all entries, recalculate the path
+      // eslint-disable-next-line no-unused-vars
       for (let entry of entries) {
         updatePath();
       }

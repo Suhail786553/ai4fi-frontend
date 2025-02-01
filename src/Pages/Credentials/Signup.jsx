@@ -33,15 +33,11 @@ const SignUpForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    setLoadingSignup(true); // Start loading when submitting the form
-
-    // Simulate the sign-up process (e.g., sending data to server)
+    setLoadingSignup(true);
     setTimeout(() => {
-      alert('Sign Up successful');
-      setLoadingSignup(false); // Stop loading after sign-up
-    }, 3000); // Simulating network delay (3 seconds)
+      setLoadingSignup(false);
+    }, 3000);
     setLoading(true);
-    // setError(""); // Clear previous errors
     const { name, email, password, confirmPassword } = formData;
 
     if (password !== confirmPassword) {
@@ -65,18 +61,32 @@ const SignUpForm = () => {
       navigate("/login");
     } catch (error) {
 
-      alert(error.response?.data?.message || "Signup failed!");
+      if (error.response) {
+        const errorMessage = error.response.data.message;
+        
+        if (errorMessage === "User already exists") {
+          alert("A user with this email already exists. Please use a different email.");
+        } else if (errorMessage === "Email is invalid") {
+          alert("Please enter a valid email address.");
+        } else if (errorMessage === "Password is too short") {
+          alert("Password is too short. It must be at least 6 characters long.");
+        } else {
+          alert(errorMessage || "Signup failed!");
+        }
+      } else {
+        // Handle network or other errors
+        alert("Network error. Please try again later.");
+      }
     }
   };
 
 
   const handleSendOtp = async () => {
-    setLoadingOtp(true); // Start loading when sending OTP
-    // Simulate OTP sending process
+    setLoadingOtp(true);
     setTimeout(() => {
       setIsOtpSent(true);
-      setLoadingOtp(false); // Stop loading after OTP is sent
-    }, 2000); // Simulating network delay (2 seconds)
+      setLoadingOtp(false);
+    }, 2000);
     const { email } = formData;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -199,7 +209,7 @@ const SignUpForm = () => {
                     className={`w-full p-3 text-white rounded-md mt-4 ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-[#904af2]"}`}
                     style={{ borderRadius: "40px", fontSize: 19 }}
                   >
-                     {loadingOtp ? "Sending OTP..." : "Send OTP"}
+                    {loadingOtp ? "Sending OTP..." : "Send OTP"}
                   </button>
                 </div>
               )}
@@ -227,76 +237,76 @@ const SignUpForm = () => {
                 </div>
               )}
 
-             
-{isOtpVerified && (
-  <>
-              {/* <div> */}
-      {/* Password Input */}
-      <div>
-        <p className="mb-2">
-          Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
-        </p>
-        <div className="relative">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Enter your password"
-            className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
-            required
-          />
-          <button
-            type="button"
-            className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-            onClick={() => setShowPassword(!showPassword)}
-          >
-            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
-      </div>
-              </>
-)}
-              
+
               {isOtpVerified && (
                 <>
-             <div className="mt-4">
-        <p className="mb-2">
-          Confirm Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
-        </p>
-        <div className="relative">
-          <input
-            type={showConfirmPassword ? "text" : "password"}
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={handleChange}
-            placeholder="Confirm your password"
-            className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
-            required
-          />
-          <button
-            type="button"
-            className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-          >
-            {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
-          </button>
-        </div>
-      </div>
-
-              </>
+                  {/* <div> */}
+                  {/* Password Input */}
+                  <div>
+                    <p className="mb-2">
+                      Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
+                    </p>
+                    <div className="relative">
+                      <input
+                        type={showPassword ? "text" : "password"}
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Enter your password"
+                        className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
+                  </div>
+                </>
               )}
-               {isOtpVerified && (
+
+              {isOtpVerified && (
                 <>
-              <button
-                type="submit"
-                className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
-                style={{ borderRadius: "40px", fontSize: 19 }}
-              >
-                {loadingSignup ? "Signing Up..." : "Sign Up"}
-              </button>
-              </>
-               )}
+                  <div className="mt-4">
+                    <p className="mb-2">
+                      Confirm Password <span className="text-xs text-gray-500">(Must be at least 6 characters)</span>
+                    </p>
+                    <div className="relative">
+                      <input
+                        type={showConfirmPassword ? "text" : "password"}
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        placeholder="Confirm your password"
+                        className="w-full p-3 border border-gray-300 rounded-md text-black pr-10"
+                        required
+                      />
+                      <button
+                        type="button"
+                        className="absolute right-3 top-3 text-gray-500 hover:text-gray-700"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                      </button>
+                    </div>
+                  </div>
+
+                </>
+              )}
+              {isOtpVerified && (
+                <>
+                  <button
+                    type="submit"
+                    className="w-full p-3 bg-[#904af2] text-white rounded-md shadow-lg"
+                    style={{ borderRadius: "40px", fontSize: 19 }}
+                  >
+                    {loadingSignup ? "Signing Up..." : "Sign Up"}
+                  </button>
+                </>
+              )}
             </div>
           </form>
           <p className="mt-6 text-center text-sm text-gray-600">
