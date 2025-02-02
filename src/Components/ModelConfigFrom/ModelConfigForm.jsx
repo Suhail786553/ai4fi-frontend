@@ -75,6 +75,7 @@ const ModelConfigForm = ({
   setSeedType,
   // setSeed,
   // seed,
+  setCustomBackground,
   setDress,
   setShotType,
   shotType,
@@ -90,7 +91,8 @@ const ModelConfigForm = ({
   loading,
   generateImage,
   dress,
-  dnaNumber
+  dnaNumber,
+  customBackground,
 }) => {
   const [activeTab, setActiveTab] = useState("basic");
 
@@ -328,6 +330,13 @@ const ModelConfigForm = ({
                     <option>Dramatic</option>
                   </select>
                 </div> */}
+                <div>
+                  <label className='block text-sm mb-1'>Custom Background</label>
+                  <textarea rows={1} value={customBackground} onChange={(e) => {
+                    setCustomBackground(e.target.value); // Update Background State
+                    console.log("Custom-Background-Input:", e.target.value); // Debugging
+                  }} className='w-full bg-gray-900 rounded p-2 text-sm' />
+                </div>
               </div>
             </CollapsibleSection>
           </>

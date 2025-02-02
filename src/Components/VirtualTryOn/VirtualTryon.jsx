@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState,useEffect} from "react";
+import { useLocation } from "react-router-dom";
 import { Upload, Shirt as Tshirt, Image as ImageIcon, RefreshCw, X } from "lucide-react";
 import axios from "axios";
 // import imageCompression from "browser-image-compression";
@@ -12,6 +13,23 @@ function VirtualTryon() {
   const [resultImage, setResultImage] = useState([]);
   const [category, setCategory] = useState("tops");
   const [isGenerating, setIsGenerating] = useState(false);
+
+  const location = useLocation();
+  
+  useEffect(() => {
+    if (location.state?.selectedImages) {
+      // Convert received URLs into modelImage objects
+      const preselectedImages = location.state.selectedImages.map((url) => ({
+        id: Math.random().toString(36).substring(7),
+        url,
+        type: "model",
+      }));
+
+      setModelImages(preselectedImages);
+    }
+  }, [location.state]);
+  
+ 
 
   const handleImageUpload = (e, type) => {
     const files = e.target.files;

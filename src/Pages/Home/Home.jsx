@@ -1,31 +1,25 @@
 "use client";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-// import {useScroll, useTransform } from "framer-motion";
 import './Home.css';
 import top1 from './formal (1).jpg';
 import top2 from './casual (1).jpg';
 import trdan from './trdan.jpeg'
 import ai from './ai.jpeg';
 import video from './ai4fivideo.mp4'
-import {Link} from 'react-router-dom';
-// import { auth } from '../Firebase/firebaseConfig';
+import { Link } from 'react-router-dom';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
-
 const HeroSection = () => {
   const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
   const [activeIndex, setActiveIndex] = useState(null);
   const [activeTab, setActiveTab] = useState("pixelPerfect");
-  // const ref1 = useRef(null);
   const ref2 = useRef(null);
   const videoRef = useRef(null);
   const sectionRef = useRef(null);
-  // const [ setActiveStep] = useState(1);
   const [currentStep, setCurrentStep] = useState(0);
   const sectionRef1 = useRef(null);
   const [allowScroll, setAllowScroll] = useState(false);
-
   const auth = getAuth();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -44,8 +38,6 @@ const HeroSection = () => {
     }
     navigate("/choose-option");
   };
-
-
   useEffect(() => {
     const video = videoRef.current;
     const section = sectionRef.current;
@@ -56,7 +48,7 @@ const HeroSection = () => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           // Play video with sound when the section is in view
-          video.muted = false;
+          video.muted = true;
           video.play().catch((err) => console.error("Error playing video:", err));
         } else {
           // Pause video when the section is out of view
@@ -101,16 +93,16 @@ const HeroSection = () => {
   };
 
   const images = [
-    "/images/model-gallery/getimg_ai_img-0TJcYIvAsnPLH3nEMxiOX.jpeg",
-    "/images/model-gallery/getimg_ai_img-1q3dXIl8hj7rpd0p323vu.jpeg",
-    "/images/model-gallery/getimg_ai_img-2dLJgir45g4JULV48nRy9.jpeg",
-    "/images/model-gallery/getimg_ai_img-2LuGKyxjYnuXThjWTabZ5.jpeg",
-    "/images/model-gallery/getimg_ai_img-4BOumNv2sxEm2z8ePMFNb.jpeg",
-    "/images/model-gallery/getimg_ai_img-4u7qKNo0KPwUVN2HCxtUV.jpeg", // Replace with actual image URL
-    "/images/model-gallery/getimg_ai_img-5hP1KqLe4bqKuufBhZfEv.jpeg", // Replace with actual image URL
-    "/images/model-gallery/getimg_ai_img-5V5fKiMdAjG2zwwmUFXPO.jpeg", // Replace with actual image URL
-    "/images/model-gallery/getimg_ai_img-7BxvLDHU6Gw1fjusT2qYh.jpeg", // Replace with actual image URL
-    "/images/model-gallery/getimg_ai_img-7sUPVbA6z33Pq3eRfTSSe.jpeg", // Replace with actual image URL
+    "images/model-gallery/getimg_ai_img-0XRRVC9pKYP8T0lY5Dxrl.jpeg",
+    "images/model-gallery/getimg_ai_img-7sUPVbA6z33Pq3eRfTSSe.jpeg",
+    "images/model-gallery/getimg_ai_img-8YK02tT8bkTkWvkuOvVuV.jpeg",
+    "images/model-gallery/getimg_ai_img-HnrpBzrXZ2vaEjjKFEwkV.jpeg", // Replace with actual image URL
+    "images/model-gallery/getimg_ai_img-9boz2jew4oysh9NVfaagH.jpeg", // Replace with actual image URL
+    "images/model-gallery/getimg_ai_img-alm92X90gDZcg7UHc84k6.jpeg", // Replace with actual image URL
+    "images/model-gallery/getimg_ai_img-5ECELFOjBtA5SXt8NEOrc.jpeg",
+    "images/model-gallery/getimg_ai_img-jTPd9JMKPA1sLtVcs0GfD.jpeg", // Replace with actual image URL
+    "images/model-gallery/getimg_ai_img-TVUEsm01jCXMyD0Vfdbr4.jpeg",
+    "images/model-gallery/getimg_ai_img-msGTG3g0BS1bX4u38ZtST.jpeg", // Replace with actual image URL
   ];
 
   const faqs = [
@@ -198,8 +190,6 @@ const HeroSection = () => {
   }, [currentStep, steps.length]);
 
 
-
-
   return (
     <>
       {/* Hero Section */}
@@ -211,7 +201,7 @@ const HeroSection = () => {
         <motion.div
           className='absolute inset-0 pointer-events-none'
           animate={{
-            background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 30%)`,
+            background: `radial-gradient(circle at ${cursorPosition.x}px ${cursorPosition.y}px, #5A00FF 0%, transparent 15%)`,
           }}
           transition={{ ease: "easeOut", duration: 0.3 }}
         />
@@ -241,7 +231,7 @@ const HeroSection = () => {
 
           {/* User Ratings */}
           <div className='flex flex-col md:flex-row items-center justify-center md:justify-start gap-4 mt-6'>
-            <div className='flex -space-x-2'>
+            {/* <div className='flex -space-x-2'>
               {["45", "47", "48", "49"].map((id, index) => (
                 <motion.img
                   whileHover={{ scale: 1.2 }}
@@ -251,13 +241,13 @@ const HeroSection = () => {
                   className='w-10 h-10 rounded-full border-2 border-white shadow-md'
                 />
               ))}
-            </div>
-            <div className='flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1'>
+            </div> */}
+            {/* <div className='flex flex-col md:flex-row items-center md:items-start text-center md:text-left gap-1'>
               <div className='text-yellow-400 text-lg'>⭐⭐⭐⭐⭐</div>
               <p className='text-gray-600 font-medium text-sm'>
                 Loved by <span className='font-bold'>153,000+</span> users
-              </p>
-            </div>
+              </p>xel
+            </div> */}
           </div>
         </div>
 
@@ -387,8 +377,6 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
-
-
 
       {/* section1 */}
       <section ref={ref2} className='relative bg-white py-16 px-6 lg:px-24 overflow-hidden'>
@@ -543,7 +531,7 @@ const HeroSection = () => {
                 onClick={() => setActiveTab(tab)}
                 className={`py-2 px-4 sm:py-3 sm:px-6 rounded-md font-semibold text-sm sm:text-lg transition-all ${activeTab === tab ? "bg-[#5A00FF] text-white transform scale-105" : "bg-gray-200 hover:bg-gray-300"
                   }`}>
-                {tab.replace(/([A-Z])/g, " $1")} {/* Format tab names */}
+                {tab.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} {/* Format tab names */}
               </button>
             ))}
           </div>
@@ -571,10 +559,6 @@ const HeroSection = () => {
           </div>
         </div>
       </section>
-
-      {/* section 4 */}
-
-      {/* section4 */}
 
       {/* features */}
       <section className='py-16 bg-gray-900 relative overflow-hidden'>
@@ -688,7 +672,6 @@ const HeroSection = () => {
               </a>
             </div>
           </div>
-
           {/* Right Section: Visual Representation (Optional) */}
           <div className='flex justify-center lg:justify-end'>
             <img

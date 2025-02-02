@@ -29,6 +29,7 @@ const ModelGeneratorUI = () => {
   const [eyeColor, setEyeColor] = useState("Black");
   const [skinColor, setSkinColor] = useState("Very Light (Fair) Skin");
   const [dress, setDress] = useState("");
+  const [customBackground,setCustomBackground]=useState("");
   const [background, setBackground] = useState("Auto");
   // const [backgrounds, setBackgrounds] = useState([]);
   const [pose, setPose] = useState("Classic Standing Pose");
@@ -102,6 +103,7 @@ const ModelGeneratorUI = () => {
         shot_type: shotType,
         dress: dress || "",
         background,
+        customBackground:customBackground || "",
         pose,
         seed: autoSeed ? null : seed,
         auto_seed: autoSeed,
@@ -171,6 +173,7 @@ const ModelGeneratorUI = () => {
             setSkinColor={setSkinColor}
             setDress={setDress}
             setBackground={setBackground}
+            setCustomBackground={setCustomBackground}
             setPose={setPose}
             setSelectedPosts={setSelectedPosts}
             setCountry={setCountry}
